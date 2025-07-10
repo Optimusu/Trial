@@ -1,0 +1,6 @@
+@Trial.AppBack_HostAddress = http://localhost:5268
+
+GET {{Trial.AppBack_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
