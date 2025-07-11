@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -30,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Trial.AppInfra\Trial.AppInfra.csproj" />
     <ProjectReference Include="..\Trial.DomainLogic\Trial.DomainLogic.csproj" />
+    <ProjectReference Include="..\Trial.UnitOfWork\Trial.UnitOfWork.csproj" />
   </ItemGroup>
 
 </Project>

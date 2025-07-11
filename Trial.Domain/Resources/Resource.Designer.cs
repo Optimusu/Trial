@@ -232,11 +232,38 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Problems validating the User.
+        /// </summary>
+        public static string Generic_AuthEmailFail {
+            get {
+                return ResourceManager.GetString("Generic_AuthEmailFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General exception.
         /// </summary>
         public static string Generic_Exception {
             get {
                 return ResourceManager.GetString("Generic_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No record was found with the provided identifier.
+        /// </summary>
+        public static string Generic_IdNotFound {
+            get {
+                return ResourceManager.GetString("Generic_IdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided identifier is not valid.
+        /// </summary>
+        public static string Generic_InvalidId {
+            get {
+                return ResourceManager.GetString("Generic_InvalidId", resourceCulture);
             }
         }
         
@@ -250,7 +277,16 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected error occurred.
+        ///   Looks up a localized string similar to Operation completed successfully.
+        /// </summary>
+        public static string Generic_Success {
+            get {
+                return ResourceManager.GetString("Generic_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred.
         /// </summary>
         public static string Generic_UnexpectedError {
             get {

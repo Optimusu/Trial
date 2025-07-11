@@ -246,4 +246,16 @@
   <data name="Db_Concurrency" xml:space="preserve">
     <value>Otro usuario modificó el registro simultáneamente</value>
   </data>
+  <data name="Generic_InvalidId" xml:space="preserve">
+    <value>El identificador proporcionado no es válido</value>
+  </data>
+  <data name="Generic_IdNotFound" xml:space="preserve">
+    <value>No se encontró ningún registro con el identificador proporcionado</value>
+  </data>
+  <data name="Generic_Success" xml:space="preserve">
+    <value>Operación realizada correctamente</value>
+  </data>
+  <data name="Generic_AuthEmailFail" xml:space="preserve">
+    <value>Problemas para validar el Usuario</value>
+  </data>
 </root>

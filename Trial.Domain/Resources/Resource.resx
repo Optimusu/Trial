@@ -223,7 +223,7 @@
     <value>The Field {0} must be at least {1} characters long</value>
   </data>
   <data name="Generic_UnexpectedError" xml:space="preserve">
-    <value>Unexpected error occurred</value>
+    <value>An unexpected error occurred</value>
   </data>
   <data name="Generic_NullException" xml:space="preserve">
     <value>Exception not specified</value>
@@ -245,5 +245,17 @@
   </data>
   <data name="Db_Concurrency" xml:space="preserve">
     <value>Concurrent modification detected</value>
+  </data>
+  <data name="Generic_InvalidId" xml:space="preserve">
+    <value>The provided identifier is not valid</value>
+  </data>
+  <data name="Generic_IdNotFound" xml:space="preserve">
+    <value>No record was found with the provided identifier</value>
+  </data>
+  <data name="Generic_Success" xml:space="preserve">
+    <value>Operation completed successfully</value>
+  </data>
+  <data name="Generic_AuthEmailFail" xml:space="preserve">
+    <value>Problems validating the User</value>
   </data>
 </root>

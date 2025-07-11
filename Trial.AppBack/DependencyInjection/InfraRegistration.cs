@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Trial.AppInfra.EmailHelper;
+using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.FileHelper;
 using Trial.AppInfra.Mappings;
 using Trial.AppInfra.Transactions;
@@ -13,6 +14,9 @@ namespace Trial.AppBack.DependencyInjection
     {
         public static void AddInfraRegistration(IServiceCollection services, IConfiguration config)
         {
+            // Manejo de Errores
+            services.AddScoped<HttpErrorHandler>();
+
             // Manejo de transacciones por request
             services.AddScoped<ITransactionManager, TransactionManager>();
 

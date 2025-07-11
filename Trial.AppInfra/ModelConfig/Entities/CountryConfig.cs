@@ -10,5 +10,6 @@ public class CountryConfig : IEntityTypeConfiguration<Country>
     {
         builder.HasKey(e => e.CountryId);
         builder.HasIndex(e => e.Name).IsUnique();
+        builder.Property(e => e.Name).UseCollation("Latin1_General_CI_AS");
     }
 }
