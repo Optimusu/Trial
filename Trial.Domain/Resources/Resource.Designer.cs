@@ -151,42 +151,6 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Concurrent modification detected.
-        /// </summary>
-        public static string Db_Concurrency {
-            get {
-                return ResourceManager.GetString("Db_Concurrency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Duplicate record detected.
-        /// </summary>
-        public static string Db_Duplicate {
-            get {
-                return ResourceManager.GetString("Db_Duplicate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Database error.
-        /// </summary>
-        public static string Db_Error {
-            get {
-                return ResourceManager.GetString("Db_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Foreign key constraint error.
-        /// </summary>
-        public static string Db_Reference {
-            get {
-                return ResourceManager.GetString("Db_Reference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -232,7 +196,7 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problems validating the User.
+        ///   Looks up a localized string similar to Failed to retrieve authenticated user&apos;s email.
         /// </summary>
         public static string Generic_AuthEmailFail {
             get {
@@ -241,65 +205,38 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to General exception.
+        ///   Looks up a localized string similar to Failed to retrieve user identifier.
         /// </summary>
-        public static string Generic_Exception {
+        public static string Generic_AuthIdFail {
             get {
-                return ResourceManager.GetString("Generic_Exception", resourceCulture);
+                return ResourceManager.GetString("Generic_AuthIdFail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No record was found with the provided identifier.
+        ///   Looks up a localized string similar to You must be logged in to access this resource.
         /// </summary>
-        public static string Generic_IdNotFound {
+        public static string Generic_AuthRequired {
             get {
-                return ResourceManager.GetString("Generic_IdNotFound", resourceCulture);
+                return ResourceManager.GetString("Generic_AuthRequired", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The provided identifier is not valid.
+        ///   Looks up a localized string similar to Failed to retrieve user role.
         /// </summary>
-        public static string Generic_InvalidId {
+        public static string Generic_AuthRoleFail {
             get {
-                return ResourceManager.GetString("Generic_InvalidId", resourceCulture);
+                return ResourceManager.GetString("Generic_AuthRoleFail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exception not specified.
-        /// </summary>
-        public static string Generic_NullException {
-            get {
-                return ResourceManager.GetString("Generic_NullException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operation completed successfully.
-        /// </summary>
-        public static string Generic_Success {
-            get {
-                return ResourceManager.GetString("Generic_Success", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An unexpected error occurred.
+        ///   Looks up a localized string similar to An unexpected error occurred. Please try again later.
         /// </summary>
         public static string Generic_UnexpectedError {
             get {
                 return ResourceManager.GetString("Generic_UnexpectedError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to HTTP request error.
-        /// </summary>
-        public static string Http_BadRequest {
-            get {
-                return ResourceManager.GetString("Http_BadRequest", resourceCulture);
             }
         }
         

@@ -8,6 +8,7 @@ using Trial.AppInfra.Transactions;
 using Trial.Domain.Entities;
 using Trial.Domain.Resources;
 using Trial.DomainLogic.Pagination;
+using Trial.DomainLogic.ResponsesSec;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfaceEntities;
 
@@ -32,7 +33,7 @@ public class CountryService : ICountryServices
         _localizer = localizer;
     }
 
-    public async Task<ActionResponse<IEnumerable<Country>>> ComboAsync(string email)
+    public async Task<ActionResponse<IEnumerable<Country>>> ComboAsync(UserClaimsInfo? userClaimsInfo)
     {
         try
         {
@@ -49,7 +50,7 @@ public class CountryService : ICountryServices
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination, UserClaimsInfo? userClaimsInfo)
     {
         try
         {
@@ -84,7 +85,7 @@ public class CountryService : ICountryServices
         }
     }
 
-    public async Task<ActionResponse<Country>> GetAsync(int id)
+    public async Task<ActionResponse<Country>> GetAsync(int id, UserClaimsInfo? userClaimsInfo)
     {
         try
         {
@@ -119,7 +120,7 @@ public class CountryService : ICountryServices
         }
     }
 
-    public async Task<ActionResponse<Country>> UpdateAsync(Country modelo)
+    public async Task<ActionResponse<Country>> UpdateAsync(Country modelo, UserClaimsInfo? userClaimsInfo)
     {
         if (modelo == null || modelo.CountryId <= 0)
         {
@@ -152,7 +153,7 @@ public class CountryService : ICountryServices
         }
     }
 
-    public async Task<ActionResponse<Country>> AddAsync(Country modelo)
+    public async Task<ActionResponse<Country>> AddAsync(Country modelo, UserClaimsInfo? userClaimsInfo)
     {
         if (modelo == null)
         {
@@ -184,7 +185,7 @@ public class CountryService : ICountryServices
         }
     }
 
-    public async Task<ActionResponse<bool>> DeleteAsync(int id)
+    public async Task<ActionResponse<bool>> DeleteAsync(int id, UserClaimsInfo? userClaimsInfo)
     {
         if (id <= 0)
         {

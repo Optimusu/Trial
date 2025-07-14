@@ -17,6 +17,7 @@ using Trial.AppBack.Data;
 using Trial.AppBack.DependencyInjection;
 using Trial.AppBack.LoadCountries;
 using Trial.AppInfra;
+using Trial.Domain.Resources;
 using Trial.DomainLogic.ResponsesSec;
 using AppUser = Trial.Domain.Entities.User;
 
@@ -25,17 +26,31 @@ var builder = WebApplication.CreateBuilder(args);
 // 🌐 Localización y soporte multilingüe
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-// 🧠 Habilita acceso directo a recursos desde clases (servicios, helpers, etc.)
+// 🧠 Acceso a localizador genérico
 builder.Services.AddSingleton<IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
 builder.Services.AddSingleton(typeof(IStringLocalizer<>), typeof(StringLocalizer<>));
 
-var supportedCultures = new[] { "es", "en" };
+// 🟢 Registro explícito para BackResource en Trial.AppBack
+builder.Services.AddSingleton<IStringLocalizer>(sp =>
+{
+    var factory = sp.GetRequiredService<IStringLocalizerFactory>();
+    return factory.Create("Resource", typeof(Resource).Assembly.GetName().Name);
+});
+
+// 🌍 Culturas disponibles y detectores
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var cultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
+    var cultures = new[] { "es", "en" }.Select(c => new CultureInfo(c)).ToList();
     options.DefaultRequestCulture = new RequestCulture("en");
     options.SupportedCultures = cultures;
     options.SupportedUICultures = cultures;
+
+    options.RequestCultureProviders = new List<IRequestCultureProvider>
+    {
+        new QueryStringRequestCultureProvider(),
+        new AcceptLanguageHeaderRequestCultureProvider(),
+        new CookieRequestCultureProvider()
+    };
 });
 
 // 🔄 Configuración de serialización

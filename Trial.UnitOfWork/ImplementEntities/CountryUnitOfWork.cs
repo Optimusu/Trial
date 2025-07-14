@@ -1,4 +1,5 @@
 ﻿using Trial.Domain.Entities;
+using Trial.DomainLogic.ResponsesSec;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfaceEntities;
 using Trial.UnitOfWork.BaseImplement;
@@ -12,5 +13,5 @@ public class CountryUnitOfWork : BaseUnitOfWork<Country, ICountryServices>, ICou
     {
     }
 
-    public Task<ActionResponse<IEnumerable<Country>>> ComboAsync(string email) => _service.ComboAsync(email);
+    public Task<ActionResponse<IEnumerable<Country>>> ComboAsync(UserClaimsInfo? userClaimsInfo) => _service.ComboAsync(userClaimsInfo);
 }

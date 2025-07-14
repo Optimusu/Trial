@@ -1,5 +1,4 @@
-﻿using Trial.AppInfra.ErrorHandling;
-using Trial.Services.ImplementEntties;
+﻿using Trial.Services.ImplementEntties;
 using Trial.Services.InterfaceEntities;
 using Trial.UnitOfWork.ImplementEntities;
 using Trial.UnitOfWork.InterfaceEntities;

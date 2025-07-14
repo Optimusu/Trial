@@ -222,40 +222,19 @@
   <data name="Validation_MinLength" xml:space="preserve">
     <value>El Campo {0} debe tener al menos {1} caracteres</value>
   </data>
-  <data name="Generic_UnexpectedError" xml:space="preserve">
-    <value>Ocurrió un error inesperado</value>
-  </data>
-  <data name="Generic_NullException" xml:space="preserve">
-    <value>Excepción no especificada</value>
-  </data>
-  <data name="Generic_Exception" xml:space="preserve">
-    <value>Excepción general</value>
-  </data>
-  <data name="Http_BadRequest" xml:space="preserve">
-    <value>Error en la solicitud HTTP</value>
-  </data>
-  <data name="Db_Duplicate" xml:space="preserve">
-    <value>Ya existe un registro con ese valor</value>
-  </data>
-  <data name="Db_Reference" xml:space="preserve">
-    <value>El registro está vinculado a otra tabla</value>
-  </data>
-  <data name="Db_Error" xml:space="preserve">
-    <value>Error en la base de datos</value>
-  </data>
-  <data name="Db_Concurrency" xml:space="preserve">
-    <value>Otro usuario modificó el registro simultáneamente</value>
-  </data>
-  <data name="Generic_InvalidId" xml:space="preserve">
-    <value>El identificador proporcionado no es válido</value>
-  </data>
-  <data name="Generic_IdNotFound" xml:space="preserve">
-    <value>No se encontró ningún registro con el identificador proporcionado</value>
-  </data>
-  <data name="Generic_Success" xml:space="preserve">
-    <value>Operación realizada correctamente</value>
-  </data>
   <data name="Generic_AuthEmailFail" xml:space="preserve">
-    <value>Problemas para validar el Usuario</value>
+    <value>No se pudo obtener el correo del usuario autenticado</value>
+  </data>
+  <data name="Generic_AuthIdFail" xml:space="preserve">
+    <value>No se pudo obtener el identificador del usuario</value>
+  </data>
+  <data name="Generic_AuthRequired" xml:space="preserve">
+    <value>Debe iniciar sesión para acceder a este recurso</value>
+  </data>
+  <data name="Generic_AuthRoleFail" xml:space="preserve">
+    <value>No se pudo obtener el rol del usuario</value>
+  </data>
+  <data name="Generic_UnexpectedError" xml:space="preserve">
+    <value>Ocurrio un error inesperado. Por favor, intentelo nuevamente más tarde</value>
   </data>
 </root>

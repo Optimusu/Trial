@@ -1,43 +1,157 @@
 ﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Trial.AppBack.Controllers.Common;
+using System.Globalization;
 using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
 using Trial.Domain.Entities;
-using Trial.Domain.Resources;
+using Trial.DomainLogic.Pagination;
+using Trial.DomainLogic.ResponsesSec;
 using Trial.UnitOfWork.InterfaceEntities;
 
 namespace Trial.AppBack.Controllers;
 
+[ApiController]
 [ApiVersion("1.0")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
 [Route("api/v{version:apiVersion}/countries")]
-public class CountriesController : GenericController<Country, ICountryUnitOfWork>
+public class CountriesController : ControllerBase
 {
-    private readonly ICountryUnitOfWork _countryUnitOfWork;
-    private readonly IStringLocalizer<Resource> _localizer;
+    private readonly ICountryUnitOfWork _unitOfWork;
+    private readonly IStringLocalizer _localizer;
 
-    public CountriesController(ICountryUnitOfWork unitOfWork, IStringLocalizer<Resource> localizer) : base(unitOfWork)
+    public CountriesController(ICountryUnitOfWork unitOfWork, IStringLocalizer localizer)
     {
-        _countryUnitOfWork = unitOfWork;
+        _unitOfWork = unitOfWork;
         _localizer = localizer;
     }
 
-    [HttpGet("loadCombo")]
-    public async Task<IActionResult> GetComboAsync()
+    [HttpGet("test-localizer")]
+    public IActionResult TestLocalizer()
+    {
+        var message = _localizer["Validation_MaxLength"];
+        var culture = CultureInfo.CurrentUICulture.Name;
+
+        return Ok(new
+        {
+            Key = message.Name,
+            Value = message.Value
+        });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
     {
         try
         {
-            string email = User.GetEmailOrThrow(_localizer);
-            var response = await _countryUnitOfWork.ComboAsync(email);
+            //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
+            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.GetAsync(pagination);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
         {
-            return BadRequest(ex.Message); // Multilenguaje ya incluido
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        try
+        {
+            //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
+            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.GetAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] Country model)
+    {
+        try
+        {
+            //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
+            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.AddAsync(model);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Put([FromBody] Country model)
+    {
+        try
+        {
+            //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
+            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.UpdateAsync(model);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
+            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.DeleteAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpGet("loadCombo")]
+    public async Task<IActionResult> GetCombo()
+    {
+        try
+        {
+            //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
+            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.ComboAsync(userClaimsInfo);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }
