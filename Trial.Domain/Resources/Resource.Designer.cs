@@ -151,6 +151,42 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data concurrency conflict.
+        /// </summary>
+        public static string Db_Concurrency {
+            get {
+                return ResourceManager.GetString("Db_Concurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate value in the database.
+        /// </summary>
+        public static string Db_Duplicate {
+            get {
+                return ResourceManager.GetString("Db_Duplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General database error.
+        /// </summary>
+        public static string Db_Error {
+            get {
+                return ResourceManager.GetString("Db_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference error, invalid foreign key.
+        /// </summary>
+        public static string Db_Reference {
+            get {
+                return ResourceManager.GetString("Db_Reference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -232,6 +268,69 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General exception with no specific cause.
+        /// </summary>
+        public static string Generic_Exception {
+            get {
+                return ResourceManager.GetString("Generic_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Malformed or invalid request.
+        /// </summary>
+        public static string Generic_Http_BadRequest {
+            get {
+                return ResourceManager.GetString("Generic_Http_BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We couldn&apos;t find what you were looking for.
+        /// </summary>
+        public static string Generic_IdNotFound {
+            get {
+                return ResourceManager.GetString("Generic_IdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There seems to be an issue with the information provided.
+        /// </summary>
+        public static string Generic_InvalidId {
+            get {
+                return ResourceManager.GetString("Generic_InvalidId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a problem with the data submitted.
+        /// </summary>
+        public static string Generic_InvalidModel {
+            get {
+                return ResourceManager.GetString("Generic_InvalidModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tried to access a null value.
+        /// </summary>
+        public static string Generic_NullException {
+            get {
+                return ResourceManager.GetString("Generic_NullException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Todo se realizo correctamente.
+        /// </summary>
+        public static string Generic_Success {
+            get {
+                return ResourceManager.GetString("Generic_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred. Please try again later.
         /// </summary>
         public static string Generic_UnexpectedError {
@@ -255,6 +354,33 @@ namespace Trial.Domain.Resources {
         public static string JobPosition {
             get {
                 return ResourceManager.GetString("JobPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string Key_ConfirmPassword {
+            get {
+                return ResourceManager.GetString("Key_ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Password.
+        /// </summary>
+        public static string Key_CurrentPassword {
+            get {
+                return ResourceManager.GetString("Key_CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string Key_NewPassword {
+            get {
+                return ResourceManager.GetString("Key_NewPassword", resourceCulture);
             }
         }
         
@@ -394,6 +520,24 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The field must be between {0} and {1} characters long.
+        /// </summary>
+        public static string Validation_BetweenLength {
+            get {
+                return ResourceManager.GetString("Validation_BetweenLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid email address.
+        /// </summary>
+        public static string Validation_InvalidEmail {
+            get {
+                return ResourceManager.GetString("Validation_InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Field {0} cannot be longer than {1} characteres.
         /// </summary>
         public static string Validation_MaxLength {
@@ -408,6 +552,15 @@ namespace Trial.Domain.Resources {
         public static string Validation_MinLength {
             get {
                 return ResourceManager.GetString("Validation_MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords do not match, please check.
+        /// </summary>
+        public static string Validation_PasswordMismatch {
+            get {
+                return ResourceManager.GetString("Validation_PasswordMismatch", resourceCulture);
             }
         }
         

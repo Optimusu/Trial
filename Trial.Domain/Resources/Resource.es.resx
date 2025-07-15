@@ -237,4 +237,55 @@
   <data name="Generic_UnexpectedError" xml:space="preserve">
     <value>Ocurrio un error inesperado. Por favor, intentelo nuevamente más tarde</value>
   </data>
+  <data name="Generic_InvalidId" xml:space="preserve">
+    <value>Parece que hubo un problema con la información ingresada</value>
+  </data>
+  <data name="Generic_IdNotFound" xml:space="preserve">
+    <value>No pudimos encontrar el registro</value>
+  </data>
+  <data name="Generic_Success" xml:space="preserve">
+    <value>Everything was completed successfully</value>
+  </data>
+  <data name="Generic_InvalidModel" xml:space="preserve">
+    <value>Parece que hubo un error con los datos enviados</value>
+  </data>
+  <data name="Generic_NullException" xml:space="preserve">
+    <value>Se intento acceder a un valor nulo</value>
+  </data>
+  <data name="Generic_Exception" xml:space="preserve">
+    <value>Excepcion sin causa especifica</value>
+  </data>
+  <data name="Generic_Http_BadRequest" xml:space="preserve">
+    <value>Solicitud malformada o invalida</value>
+  </data>
+  <data name="Db_Duplicate" xml:space="preserve">
+    <value>Valor duplicado en la base de datos</value>
+  </data>
+  <data name="Db_Reference" xml:space="preserve">
+    <value>Error de referencia, clave foranea invalida</value>
+  </data>
+  <data name="Db_Error" xml:space="preserve">
+    <value>Error general de base de datos</value>
+  </data>
+  <data name="Db_Concurrency" xml:space="preserve">
+    <value>Conflicto por concurrencia de datos</value>
+  </data>
+  <data name="Key_NewPassword" xml:space="preserve">
+    <value>Nueva Clave</value>
+  </data>
+  <data name="Key_ConfirmPassword" xml:space="preserve">
+    <value>Confirmar Clave</value>
+  </data>
+  <data name="Validation_BetweenLength" xml:space="preserve">
+    <value>El campo debe tener entre {0} y {1} caracteres</value>
+  </data>
+  <data name="Validation_PasswordMismatch" xml:space="preserve">
+    <value>No coinciden las claves, verifique</value>
+  </data>
+  <data name="Validation_InvalidEmail" xml:space="preserve">
+    <value>El {0} no es un correo válido</value>
+  </data>
+  <data name="Key_CurrentPassword" xml:space="preserve">
+    <value>Clave Actual</value>
+  </data>
 </root>

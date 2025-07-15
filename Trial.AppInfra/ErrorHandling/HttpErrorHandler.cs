@@ -15,10 +15,10 @@ public class HttpErrorHandler
     //     _logger = logger;
     // }
 
-    private readonly IStringLocalizer<Resource> _localizer;
+    private readonly IStringLocalizer _localizer;
 
     // Inyección del localizador para soporte multilingüe
-    public HttpErrorHandler(IStringLocalizer<Resource> localizer)
+    public HttpErrorHandler(IStringLocalizer localizer)
     {
         _localizer = localizer;
     }
@@ -26,11 +26,11 @@ public class HttpErrorHandler
     public Task<ActionResponse<T>> HandleErrorAsync<T>(Exception exception)
     {
         // Mensaje por defecto si no se detecta el tipo de excepción
-        string errorMessage = _localizer["Generic_UnexpectedError"];
+        string errorMessage = _localizer["Generic_UnexpectedError"].Value;
 
         if (exception is null)
         {
-            errorMessage = _localizer["Generic_NullException"];
+            errorMessage = _localizer["Generic_NullException"].Value;
             return Task.FromResult(new ActionResponse<T>
             {
                 WasSuccess = false,
@@ -42,7 +42,7 @@ public class HttpErrorHandler
         // Manejo de errores HTTP
         if (exception is HttpRequestException httpEx)
         {
-            errorMessage = _localizer["Http_BadRequest"] + $": {httpEx.Message}";
+            errorMessage = _localizer["Generic_Http_BadRequest"].Value + $": {httpEx.Message}";
         }
         // Manejo de errores de Base de Datos
         else if (exception is DbUpdateException dbEx)
@@ -51,25 +51,25 @@ public class HttpErrorHandler
 
             if (innerMsg.Contains("duplicate key") || innerMsg.Contains("unique constraint"))
             {
-                errorMessage = _localizer["Db_Duplicate"];
+                errorMessage = _localizer["Db_Duplicate"].Value;
             }
             else if (innerMsg.Contains("foreign key") || innerMsg.Contains("reference"))
             {
-                errorMessage = _localizer["Db_Reference"];
+                errorMessage = _localizer["Db_Reference"].Value;
             }
             else
             {
-                errorMessage = _localizer["Db_Error"] + $": {dbEx.Message}";
+                errorMessage = _localizer["Db_Error"].Value + $": {dbEx.Message}";
             }
         }
         else if (exception is DbUpdateConcurrencyException)
         {
-            errorMessage = _localizer["Db_Concurrency"];
+            errorMessage = _localizer["Db_Concurrency"].Value;
         }
         // Manejo genérico para otras excepciones
         else
         {
-            errorMessage = _localizer["Generic_Exception"] + $": {exception.Message}";
+            errorMessage = _localizer["Generic_Exception"].Value + $": {exception.Message}";
         }
 
         // _logger?.LogError(exception, "Ocurrió un error: {Message}", errorMessage);

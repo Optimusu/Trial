@@ -6,15 +6,23 @@ namespace Trial.AppBack.Helper;
 
 public static class ClaimsPrincipalExtensions
 {
-    public static UserClaimsInfo GetEmailOrThrow(this ClaimsPrincipal user, IStringLocalizer localizer)
+    public static ClaimsDTOs GetEmailOrThrow(this ClaimsPrincipal user, IStringLocalizer localizer)
     {
         if (user?.Identity?.IsAuthenticated != true)
             throw new ApplicationException(localizer["Generic_AuthRequired"].Value);
 
+        int Idcorporate;
         string? email = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
         string? id = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        string? corporateId = user.Claims.FirstOrDefault(c => c.Type == "CorporateId")?.Value;
         string? role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+        if (role == "Admin")
+        {
+            Idcorporate = 0;
+        }
+        else
+        {
+            Idcorporate = Convert.ToInt32(user.Claims.FirstOrDefault(c => c.Type == "CorporateId")?.Value);
+        }
 
         if (string.IsNullOrWhiteSpace(email))
             throw new ApplicationException(localizer["Generic_AuthEmailFail"].Value);
@@ -25,11 +33,11 @@ public static class ClaimsPrincipalExtensions
         if (string.IsNullOrWhiteSpace(role))
             throw new ApplicationException(localizer["Generic_AuthRoleFail"].Value);
 
-        return new UserClaimsInfo
+        return new ClaimsDTOs
         {
             Email = email,
             Id = id,
-            CorporateId = corporateId,
+            CorporationId = Idcorporate,
             Role = role
         };
     }

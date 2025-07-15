@@ -237,4 +237,55 @@
   <data name="Generic_UnexpectedError" xml:space="preserve">
     <value>An unexpected error occurred. Please try again later</value>
   </data>
+  <data name="Generic_InvalidId" xml:space="preserve">
+    <value>There seems to be an issue with the information provided</value>
+  </data>
+  <data name="Generic_IdNotFound" xml:space="preserve">
+    <value>We couldn't find what you were looking for</value>
+  </data>
+  <data name="Generic_Success" xml:space="preserve">
+    <value>Todo se realizo correctamente</value>
+  </data>
+  <data name="Generic_InvalidModel" xml:space="preserve">
+    <value>There was a problem with the data submitted</value>
+  </data>
+  <data name="Generic_NullException" xml:space="preserve">
+    <value>Tried to access a null value</value>
+  </data>
+  <data name="Generic_Exception" xml:space="preserve">
+    <value>General exception with no specific cause</value>
+  </data>
+  <data name="Generic_Http_BadRequest" xml:space="preserve">
+    <value>Malformed or invalid request</value>
+  </data>
+  <data name="Db_Duplicate" xml:space="preserve">
+    <value>Duplicate value in the database</value>
+  </data>
+  <data name="Db_Reference" xml:space="preserve">
+    <value>Reference error, invalid foreign key</value>
+  </data>
+  <data name="Db_Error" xml:space="preserve">
+    <value>General database error</value>
+  </data>
+  <data name="Db_Concurrency" xml:space="preserve">
+    <value>Data concurrency conflict</value>
+  </data>
+  <data name="Key_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Key_ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Validation_BetweenLength" xml:space="preserve">
+    <value>The field must be between {0} and {1} characters long</value>
+  </data>
+  <data name="Validation_PasswordMismatch" xml:space="preserve">
+    <value>Passwords do not match, please check</value>
+  </data>
+  <data name="Validation_InvalidEmail" xml:space="preserve">
+    <value>{0} is not a valid email address</value>
+  </data>
+  <data name="Key_CurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
 </root>

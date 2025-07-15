@@ -5,6 +5,7 @@ using Trial.AppInfra;
 using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.Extensions;
 using Trial.AppInfra.Transactions;
+using Trial.AppInfra.Validations;
 using Trial.Domain.Entities;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
@@ -12,7 +13,7 @@ using Trial.Services.InterfaceEntities;
 
 namespace Trial.Services.ImplementEntties;
 
-public class CountryService : ICountryServices
+public class CityService : ICityService
 {
     private readonly DataContext _context;
     private readonly HttpErrorHandler _httpErrorHandler;
@@ -20,7 +21,7 @@ public class CountryService : ICountryServices
     private readonly ITransactionManager _transactionManager;
     private readonly IStringLocalizer _localizer;
 
-    public CountryService(DataContext context, HttpErrorHandler httpErrorHandler,
+    public CityService(DataContext context, HttpErrorHandler httpErrorHandler,
         IHttpContextAccessor httpContextAccessor, ITransactionManager transactionManager,
         IStringLocalizer localizer)
     {
@@ -31,12 +32,12 @@ public class CountryService : ICountryServices
         _localizer = localizer;
     }
 
-    public async Task<ActionResponse<IEnumerable<Country>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<City>>> ComboAsync(int id)
     {
         try
         {
-            var ListModel = await _context.Countries.ToListAsync();
-            return new ActionResponse<IEnumerable<Country>>
+            IEnumerable<City> ListModel = await _context.Cities.Where(x => x.StateId == id).ToListAsync();
+            return new ActionResponse<IEnumerable<City>>
             {
                 WasSuccess = true,
                 Result = ListModel
@@ -44,34 +45,25 @@ public class CountryService : ICountryServices
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Country>>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<City>>(ex);
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<City>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            var queryable = _context.Countries.AsQueryable();
+            //pagination.Id == Trae el ID del Country
+            var queryable = _context.Cities.Where(x => x.StateId == pagination.Id).AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
-                //Permite busqueda grandes mateniendo los indices de los campos
-                //Debes Estar seguro que el campo Esta Collation CI para Case Insensitive
+                //Busqueda grandes mateniendo los indices de los campos, campo Esta Collation CI para Case Insensitive
                 queryable = queryable.Where(u => EF.Functions.Like(u.Name, $"%{pagination.Filter}%"));
             }
-            //Esto no se recomienda porque rompe los indices y hace lenta la consulta.
-            //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-            //{
-            //    queryable = queryable.Where(x => x.Name!.ToLower().Contains(pagination.Filter.ToLower()));
-            //}
-
-            //Lo Simplificamos por una sola clase estatica que procesa todo
-            //await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
-            //var modelo = await queryable.OrderBy(x => x.Name).Paginate(pagination).ToListAsync();
-
             var result = await queryable.ApplyFullPaginationAsync(_httpContextAccessor.HttpContext!, pagination);
 
-            return new ActionResponse<IEnumerable<Country>>
+            return new ActionResponse<IEnumerable<City>>
             {
                 WasSuccess = true,
                 Result = result
@@ -79,34 +71,34 @@ public class CountryService : ICountryServices
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Country>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<City>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Country>> GetAsync(int id)
+    public async Task<ActionResponse<City>> GetAsync(int id)
     {
         try
         {
             if (id <= 0)
             {
-                return new ActionResponse<Country>
+                return new ActionResponse<City>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.Countries
+            var modelo = await _context.Cities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.CountryId == id);
+                .FirstOrDefaultAsync(x => x.CityId == id);
             if (modelo == null)
             {
-                return new ActionResponse<Country>
+                return new ActionResponse<City>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_IdNotFound"]
                 };
             }
-            return new ActionResponse<Country>
+            return new ActionResponse<City>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -114,15 +106,15 @@ public class CountryService : ICountryServices
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<Country>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<City>(ex);
         }
     }
 
-    public async Task<ActionResponse<Country>> UpdateAsync(Country modelo)
+    public async Task<ActionResponse<City>> UpdateAsync(City modelo)
     {
-        if (modelo == null || modelo.CountryId <= 0)
+        if (modelo == null || modelo.CityId <= 0)
         {
-            return new ActionResponse<Country>
+            return new ActionResponse<City>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
@@ -132,12 +124,12 @@ public class CountryService : ICountryServices
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Countries.Update(modelo);
+            _context.Cities.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Country>
+            return new ActionResponse<City>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -147,15 +139,15 @@ public class CountryService : ICountryServices
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Country>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<City>(ex);
         }
     }
 
-    public async Task<ActionResponse<Country>> AddAsync(Country modelo)
+    public async Task<ActionResponse<City>> AddAsync(City modelo)
     {
-        if (modelo == null)
+        if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<Country>
+            return new ActionResponse<City>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidModel"] // 🧠 Clave multilenguaje para modelo nulo
@@ -165,11 +157,11 @@ public class CountryService : ICountryServices
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Countries.Add(modelo);
+            _context.Cities.Add(modelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Country>
+            return new ActionResponse<City>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -179,7 +171,7 @@ public class CountryService : ICountryServices
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Country>(ex); // ✅ Multilenguaje automático en errores
+            return await _httpErrorHandler.HandleErrorAsync<City>(ex); // ✅ Multilenguaje automático en errores
         }
     }
 
@@ -197,7 +189,7 @@ public class CountryService : ICountryServices
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.Countries.FindAsync(id);
+            var DataRemove = await _context.Cities.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
@@ -207,7 +199,7 @@ public class CountryService : ICountryServices
                 };
             }
 
-            _context.Countries.Remove(DataRemove);
+            _context.Cities.Remove(DataRemove);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();

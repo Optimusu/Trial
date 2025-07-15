@@ -1,7 +1,8 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using System.Globalization;
 using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
 using Trial.Domain.Entities;
@@ -9,34 +10,21 @@ using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.ResponsesSec;
 using Trial.UnitOfWork.InterfaceEntities;
 
-namespace Trial.AppBack.Controllers;
+namespace Trial.AppBack.Controllers.Entities;
 
 [ApiController]
 [ApiVersion("1.0")]
-//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-[Route("api/v{version:apiVersion}/countries")]
-public class CountriesController : ControllerBase
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+[Route("api/v{version:apiVersion}/states")]
+public class StatesController : ControllerBase
 {
-    private readonly ICountryUnitOfWork _unitOfWork;
+    private readonly IStateUnitOfWork _unitOfWork;
     private readonly IStringLocalizer _localizer;
 
-    public CountriesController(ICountryUnitOfWork unitOfWork, IStringLocalizer localizer)
+    public StatesController(IStateUnitOfWork unitOfWork, IStringLocalizer localizer)
     {
         _unitOfWork = unitOfWork;
         _localizer = localizer;
-    }
-
-    [HttpGet("test-localizer")]
-    public IActionResult TestLocalizer()
-    {
-        var message = _localizer["Validation_MaxLength"];
-        var culture = CultureInfo.CurrentUICulture.Name;
-
-        return Ok(new
-        {
-            Key = message.Name,
-            Value = message.Value
-        });
     }
 
     [HttpGet]
@@ -45,7 +33,7 @@ public class CountriesController : ControllerBase
         try
         {
             //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
-            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            //ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
             var response = await _unitOfWork.GetAsync(pagination);
             return ResponseHelper.Format(response);
         }
@@ -65,7 +53,7 @@ public class CountriesController : ControllerBase
         try
         {
             //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
-            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            //UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
             var response = await _unitOfWork.GetAsync(id);
             return ResponseHelper.Format(response);
         }
@@ -80,12 +68,12 @@ public class CountriesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Country model)
+    public async Task<IActionResult> Post([FromBody] State model)
     {
         try
         {
             //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
-            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
             var response = await _unitOfWork.AddAsync(model);
             return ResponseHelper.Format(response);
         }
@@ -100,12 +88,12 @@ public class CountriesController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Put([FromBody] Country model)
+    public async Task<IActionResult> Put([FromBody] State model)
     {
         try
         {
             //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
-            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            //UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
             var response = await _unitOfWork.UpdateAsync(model);
             return ResponseHelper.Format(response);
         }
@@ -125,7 +113,7 @@ public class CountriesController : ControllerBase
         try
         {
             //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
-            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
             var response = await _unitOfWork.DeleteAsync(id);
             return ResponseHelper.Format(response);
         }
@@ -140,12 +128,12 @@ public class CountriesController : ControllerBase
     }
 
     [HttpGet("loadCombo")]
-    public async Task<IActionResult> GetCombo()
+    public async Task<IActionResult> GetCombo(int id)
     {
         try
         {
             //lo usamos para tomar el Email del Claims, pero Verifica que este Authenticated=true.
-            UserClaimsInfo userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
             var response = await _unitOfWork.ComboAsync(userClaimsInfo);
             return ResponseHelper.Format(response);
         }

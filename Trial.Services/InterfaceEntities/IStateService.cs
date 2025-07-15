@@ -3,9 +3,9 @@ using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.ResponsesSec;
 using Trial.DomainLogic.TrialResponse;
 
-namespace Trial.UnitOfWork.InterfaceEntities;
+namespace Trial.Services.InterfaceEntities;
 
-public interface IStateUnitOfWork
+public interface IStateService
 {
     Task<ActionResponse<IEnumerable<State>>> ComboAsync(ClaimsDTOs claimsDTO);
 

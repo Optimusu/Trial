@@ -1,17 +1,29 @@
 ﻿using Trial.Domain.Entities;
-using Trial.DomainLogic.ResponsesSec;
+using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfaceEntities;
-using Trial.UnitOfWork.BaseImplement;
 using Trial.UnitOfWork.InterfaceEntities;
 
 namespace Trial.UnitOfWork.ImplementEntities;
 
-public class CountryUnitOfWork : BaseUnitOfWork<Country, ICountryServices>, ICountryUnitOfWork
+public class CountryUnitOfWork : ICountryUnitOfWork
 {
-    public CountryUnitOfWork(ICountryServices service) : base(service)
+    private readonly ICountryServices _countriesService;
+
+    public CountryUnitOfWork(ICountryServices countriesService)
     {
+        _countriesService = countriesService;
     }
 
-    public Task<ActionResponse<IEnumerable<Country>>> ComboAsync(UserClaimsInfo? userClaimsInfo) => _service.ComboAsync(userClaimsInfo);
+    public async Task<ActionResponse<IEnumerable<Country>>> ComboAsync() => await _countriesService.ComboAsync();
+
+    public async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination) => await _countriesService.GetAsync(pagination);
+
+    public async Task<ActionResponse<Country>> GetAsync(int id) => await _countriesService.GetAsync(id);
+
+    public async Task<ActionResponse<Country>> UpdateAsync(Country modelo) => await _countriesService.UpdateAsync(modelo);
+
+    public async Task<ActionResponse<Country>> AddAsync(Country modelo) => await _countriesService.AddAsync(modelo);
+
+    public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _countriesService.DeleteAsync(id);
 }

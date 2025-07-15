@@ -10,6 +10,7 @@ public class StateConfig : IEntityTypeConfiguration<State>
     {
         builder.HasIndex(e => e.StateId);
         builder.HasIndex(e => new { e.Name, e.CountryId }).IsUnique();
+        builder.Property(e => e.Name).UseCollation("Latin1_General_CI_AS");
         //Proteccion de Borrado en Cascada
         builder.HasOne(e => e.Country).WithMany(e => e.States).OnDelete(DeleteBehavior.Restrict);
     }
