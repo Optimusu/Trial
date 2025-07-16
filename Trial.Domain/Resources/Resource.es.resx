@@ -244,7 +244,7 @@
     <value>No pudimos encontrar el registro</value>
   </data>
   <data name="Generic_Success" xml:space="preserve">
-    <value>Everything was completed successfully</value>
+    <value>Todo se realizo correctamente</value>
   </data>
   <data name="Generic_InvalidModel" xml:space="preserve">
     <value>Parece que hubo un error con los datos enviados</value>
@@ -287,5 +287,41 @@
   </data>
   <data name="Key_CurrentPassword" xml:space="preserve">
     <value>Clave Actual</value>
+  </data>
+  <data name="Generic_UserFail" xml:space="preserve">
+    <value>Problemas para conseguir el usuario</value>
+  </data>
+  <data name="Generic_InvalidCredentials" xml:space="preserve">
+    <value>Usuario o clave erróneos</value>
+  </data>
+  <data name="Generic_AccessDenied" xml:space="preserve">
+    <value>Lo siento, no tiene acceso al sistema</value>
+  </data>
+  <data name="Generic_UserBlocked" xml:space="preserve">
+    <value>Se encuentra temporalmente bloqueado</value>
+  </data>
+  <data name="Generic_PlanExpired" xml:space="preserve">
+    <value>El tiempo del plan se ha cumplido, debe renovar su cuenta</value>
+  </data>
+  <data name="Generic_CorporationInactive" xml:space="preserve">
+    <value>La corporacion que trata de acceder se encuentra inactiva. Contacte al administrador del sistema</value>
+  </data>
+  <data name="Generic_UserNoRoleAssigned" xml:space="preserve">
+    <value>Este usuario esta activo pero no tiene ningun role asignado</value>
+  </data>
+  <data name="Generic_UserInactive" xml:space="preserve">
+    <value>El usuario se encuentra inactivo. Contacte al administrador del sistema</value>
+  </data>
+  <data name="Generic_UserCreationFail" xml:space="preserve">
+    <value>No se ha podido crear el usuario. Inténtelo de nuevo</value>
+  </data>
+  <data name="Generic_EmailAlreadyUsed" xml:space="preserve">
+    <value>Este correo ya se encuentra asignado a otra cuenta</value>
+  </data>
+  <data name="Generic_RecordDeletedNoImage" xml:space="preserve">
+    <value>Se eliminó el registro pero sin la imagen</value>
+  </data>
+  <data name="Key_SelectUserRole" xml:space="preserve">
+    <value>Seleccione Tipo Usuario</value>
   </data>
 </root>

@@ -232,6 +232,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, you do not have access to the system.
+        /// </summary>
+        public static string Generic_AccessDenied {
+            get {
+                return ResourceManager.GetString("Generic_AccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to retrieve authenticated user&apos;s email.
         /// </summary>
         public static string Generic_AuthEmailFail {
@@ -268,6 +277,24 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The corporation you are trying to access is inactive, Please contact the system administrator.
+        /// </summary>
+        public static string Generic_CorporationInactive {
+            get {
+                return ResourceManager.GetString("Generic_CorporationInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This email is already associated with another account.
+        /// </summary>
+        public static string Generic_EmailAlreadyUsed {
+            get {
+                return ResourceManager.GetString("Generic_EmailAlreadyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General exception with no specific cause.
         /// </summary>
         public static string Generic_Exception {
@@ -291,6 +318,15 @@ namespace Trial.Domain.Resources {
         public static string Generic_IdNotFound {
             get {
                 return ResourceManager.GetString("Generic_IdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid username or password.
+        /// </summary>
+        public static string Generic_InvalidCredentials {
+            get {
+                return ResourceManager.GetString("Generic_InvalidCredentials", resourceCulture);
             }
         }
         
@@ -322,7 +358,25 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Todo se realizo correctamente.
+        ///   Looks up a localized string similar to Your plan has expired, please renew your account.
+        /// </summary>
+        public static string Generic_PlanExpired {
+            get {
+                return ResourceManager.GetString("Generic_PlanExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The record was deleted, but the image was not removed.
+        /// </summary>
+        public static string Generic_RecordDeletedNoImage {
+            get {
+                return ResourceManager.GetString("Generic_RecordDeletedNoImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Everything was completed successfully.
         /// </summary>
         public static string Generic_Success {
             get {
@@ -336,6 +390,51 @@ namespace Trial.Domain.Resources {
         public static string Generic_UnexpectedError {
             get {
                 return ResourceManager.GetString("Generic_UnexpectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account is temporarily blocked.
+        /// </summary>
+        public static string Generic_UserBlocked {
+            get {
+                return ResourceManager.GetString("Generic_UserBlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not create the user. Please try again.
+        /// </summary>
+        public static string Generic_UserCreationFail {
+            get {
+                return ResourceManager.GetString("Generic_UserCreationFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to retrieve user data.
+        /// </summary>
+        public static string Generic_UserFail {
+            get {
+                return ResourceManager.GetString("Generic_UserFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user is inactive. Please contact the system administrator.
+        /// </summary>
+        public static string Generic_UserInactive {
+            get {
+                return ResourceManager.GetString("Generic_UserInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user is active but has no role assigned.
+        /// </summary>
+        public static string Generic_UserNoRoleAssigned {
+            get {
+                return ResourceManager.GetString("Generic_UserNoRoleAssigned", resourceCulture);
             }
         }
         
@@ -381,6 +480,15 @@ namespace Trial.Domain.Resources {
         public static string Key_NewPassword {
             get {
                 return ResourceManager.GetString("Key_NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select User Type.
+        /// </summary>
+        public static string Key_SelectUserRole {
+            get {
+                return ResourceManager.GetString("Key_SelectUserRole", resourceCulture);
             }
         }
         

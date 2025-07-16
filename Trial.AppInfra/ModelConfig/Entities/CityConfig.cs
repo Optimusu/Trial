@@ -10,6 +10,7 @@ public class CityConfig : IEntityTypeConfiguration<City>
     {
         builder.HasIndex(e => e.CityId);
         builder.HasIndex(e => new { e.Name, e.StateId }).IsUnique();
+        builder.Property(e => e.Name).UseCollation("Latin1_General_CI_AS"); //Para poderlo volver Collation CI
         //Proteccion de Borrado en Cascada
         builder.HasOne(e => e.State).WithMany(e => e.Cities).OnDelete(DeleteBehavior.Restrict);
     }

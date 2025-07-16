@@ -24,13 +24,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Trial.AppInfra\Trial.AppInfra.csproj" />
     <ProjectReference Include="..\Trial.DomainLogic\Trial.DomainLogic.csproj" />
     <ProjectReference Include="..\Trial.UnitOfWork\Trial.UnitOfWork.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Images\NoImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\NoPicture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\OptimusTrial.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\ImgCorporation\" />
+    <Folder Include="wwwroot\Images\ImgManager\" />
+    <Folder Include="wwwroot\Images\ImgUsuarios\" />
+    <Folder Include="wwwroot\Images\ImgMonitors\" />
   </ItemGroup>
 
 </Project>

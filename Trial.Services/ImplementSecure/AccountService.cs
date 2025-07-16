@@ -53,7 +53,7 @@ public class AccountService : IAccountService
                 return new ActionResponse<TokenDTO>
                 {
                     WasSuccess = false,
-                    Message = "El Usuario se Encuentra Inactivo, contacte al Administrador del Sistema"
+                    Message = _localizer["Generic_UserInactive"]
                 };
             }
             var RolesUsuario = _context.UserRoleDetails.Where(c => c.UserId == user.Id).ToList();
@@ -62,7 +62,7 @@ public class AccountService : IAccountService
                 return new ActionResponse<TokenDTO>
                 {
                     WasSuccess = false,
-                    Message = "Este Usuario esta activo pero no tiene ningun Role Asignado..."
+                    Message = _localizer["Generic_UserNoRoleAssigned"]
                 };
             }
             var RolUsuario = RolesUsuario.FirstOrDefault(c => c.UserType == UserType.Admin);
@@ -76,7 +76,7 @@ public class AccountService : IAccountService
                     return new ActionResponse<TokenDTO>
                     {
                         WasSuccess = false,
-                        Message = "La Corporacion que trata de Acceder se encuentra Inactiva, Contacte al Administrador del Sistema"
+                        Message = _localizer["Generic_CorporationInactive"]
                     };
                 }
                 if (current <= hoy)
@@ -84,18 +84,14 @@ public class AccountService : IAccountService
                     return new ActionResponse<TokenDTO>
                     {
                         WasSuccess = false,
-                        Message = "El Tiempo del plan se ha cumplido, debe renovar su cuenta"
+                        Message = _localizer["Generic_PlanExpired"]
                     };
                 }
 
                 switch (user.UserFrom)
                 {
-                    case "Contractor":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/ImgContractor/{user.PhotoUser}" : ImagenDefault;
-                        break;
-
-                    case "Client":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/ImgClient/{user.PhotoUser}" : ImagenDefault;
+                    case "Monitor":
+                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/ImgMonitor/{user.PhotoUser}" : ImagenDefault;
                         break;
 
                     case "Manager":
@@ -119,7 +115,7 @@ public class AccountService : IAccountService
             return new ActionResponse<TokenDTO>
             {
                 WasSuccess = false,
-                Message = "Se Encuentra temporalmente Bloqueado"
+                Message = _localizer["Generic_UserBlocked"]
             };
         }
 
@@ -128,14 +124,14 @@ public class AccountService : IAccountService
             return new ActionResponse<TokenDTO>
             {
                 WasSuccess = false,
-                Message = "Lo Siento, No Tiene Acceso al Sistema"
+                Message = _localizer["Generic_AccessDenied"]
             };
         }
 
         return new ActionResponse<TokenDTO>
         {
             WasSuccess = false,
-            Message = "Usuario o Clave Erroneos"
+            Message = _localizer["Generic_InvalidCredentials"]
         };
     }
 
@@ -147,7 +143,7 @@ public class AccountService : IAccountService
             return new ActionResponse<bool>
             {
                 WasSuccess = false,
-                Message = "Registro no Encontrado"
+                Message = _localizer["Generic_IdNotFound"]
             };
         }
 
@@ -176,7 +172,7 @@ public class AccountService : IAccountService
             return new ActionResponse<bool>
             {
                 WasSuccess = false,
-                Message = "Problemas para Validar el Usuario"
+                Message = _localizer["Generic_UserFail"]
             };
         }
 
@@ -186,7 +182,7 @@ public class AccountService : IAccountService
             return new ActionResponse<bool>
             {
                 WasSuccess = true,
-                Message = "Proceso realizado con Exito"
+                Message = _localizer["Generic_Success"]
             };
         }
         return new ActionResponse<bool>
@@ -204,7 +200,7 @@ public class AccountService : IAccountService
             return new ActionResponse<bool>
             {
                 WasSuccess = false,
-                Message = "Problemas para conseguir el Usuario"
+                Message = _localizer["Generic_UserFail"]
             };
         }
 
@@ -221,7 +217,7 @@ public class AccountService : IAccountService
         return new ActionResponse<bool>
         {
             WasSuccess = true,
-            Message = "Proceso realizado con Exito"
+            Message = _localizer["Generic_Success"]
         };
     }
 
@@ -233,7 +229,7 @@ public class AccountService : IAccountService
             return new ActionResponse<bool>
             {
                 WasSuccess = false,
-                Message = "Problemas para conseguir el Usuario"
+                Message = _localizer["Generic_UserFail"]
             };
         }
 
@@ -250,7 +246,7 @@ public class AccountService : IAccountService
         return new ActionResponse<bool>
         {
             WasSuccess = true,
-            Message = "Proceso realizado con Exito"
+            Message = _localizer["Generic_Success"]
         };
     }
 
@@ -285,7 +281,7 @@ public class AccountService : IAccountService
         if (RolUsuario != null)
         {
             //TODO: Cambio de Path para Imagenes
-            NomCompa = "Nexxplanet LLC";
+            NomCompa = "Optimus U";
             LogoCompa = _imgOption.LogoSoftware;
             imgUsuario = _imgOption.LogoSoftware;
         }

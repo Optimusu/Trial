@@ -27,7 +27,7 @@ public class SeedDb
         await CheckRolesAsync();
         await CheckSoftPlan();
         await CheckCountries();
-        await CheckUserAsync("Nexxtplanet", "SPI", "soporte@nexxtplanet.net", "+1 786 503", UserType.Admin);
+        await CheckUserAsync("Optimus U", "TrialPro", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
 
     private async Task CheckRolesAsync()
@@ -36,6 +36,7 @@ public class SeedDb
         await _userHelper.CheckRoleAsync(UserType.Administrator.ToString());
         await _userHelper.CheckRoleAsync(UserType.Coordinator.ToString());
         await _userHelper.CheckRoleAsync(UserType.Researcher.ToString());
+        await _userHelper.CheckRoleAsync(UserType.Monitor.ToString());
     }
 
     private async Task<User> CheckUserAsync(string firstName, string lastName, string email,

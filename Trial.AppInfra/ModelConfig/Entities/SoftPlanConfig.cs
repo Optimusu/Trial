@@ -10,6 +10,7 @@ public class SoftPlanConfig : IEntityTypeConfiguration<SoftPlan>
     {
         builder.HasKey(e => e.SoftPlanId);
         builder.HasIndex(x => x.Name).IsUnique();
+        builder.Property(e => e.Name).UseCollation("Latin1_General_CI_AS"); //Para poderlo volver Collation CI
         builder.Property(e => e.Price).HasPrecision(18, 2);
     }
 }
