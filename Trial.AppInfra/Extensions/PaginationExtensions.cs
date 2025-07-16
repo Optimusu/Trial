@@ -21,7 +21,7 @@ public static class PaginationExtensions
         httpContext.Response.Headers.Append("Totalpages", totalPages.ToString());
 
         return await queryable
-            .OrderBy(x => EF.Property<object>(x, "Name")) // 👈 Si querés ordenar por nombre genérico
+            .OrderBy(x => EF.Property<object>(x!, "Name")) // 👈 Si querés ordenar por nombre genérico
             .Skip((pagination.Page - 1) * pagination.RecordsNumber)
             .Take(pagination.RecordsNumber)
             .ToListAsync();

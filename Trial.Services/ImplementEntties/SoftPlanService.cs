@@ -8,42 +8,37 @@ using Trial.AppInfra.Transactions;
 using Trial.AppInfra.Validations;
 using Trial.Domain.Entities;
 using Trial.DomainLogic.Pagination;
-using Trial.DomainLogic.ResponsesSec;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfaceEntities;
 
 namespace Trial.Services.ImplementEntties;
 
-public class StateService : IStateService
+public class SoftPlanService : ISoftPlanService
 {
     private readonly DataContext _context;
-    private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ITransactionManager _transactionManager;
+    private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
 
-    public StateService(DataContext context, HttpErrorHandler httpErrorHandler,
-        IHttpContextAccessor httpContextAccessor, ITransactionManager transactionManager,
+    public SoftPlanService(DataContext context, IHttpContextAccessor httpContextAccessor,
+        ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
         IStringLocalizer localizer)
     {
         _context = context;
-        _httpErrorHandler = httpErrorHandler;
         _httpContextAccessor = httpContextAccessor;
         _transactionManager = transactionManager;
+        _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
     }
 
-    public async Task<ActionResponse<IEnumerable<State>>> ComboAsync(ClaimsDTOs claimsDTOs)
+    public async Task<ActionResponse<IEnumerable<SoftPlan>>> ComboAsync()
     {
         try
         {
-            int IdCountry = await _context.Corporations
-                    .Where(c => c.CorporationId == claimsDTOs!.CorporationId)
-                    .Select(c => c.CountryId)
-                    .FirstOrDefaultAsync();
+            IEnumerable<SoftPlan> ListModel = await _context.SoftPlans.Where(x => x.Active).ToListAsync();
 
-            IEnumerable<State> ListModel = await _context.States.Where(x => x.CountryId == IdCountry).ToListAsync();
-            return new ActionResponse<IEnumerable<State>>
+            return new ActionResponse<IEnumerable<SoftPlan>>
             {
                 WasSuccess = true,
                 Result = ListModel
@@ -51,16 +46,15 @@ public class StateService : IStateService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<State>>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<SoftPlan>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<SoftPlan>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            //pagination.Id == Trae el ID del Country
-            var queryable = _context.States.Where(x => x.CountryId == pagination.Id).AsQueryable();
+            var queryable = _context.SoftPlans.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -69,7 +63,7 @@ public class StateService : IStateService
             }
             var result = await queryable.ApplyFullPaginationAsync(_httpContextAccessor.HttpContext!, pagination);
 
-            return new ActionResponse<IEnumerable<State>>
+            return new ActionResponse<IEnumerable<SoftPlan>>
             {
                 WasSuccess = true,
                 Result = result
@@ -77,34 +71,35 @@ public class StateService : IStateService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<State>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<SoftPlan>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<State>> GetAsync(int id)
+    public async Task<ActionResponse<SoftPlan>> GetAsync(int id)
     {
         try
         {
             if (id <= 0)
             {
-                return new ActionResponse<State>
+                return new ActionResponse<SoftPlan>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.States
+            var modelo = await _context.SoftPlans
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.StateId == id);
+                .FirstOrDefaultAsync(x => x.SoftPlanId == id);
             if (modelo == null)
             {
-                return new ActionResponse<State>
+                return new ActionResponse<SoftPlan>
                 {
                     WasSuccess = false,
-                    Message = _localizer["Generic_IdNotFound"]
+                    Message = "Problemas para Enconstrar el Registro Indicado"
                 };
             }
-            return new ActionResponse<State>
+
+            return new ActionResponse<SoftPlan>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -112,15 +107,15 @@ public class StateService : IStateService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<State>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<SoftPlan>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<State>> UpdateAsync(State modelo)
+    public async Task<ActionResponse<SoftPlan>> UpdateAsync(SoftPlan modelo)
     {
-        if (modelo == null || modelo.StateId <= 0)
+        if (modelo == null || modelo.SoftPlanId <= 0)
         {
-            return new ActionResponse<State>
+            return new ActionResponse<SoftPlan>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
@@ -130,12 +125,12 @@ public class StateService : IStateService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.States.Update(modelo);
+            _context.SoftPlans.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<State>
+            return new ActionResponse<SoftPlan>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -145,15 +140,15 @@ public class StateService : IStateService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<State>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<SoftPlan>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<State>> AddAsync(State modelo)
+    public async Task<ActionResponse<SoftPlan>> AddAsync(SoftPlan modelo)
     {
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<State>
+            return new ActionResponse<SoftPlan>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidModel"] // 🧠 Clave multilenguaje para modelo nulo
@@ -163,49 +158,40 @@ public class StateService : IStateService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.States.Add(modelo);
+            _context.SoftPlans.Add(modelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<State>
+            return new ActionResponse<SoftPlan>
             {
                 WasSuccess = true,
                 Result = modelo,
-                Message = _localizer["Generic_Success"] // 🌐 Mensaje localizado de éxito
+                Message = _localizer["Generic_Success"]
             };
         }
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<State>(ex); // ✅ Multilenguaje automático en errores
+            return await _httpErrorHandler.HandleErrorAsync<SoftPlan>(ex); // ✅ Manejo de errores automático
         }
     }
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id)
     {
-        if (id <= 0)
-        {
-            return new ActionResponse<bool>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_InvalidId"] // 🌐 Localizado para ID inválido
-            };
-        }
-
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.States.FindAsync(id);
+            var DataRemove = await _context.SoftPlans.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
                 {
                     WasSuccess = false,
-                    Message = _localizer["Generic_IdNotFound"] // 🌐 Localizado para no encontrado
+                    Message = _localizer["Generic_IdNotFound"]
                 };
             }
 
-            _context.States.Remove(DataRemove);
+            _context.SoftPlans.Remove(DataRemove);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
@@ -214,13 +200,13 @@ public class StateService : IStateService
             {
                 WasSuccess = true,
                 Result = true,
-                Message = _localizer["Generic_Success"] // 🌐 Localizado para éxito
+                Message = _localizer["Generic_Success"]
             };
         }
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<bool>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<bool>(ex); // ✅ Manejo de errores automático
         }
     }
 }

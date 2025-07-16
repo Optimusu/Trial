@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Trial.AppInfra;
 using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.Extensions;
+using Trial.AppInfra.FileHelper;
 using Trial.AppInfra.Transactions;
 using Trial.AppInfra.Validations;
 using Trial.Domain.Entities;
@@ -14,36 +17,36 @@ using Trial.Services.InterfaceEntities;
 
 namespace Trial.Services.ImplementEntties;
 
-public class StateService : IStateService
+public class CorporationService : ICorporationService
 {
     private readonly DataContext _context;
-    private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ITransactionManager _transactionManager;
+    private readonly IFileStorage _fileStorage;
+    private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
+    private readonly ImgSetting _imgOption;
 
-    public StateService(DataContext context, HttpErrorHandler httpErrorHandler,
-        IHttpContextAccessor httpContextAccessor, ITransactionManager transactionManager,
-        IStringLocalizer localizer)
+    public CorporationService(DataContext context, IHttpContextAccessor httpContextAccessor,
+        ITransactionManager transactionManager, IMemoryCache cache, IFileStorage fileStorage,
+        IOptions<ImgSetting> ImgOption, HttpErrorHandler httpErrorHandler, IStringLocalizer localizer)
     {
         _context = context;
-        _httpErrorHandler = httpErrorHandler;
         _httpContextAccessor = httpContextAccessor;
         _transactionManager = transactionManager;
+        _fileStorage = fileStorage;
+        _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
+        _imgOption = ImgOption.Value;
     }
 
-    public async Task<ActionResponse<IEnumerable<State>>> ComboAsync(ClaimsDTOs claimsDTOs)
+    public async Task<ActionResponse<IEnumerable<Corporation>>> ComboAsync()
     {
         try
         {
-            int IdCountry = await _context.Corporations
-                    .Where(c => c.CorporationId == claimsDTOs!.CorporationId)
-                    .Select(c => c.CountryId)
-                    .FirstOrDefaultAsync();
+            var ListModel = await _context.Corporations.Where(x => x.Active).OrderBy(x => x.Name).ToListAsync();
 
-            IEnumerable<State> ListModel = await _context.States.Where(x => x.CountryId == IdCountry).ToListAsync();
-            return new ActionResponse<IEnumerable<State>>
+            return new ActionResponse<IEnumerable<Corporation>>
             {
                 WasSuccess = true,
                 Result = ListModel
@@ -51,16 +54,15 @@ public class StateService : IStateService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<State>>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Corporation>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<Corporation>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            //pagination.Id == Trae el ID del Country
-            var queryable = _context.States.Where(x => x.CountryId == pagination.Id).AsQueryable();
+            var queryable = _context.Corporations.Include(x => x.SoftPlan).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -69,7 +71,7 @@ public class StateService : IStateService
             }
             var result = await queryable.ApplyFullPaginationAsync(_httpContextAccessor.HttpContext!, pagination);
 
-            return new ActionResponse<IEnumerable<State>>
+            return new ActionResponse<IEnumerable<Corporation>>
             {
                 WasSuccess = true,
                 Result = result
@@ -77,34 +79,34 @@ public class StateService : IStateService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<State>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Corporation>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<State>> GetAsync(int id)
+    public async Task<ActionResponse<Corporation>> GetAsync(int id)
     {
         try
         {
             if (id <= 0)
             {
-                return new ActionResponse<State>
+                return new ActionResponse<Corporation>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.States
+            var modelo = await _context.Corporations
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.StateId == id);
+                .FirstOrDefaultAsync(x => x.CorporationId == id);
             if (modelo == null)
             {
-                return new ActionResponse<State>
+                return new ActionResponse<Corporation>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_IdNotFound"]
                 };
             }
-            return new ActionResponse<State>
+            return new ActionResponse<Corporation>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -112,30 +114,44 @@ public class StateService : IStateService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<State>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<Corporation>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<State>> UpdateAsync(State modelo)
+    public async Task<ActionResponse<Corporation>> UpdateAsync(Corporation modelo)
     {
-        if (modelo == null || modelo.StateId <= 0)
+        if (modelo == null || modelo.CorporationId <= 0)
         {
-            return new ActionResponse<State>
+            return new ActionResponse<Corporation>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
             };
         }
-
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.States.Update(modelo);
+            if (!string.IsNullOrEmpty(modelo.ImgBase64))
+            {
+                string guid;
+                if (modelo.Imagen == null)
+                {
+                    guid = Guid.NewGuid().ToString() + ".jpg";
+                }
+                else
+                {
+                    guid = modelo.Imagen;
+                }
+                var imageId = Convert.FromBase64String(modelo.ImgBase64);
+                modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgCorporation!, guid);
+            }
+
+            _context.Corporations.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<State>
+            return new ActionResponse<Corporation>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -145,57 +161,54 @@ public class StateService : IStateService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<State>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<Corporation>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<State>> AddAsync(State modelo)
+    public async Task<ActionResponse<Corporation>> AddAsync(Corporation modelo)
     {
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<State>
+            return new ActionResponse<Corporation>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidModel"] // 🧠 Clave multilenguaje para modelo nulo
             };
         }
-
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.States.Add(modelo);
+            if (!string.IsNullOrEmpty(modelo.ImgBase64))
+            {
+                string guid = Guid.NewGuid().ToString() + ".jpg";
+                var imageId = Convert.FromBase64String(modelo.ImgBase64);
+                modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgCorporation!, guid);
+            }
+
+            _context.Corporations.Add(modelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<State>
+            return new ActionResponse<Corporation>
             {
                 WasSuccess = true,
                 Result = modelo,
-                Message = _localizer["Generic_Success"] // 🌐 Mensaje localizado de éxito
+                Message = _localizer["Generic_Success"]
             };
         }
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<State>(ex); // ✅ Multilenguaje automático en errores
+            return await _httpErrorHandler.HandleErrorAsync<Corporation>(ex); // ✅ Manejo de errores automático
         }
     }
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id)
     {
-        if (id <= 0)
-        {
-            return new ActionResponse<bool>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_InvalidId"] // 🌐 Localizado para ID inválido
-            };
-        }
-
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.States.FindAsync(id);
+            var DataRemove = await _context.Corporations.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
@@ -205,7 +218,20 @@ public class StateService : IStateService
                 };
             }
 
-            _context.States.Remove(DataRemove);
+            _context.Corporations.Remove(DataRemove);
+
+            if (DataRemove.Imagen is not null)
+            {
+                var response = _fileStorage.DeleteImage(_imgOption.ImgCorporation!, DataRemove.Imagen);
+                if (!response)
+                {
+                    return new ActionResponse<bool>
+                    {
+                        WasSuccess = false,
+                        Message = _localizer["Generic_RecordDeletedNoImage"]
+                    };
+                }
+            }
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
@@ -214,13 +240,13 @@ public class StateService : IStateService
             {
                 WasSuccess = true,
                 Result = true,
-                Message = _localizer["Generic_Success"] // 🌐 Localizado para éxito
+                Message = _localizer["Generic_Success"]
             };
         }
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<bool>(ex);
+            return await _httpErrorHandler.HandleErrorAsync<bool>(ex); // ✅ Manejo de errores automático
         }
     }
 }

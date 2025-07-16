@@ -61,8 +61,8 @@ public class Corporation
 
     //TODO: Cambio de ruta para Imagenes
     public string ImageFullPath => Imagen == string.Empty || Imagen == null
-        ? $"https://localhost:7224/Images/NoImage.png"
-        : $"https://localhost:7224/Images/ImgCorporation/{Imagen}";
+        ? $"https://localhost:7229/Images/NoImage.png"
+        : $"https://localhost:7229/Images/ImgCorporation/{Imagen}";
 
     [NotMapped]
     public string? ImgBase64 { get; set; }
