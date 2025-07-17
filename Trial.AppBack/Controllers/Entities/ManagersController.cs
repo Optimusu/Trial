@@ -3,46 +3,29 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
-using Trial.Domain.EntitesSoftSec;
+using Trial.Domain.Entities;
 using Trial.DomainLogic.Pagination;
-using Trial.DomainLogic.ResponsesSec;
-using Trial.UnitOfWork.InterfacesSecure;
+using Trial.UnitOfWork.InterfaceEntities;
 
-namespace Trial.AppBack.Controllers;
+namespace Trial.AppBack.Controllers.Entities;
 
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/usuarioRoles")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+[Route("api/v{version:apiVersion}/managers")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
 [ApiController]
-public class UsuariosRoleController : ControllerBase
+public class ManagersController : ControllerBase
 {
-    private readonly IUsuarioRoleUnitOfWork _usuarioRoleUnitOfWork;
+    private readonly IManagerUnitOfWork _managerUnitOfWork;
+    private readonly IConfiguration _configuration;
     private readonly IStringLocalizer _localizer;
 
-    public UsuariosRoleController(IUsuarioRoleUnitOfWork usuarioRoleUnitOfWork, IStringLocalizer localizer)
+    public ManagersController(IManagerUnitOfWork managerUnitOfWork, IConfiguration configuration,
+        IStringLocalizer localizer)
     {
-        _usuarioRoleUnitOfWork = usuarioRoleUnitOfWork;
+        _managerUnitOfWork = managerUnitOfWork;
+        _configuration = configuration;
         _localizer = localizer;
-    }
-
-    [HttpGet("loadCombo")]
-    public async Task<IActionResult> GetComboAsync()
-    {
-        try
-        {
-            var response = await _usuarioRoleUnitOfWork.ComboAsync();
-            return ResponseHelper.Format(response);
-        }
-        catch (ApplicationException ex)
-        {
-            return BadRequest(ex.Message); // Ya está localizado
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-        }
     }
 
     [HttpGet]
@@ -50,7 +33,7 @@ public class UsuariosRoleController : ControllerBase
     {
         try
         {
-            var response = await _usuarioRoleUnitOfWork.GetAsync(pagination);
+            var response = await _managerUnitOfWork.GetAsync(pagination);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
@@ -68,7 +51,25 @@ public class UsuariosRoleController : ControllerBase
     {
         try
         {
-            var response = await _usuarioRoleUnitOfWork.GetAsync(id);
+            var response = await _managerUnitOfWork.GetAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> PutAsync(Manager modelo)
+    {
+        try
+        {
+            var response = await _managerUnitOfWork.UpdateAsync(modelo, _configuration["UrlFrontend"]!);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
@@ -82,12 +83,11 @@ public class UsuariosRoleController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(UsuarioRole modelo)
+    public async Task<IActionResult> PostAsync(Manager modelo)
     {
         try
         {
-            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-            var response = await _usuarioRoleUnitOfWork.AddAsync(modelo, userClaimsInfo.Email);
+            var response = await _managerUnitOfWork.AddAsync(modelo, _configuration["UrlFrontend"]!);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
@@ -105,7 +105,7 @@ public class UsuariosRoleController : ControllerBase
     {
         try
         {
-            var response = await _usuarioRoleUnitOfWork.DeleteAsync(id);
+            var response = await _managerUnitOfWork.DeleteAsync(id);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
