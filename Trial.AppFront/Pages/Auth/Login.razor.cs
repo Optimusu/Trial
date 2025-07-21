@@ -18,7 +18,7 @@ public partial class Login
 
     private async Task LoginAsync()
     {
-        var responseHttp = await _repository.PostAsync<LoginDTO, TokenDTO>("/api/accounts/Login", loginDTO);
+        var responseHttp = await _repository.PostAsync<LoginDTO, TokenDTO>("/api/v1/accounts/Login", loginDTO);
         if (await _httpHandler.HandleErrorAsync(responseHttp)) return;
         await _loginService.LoginAsync(responseHttp.Response!.Token);
         _navigation.NavigateTo("/");
