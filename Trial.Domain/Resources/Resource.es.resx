@@ -324,4 +324,94 @@
   <data name="Key_SelectUserRole" xml:space="preserve">
     <value>Seleccione Tipo Usuario</value>
   </data>
+  <data name="Error.NotFound" xml:space="preserve">
+    <value>Recurso no encontrado</value>
+  </data>
+  <data name="Error.Unauthorized" xml:space="preserve">
+    <value>Tienes que logearte para hacer esta operación</value>
+  </data>
+  <data name="Error.Forbidden" xml:space="preserve">
+    <value>No tienes permisos para hacer esta operación</value>
+  </data>
+  <data name="Error.BadRequest" xml:space="preserve">
+    <value>Petición inválida</value>
+  </data>
+  <data name="Error.ServerError" xml:space="preserve">
+    <value>Error interno del servidor</value>
+  </data>
+  <data name="Error.Timeout" xml:space="preserve">
+    <value>La petición ha excedido el tiempo de espera</value>
+  </data>
+  <data name="Error.ServiceUnavailable" xml:space="preserve">
+    <value>El servicio no está disponible en este momento</value>
+  </data>
+  <data name="Error.Default" xml:space="preserve">
+    <value>Ha ocurrido un error inesperado</value>
+  </data>
+  <data name="Http.Title.Unauthorized" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Http.Error.Unauthorized" xml:space="preserve">
+    <value>Debe loguearse de nuevo</value>
+  </data>
+  <data name="Http.Title.Forbidden" xml:space="preserve">
+    <value>Acceso denegado</value>
+  </data>
+  <data name="Http.Error.Forbidden" xml:space="preserve">
+    <value>No tienes permisos para acceder</value>
+  </data>
+  <data name="Http.Title.NotFound" xml:space="preserve">
+    <value>No encontrado</value>
+  </data>
+  <data name="Http.Error.NotFound" xml:space="preserve">
+    <value>Registro no encontrado</value>
+  </data>
+  <data name="Http.Title.ServerError" xml:space="preserve">
+    <value>Error interno</value>
+  </data>
+  <data name="Http.Error.ServerError" xml:space="preserve">
+    <value>El servidor tuvo un problema. Intenta más tarde</value>
+  </data>
+  <data name="Http.Title.BadRequest" xml:space="preserve">
+    <value>Solicitud incorrecta</value>
+  </data>
+  <data name="Http.Error.BadRequest" xml:space="preserve">
+    <value>Datos enviados inválidos</value>
+  </data>
+  <data name="Http.Title.GatewayTimeout" xml:space="preserve">
+    <value>Tiempo de espera</value>
+  </data>
+  <data name="Http.Error.GatewayTimeout" xml:space="preserve">
+    <value>El servidor no respondió a tiempo</value>
+  </data>
+  <data name="Http.Title.ServiceUnavailable" xml:space="preserve">
+    <value>Servicio inactivo</value>
+  </data>
+  <data name="Http.Error.ServiceUnavailable" xml:space="preserve">
+    <value>El servicio no está disponible temporalmente</value>
+  </data>
+  <data name="Http.Title.BadGateway" xml:space="preserve">
+    <value>Error de conexión</value>
+  </data>
+  <data name="Http.Error.BadGateway" xml:space="preserve">
+    <value>El servidor de respaldo no respondió</value>
+  </data>
+  <data name="Http.Title.Timeout" xml:space="preserve">
+    <value>Tiempo excedido</value>
+  </data>
+  <data name="Http.Error.Timeout" xml:space="preserve">
+    <value>La solicitud tardó demasiado tiempo</value>
+  </data>
+  <data name="Http.Title.InvalidData" xml:space="preserve">
+    <value>Datos inválidos</value>
+  </data>
+  <data name="Http.Error.InvalidData" xml:space="preserve">
+    <value>Verifica la información ingresada</value>
+  </data>
+  <data name="Http.Title.Default" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Http.Error.Default" xml:space="preserve">
+    <value>Ha ocurrido un error inesperado</value>
+  </data>
 </root>

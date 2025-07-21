@@ -10,6 +10,180 @@ a, .btn-link {
     color: #0071c1;
 }
 
+/* Fondo gris muy suave para el área principal */
+.main-content {
+    background-color: #f4f4f4;
+    padding: 2rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    min-height: 100vh; /* ocupa al menos toda la altura de la ventana */
+    box-sizing: border-box; /* asegura que el padding no agregue overflow */
+}
+
+/* Primary */
+.btn-gradient-primary {
+    background: linear-gradient(to right, #6f42c1, #0d6efd); /* base morado-azul */
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-primary:hover {
+        background: linear-gradient(to right, #4b2b89, #0a53be); /* más oscuro al hover */
+        color: white !important;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+        transform: scale(1.02);
+    }
+
+    .btn-gradient-primary:active {
+        background: linear-gradient(to right, #39226a, #084298); /* aún más oscuro al click */
+        color: white !important;
+        transform: scale(0.97);
+        box-shadow: none;
+    }
+
+/* Secondary */
+.btn-gradient-secondary {
+    background: linear-gradient(to right, #6c757d, #adb5bd);
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-secondary:hover {
+        background: linear-gradient(to right, #545b62, #9099a1);
+        color: white !important;
+        box-shadow: 0 0 10px rgba(108, 117, 125, 0.3);
+        transform: scale(1.02);
+    }
+
+    .btn-gradient-secondary:active {
+        background: linear-gradient(to right, #3b4046, #7a8189);
+        transform: scale(0.97);
+        color: white !important;
+        box-shadow: none;
+    }
+
+/* Success */
+.btn-gradient-success {
+    background: linear-gradient(to right, #198754, #51d88a);
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-success:hover {
+        background: linear-gradient(to right, #146c44, #3fba72);
+        color: white !important;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        transform: scale(1.02);
+    }
+
+    .btn-gradient-success:active {
+        background: linear-gradient(to right, #0f5233, #2ea65f);
+        transform: scale(0.97);
+        color: white !important;
+        box-shadow: none;
+    }
+
+/* Danger */
+.btn-gradient-danger {
+    background: linear-gradient(to right, #ff1e1e, #ffd1d1); /* rojo vivo a rojo clarito */
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-danger:hover {
+        background: linear-gradient(to right, #e60000, #ffaaaa); /* más oscuro al inicio, suave al final */
+        color: white !important;
+        box-shadow: 0 0 12px rgba(255, 30, 30, 0.35);
+        transform: scale(1.03);
+    }
+
+    .btn-gradient-danger:active {
+        background: linear-gradient(to right, #b10000, #ffbfbf); /* rojo profundo al click + rojo claro */
+        transform: scale(0.97);
+        color: white !important;
+        box-shadow: none;
+    }
+
+/* Warning */
+.btn-gradient-warning {
+    background: linear-gradient(to right, #ffc107, #ffdd57);
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-warning:hover {
+        background: linear-gradient(to right, #e6b106, #ffd13f);
+        color: white !important;
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        transform: scale(1.02);
+    }
+
+    .btn-gradient-warning:active {
+        background: linear-gradient(to right, #cca005, #ffc533);
+        transform: scale(0.97);
+        color: white !important;
+        box-shadow: none;
+    }
+
+/* Info */
+.btn-gradient-info {
+    background: linear-gradient(to right, #0dcaf0, #3dd5f3);
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-info:hover {
+        background: linear-gradient(to right, #0aa1c0, #2bb9d9);
+        color: white !important;
+        box-shadow: 0 0 10px rgba(13, 202, 240, 0.3);
+        transform: scale(1.02);
+    }
+
+    .btn-gradient-info:active {
+        background: linear-gradient(to right, #087a97, #1f9db9);
+        transform: scale(0.97);
+        color: white !important;
+        box-shadow: none;
+    }
+
+/* Black */
+.btn-gradient-black {
+    background: linear-gradient(to right, #000000, #ffffff); /* negro a blanco */
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-black:hover {
+        background: linear-gradient(to right, #1a1a1a, #d3d3d3); /* oscuro a gris claro */
+        color: white !important;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+        transform: scale(1.03);
+    }
+
+    .btn-gradient-black:active {
+        background: linear-gradient(to right, #000000, #aaaaaa); /* negro profundo a gris medio */
+        transform: scale(0.97);
+        color: white !important;
+        box-shadow: none;
+    }
+
+.btn-gradient-primary,
+.btn-gradient-secondary,
+.btn-gradient-success,
+.btn-gradient-danger,
+.btn-gradient-warning,
+.btn-gradient-info,
+.btn-gradient-black {
+    box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.5); /* sombra más profunda */
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -17,7 +191,7 @@ a, .btn-link {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .content {

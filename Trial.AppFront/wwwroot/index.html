@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="Trial.AppFront.styles.css" rel="stylesheet" />
+    <link href="lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="lib/font-awesome/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -27,6 +29,9 @@
         <span class="dismiss">🗙</span>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <!-- Detección de idioma del navegador -->
+    <script>
+        window.getBrowserLanguage = () => navigator.language || navigator.userLanguage;
+    </script>
 </body>
-
 </html>

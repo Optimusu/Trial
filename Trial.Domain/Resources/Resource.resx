@@ -324,4 +324,94 @@
   <data name="Key_SelectUserRole" xml:space="preserve">
     <value>Select User Type</value>
   </data>
+  <data name="Error.NotFound" xml:space="preserve">
+    <value>Resource not found</value>
+  </data>
+  <data name="Error.Unauthorized" xml:space="preserve">
+    <value>You must log in to perform this operation</value>
+  </data>
+  <data name="Error.Forbidden" xml:space="preserve">
+    <value>You don’t have permission to perform this operation</value>
+  </data>
+  <data name="Error.BadRequest" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
+  <data name="Error.ServerError" xml:space="preserve">
+    <value>Internal server error</value>
+  </data>
+  <data name="Error.Timeout" xml:space="preserve">
+    <value>Request timed out</value>
+  </data>
+  <data name="Error.ServiceUnavailable" xml:space="preserve">
+    <value>Service is unavailable</value>
+  </data>
+  <data name="Error.Default" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+  </data>
+  <data name="Http.Title.Unauthorized" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Http.Error.Unauthorized" xml:space="preserve">
+    <value>You must log in again</value>
+  </data>
+  <data name="Http.Title.Forbidden" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="Http.Error.Forbidden" xml:space="preserve">
+    <value>You don’t have permission to access this</value>
+  </data>
+  <data name="Http.Title.NotFound" xml:space="preserve">
+    <value>Not Found</value>
+  </data>
+  <data name="Http.Error.NotFound" xml:space="preserve">
+    <value>Record not found</value>
+  </data>
+  <data name="Http.Title.ServerError" xml:space="preserve">
+    <value>Internal Error</value>
+  </data>
+  <data name="Http.Error.ServerError" xml:space="preserve">
+    <value>The server encountered an error. Try again later</value>
+  </data>
+  <data name="Http.Title.BadRequest" xml:space="preserve">
+    <value>Bad Request</value>
+  </data>
+  <data name="Http.Error.BadRequest" xml:space="preserve">
+    <value>Invalid data submitted</value>
+  </data>
+  <data name="Http.Title.GatewayTimeout" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="Http.Error.GatewayTimeout" xml:space="preserve">
+    <value>The server did not respond in time</value>
+  </data>
+  <data name="Http.Title.ServiceUnavailable" xml:space="preserve">
+    <value>Service Unavailable</value>
+  </data>
+  <data name="Http.Error.ServiceUnavailable" xml:space="preserve">
+    <value>Service is temporarily unavailable</value>
+  </data>
+  <data name="Http.Title.BadGateway" xml:space="preserve">
+    <value>Connection Error</value>
+  </data>
+  <data name="Http.Error.BadGateway" xml:space="preserve">
+    <value>Backup server did not respond</value>
+  </data>
+  <data name="Http.Title.Timeout" xml:space="preserve">
+    <value>Request Timeout</value>
+  </data>
+  <data name="Http.Error.Timeout" xml:space="preserve">
+    <value>The request took too long</value>
+  </data>
+  <data name="Http.Title.InvalidData" xml:space="preserve">
+    <value>Invalid Data</value>
+  </data>
+  <data name="Http.Error.InvalidData" xml:space="preserve">
+    <value>Check the submitted information</value>
+  </data>
+  <data name="Http.Title.Default" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Http.Error.Default" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+  </data>
 </root>

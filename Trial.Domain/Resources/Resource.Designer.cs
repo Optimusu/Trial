@@ -214,6 +214,78 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad request.
+        /// </summary>
+        public static string Error_BadRequest {
+            get {
+                return ResourceManager.GetString("Error.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred.
+        /// </summary>
+        public static string Error_Default {
+            get {
+                return ResourceManager.GetString("Error.Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don’t have permission to perform this operation.
+        /// </summary>
+        public static string Error_Forbidden {
+            get {
+                return ResourceManager.GetString("Error.Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource not found.
+        /// </summary>
+        public static string Error_NotFound {
+            get {
+                return ResourceManager.GetString("Error.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal server error.
+        /// </summary>
+        public static string Error_ServerError {
+            get {
+                return ResourceManager.GetString("Error.ServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service is unavailable.
+        /// </summary>
+        public static string Error_ServiceUnavailable {
+            get {
+                return ResourceManager.GetString("Error.ServiceUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request timed out.
+        /// </summary>
+        public static string Error_Timeout {
+            get {
+                return ResourceManager.GetString("Error.Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must log in to perform this operation.
+        /// </summary>
+        public static string Error_Unauthorized {
+            get {
+                return ResourceManager.GetString("Error.Unauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Name.
         /// </summary>
         public static string FirstName {
@@ -435,6 +507,204 @@ namespace Trial.Domain.Resources {
         public static string Generic_UserNoRoleAssigned {
             get {
                 return ResourceManager.GetString("Generic_UserNoRoleAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup server did not respond.
+        /// </summary>
+        public static string Http_Error_BadGateway {
+            get {
+                return ResourceManager.GetString("Http.Error.BadGateway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid data submitted.
+        /// </summary>
+        public static string Http_Error_BadRequest {
+            get {
+                return ResourceManager.GetString("Http.Error.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred.
+        /// </summary>
+        public static string Http_Error_Default {
+            get {
+                return ResourceManager.GetString("Http.Error.Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don’t have permission to access this.
+        /// </summary>
+        public static string Http_Error_Forbidden {
+            get {
+                return ResourceManager.GetString("Http.Error.Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server did not respond in time.
+        /// </summary>
+        public static string Http_Error_GatewayTimeout {
+            get {
+                return ResourceManager.GetString("Http.Error.GatewayTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check the submitted information.
+        /// </summary>
+        public static string Http_Error_InvalidData {
+            get {
+                return ResourceManager.GetString("Http.Error.InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record not found.
+        /// </summary>
+        public static string Http_Error_NotFound {
+            get {
+                return ResourceManager.GetString("Http.Error.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server encountered an error. Try again later.
+        /// </summary>
+        public static string Http_Error_ServerError {
+            get {
+                return ResourceManager.GetString("Http.Error.ServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service is temporarily unavailable.
+        /// </summary>
+        public static string Http_Error_ServiceUnavailable {
+            get {
+                return ResourceManager.GetString("Http.Error.ServiceUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The request took too long.
+        /// </summary>
+        public static string Http_Error_Timeout {
+            get {
+                return ResourceManager.GetString("Http.Error.Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must log in again.
+        /// </summary>
+        public static string Http_Error_Unauthorized {
+            get {
+                return ResourceManager.GetString("Http.Error.Unauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection Error.
+        /// </summary>
+        public static string Http_Title_BadGateway {
+            get {
+                return ResourceManager.GetString("Http.Title.BadGateway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Request.
+        /// </summary>
+        public static string Http_Title_BadRequest {
+            get {
+                return ResourceManager.GetString("Http.Title.BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Http_Title_Default {
+            get {
+                return ResourceManager.GetString("Http.Title.Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access Denied.
+        /// </summary>
+        public static string Http_Title_Forbidden {
+            get {
+                return ResourceManager.GetString("Http.Title.Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeout.
+        /// </summary>
+        public static string Http_Title_GatewayTimeout {
+            get {
+                return ResourceManager.GetString("Http.Title.GatewayTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Data.
+        /// </summary>
+        public static string Http_Title_InvalidData {
+            get {
+                return ResourceManager.GetString("Http.Title.InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Found.
+        /// </summary>
+        public static string Http_Title_NotFound {
+            get {
+                return ResourceManager.GetString("Http.Title.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Error.
+        /// </summary>
+        public static string Http_Title_ServerError {
+            get {
+                return ResourceManager.GetString("Http.Title.ServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service Unavailable.
+        /// </summary>
+        public static string Http_Title_ServiceUnavailable {
+            get {
+                return ResourceManager.GetString("Http.Title.ServiceUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request Timeout.
+        /// </summary>
+        public static string Http_Title_Timeout {
+            get {
+                return ResourceManager.GetString("Http.Title.Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Http_Title_Unauthorized {
+            get {
+                return ResourceManager.GetString("Http.Title.Unauthorized", resourceCulture);
             }
         }
         
