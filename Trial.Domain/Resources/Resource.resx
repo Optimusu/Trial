@@ -414,4 +414,7 @@
   <data name="Http.Error.Default" xml:space="preserve">
     <value>An unexpected error occurred</value>
   </data>
+  <data name="Http.Title.LoginError" xml:space="preserve">
+    <value>Login Error</value>
+  </data>
 </root>

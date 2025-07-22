@@ -19,7 +19,6 @@
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Resource.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Include="Resources\Resource.es.resx" />
 
 	</ItemGroup>
 	<ItemGroup>

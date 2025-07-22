@@ -1,14 +1,19 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Trial.AppFront.AuthenticationProviders;
+using Trial.AppFront.GenericoModal;
+using Trial.AppFront.Pages.Auth;
 
 namespace Trial.AppFront.Shared
 {
     public partial class AuthLinks
     {
         [Inject] private NavigationManager _navigation { get; set; } = null!;
-
+        [Inject] private ILoginService _loginService { get; set; } = null!;
+        [Inject] private ModalService _modalService { get; set; } = null!;
         [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
 
+        private bool mostrarModalLogout = false;
         private string? photoUser;
         private string? LogoCorp;
         private string? NameCorp;
@@ -28,9 +33,9 @@ namespace Trial.AppFront.Shared
             _navigation.NavigateTo("/login");
         }
 
-        private void ShowModalLogOut()
+        private async Task ShowModalLogOut()
         {
-            _navigation.NavigateTo("/logout");
+            await _modalService.ShowAsync<LogoutModal>();
         }
 
         private void ShowModalRecoverPassword()

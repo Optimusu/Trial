@@ -1,9 +1,7 @@
 ﻿using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Localization;
 using System.Net;
 using Trial.AppFront.AuthenticationProviders;
-using Trial.Domain.Resources;
 using Trial.HttpServices;
 
 namespace Trial.AppFront.Helpers;
@@ -13,18 +11,15 @@ public class HttpResponseHandler
     private readonly ILoginService _loginService;
     private readonly NavigationManager _navigationManager;
     private readonly SweetAlertService _sweetAlert;
-    private readonly IStringLocalizer<Resource> _localizer;
 
     public HttpResponseHandler(
         ILoginService loginService,
         NavigationManager navigationManager,
-        SweetAlertService sweetAlert,
-        IStringLocalizer<Resource> localizer)
+        SweetAlertService sweetAlert)
     {
         _loginService = loginService;
         _navigationManager = navigationManager;
         _sweetAlert = sweetAlert;
-        _localizer = localizer;
     }
 
     public async Task<bool> HandleErrorAsync<T>(HttpResponseWrapper<T> responseHttp)
@@ -41,71 +36,75 @@ public class HttpResponseHandler
         switch (statusCode)
         {
             case HttpStatusCode.Unauthorized:
-                title = _localizer["Http.Title.Unauthorized"];
-                message = _localizer["Http.Error.Unauthorized"];
+                title = "Access Denied";
+                message = "You are not authorized to access this resource.";
                 icon = SweetAlertIcon.Error;
                 await _loginService.LogoutAsync();
                 _navigationManager.NavigateTo("/");
                 break;
 
             case HttpStatusCode.Forbidden:
-                title = _localizer["Http.Title.Forbidden"];
-                message = _localizer["Http.Error.Forbidden"];
+                title = "Forbidden";
+                message = "You don't have permission to access this resource.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.NotFound:
-                title = _localizer["Http.Title.NotFound"];
-                message = _localizer["Http.Error.NotFound"];
+                title = "Not Found";
+                message = "The requested resource could not be found.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.InternalServerError:
-                title = _localizer["Http.Title.ServerError"];
-                message = _localizer["Http.Error.ServerError"];
+                title = "Server Error";
+                message = "An unexpected error occurred on the server.";
                 icon = SweetAlertIcon.Error;
                 break;
 
             case HttpStatusCode.BadRequest:
-                title = _localizer["Http.Title.BadRequest"];
-                message = errorMessage ?? _localizer["Http.Error.BadRequest"];
+                title = errorMessage?.Contains("Invalid credentials", StringComparison.OrdinalIgnoreCase) == true
+                    || errorMessage?.Contains("username", StringComparison.OrdinalIgnoreCase) == true
+                    || errorMessage?.Contains("password", StringComparison.OrdinalIgnoreCase) == true
+                    ? "Login Error"
+                    : "Bad Request";
+                message = errorMessage ?? "The request is invalid or malformed.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.GatewayTimeout:
-                title = _localizer["Http.Title.GatewayTimeout"];
-                message = _localizer["Http.Error.GatewayTimeout"];
+                title = "Gateway Timeout";
+                message = "The server took too long to respond.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.ServiceUnavailable:
-                title = _localizer["Http.Title.ServiceUnavailable"];
-                message = _localizer["Http.Error.ServiceUnavailable"];
+                title = "Service Unavailable";
+                message = "The server is currently unavailable.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.BadGateway:
-                title = _localizer["Http.Title.BadGateway"];
-                message = _localizer["Http.Error.BadGateway"];
+                title = "Bad Gateway";
+                message = "The gateway received an invalid response.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.RequestTimeout:
-                title = _localizer["Http.Title.Timeout"];
-                message = _localizer["Http.Error.Timeout"];
+                title = "Timeout";
+                message = "The request timed out.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             case HttpStatusCode.UnprocessableEntity:
-                title = _localizer["Http.Title.InvalidData"];
-                message = _localizer["Http.Error.InvalidData"];
+                title = "Invalid Data";
+                message = "The server could not process the submitted data.";
                 icon = SweetAlertIcon.Warning;
                 break;
 
             default:
                 if (!string.IsNullOrWhiteSpace(errorMessage))
                 {
-                    title = _localizer["Http.Title.Default"];
+                    title = "Error";
                     message = errorMessage;
                     icon = SweetAlertIcon.Error;
                     break;

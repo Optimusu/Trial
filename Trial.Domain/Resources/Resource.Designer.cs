@@ -664,6 +664,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login Error.
+        /// </summary>
+        public static string Http_Title_LoginError {
+            get {
+                return ResourceManager.GetString("Http.Title.LoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Found.
         /// </summary>
         public static string Http_Title_NotFound {

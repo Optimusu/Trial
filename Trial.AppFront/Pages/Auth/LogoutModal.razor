@@ -1,0 +1,26 @@
+﻿
+    <div class="modal show d-block fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">¿Confirm Sign-Out?</h5>
+                <button type="button" class="btn-close" aria-label="Close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                <p>This action will sign you out of your account.</p>
+                </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" @onclick="CloseModal">
+                        <i class="bi bi-arrow-left"></i> Cancelar
+                    </button>
+                <button class="btn btn-dark" @onclick="ConfirmLogout">
+                    <i class="bi bi-box-arrow-right"></i> Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade show"></div>
+
+

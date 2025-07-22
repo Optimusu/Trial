@@ -17,11 +17,12 @@
             <div class="text-center mb-3 fw-bold">@context.User.Identity!.Name</div>
             <div class="d-grid gap-2">
                 <button class="btn btn-outline-secondary" @onclick="ShowModalCambiarClave">
-                    Cambiar Clave <i class="bi bi-shield-lock"></i>
+                    Change Password <i class="bi bi-shield-lock"></i>
                 </button>
                 <button class="btn btn-outline-secondary" @onclick="ShowModalLogOut">
-                    Cerrar Sesión <i class="bi bi-box-arrow-right"></i>
+                    Sign Out <i class="bi bi-box-arrow-right"></i>
                 </button>
+
             </div>
         </div>
     </Authorized>
@@ -30,10 +31,10 @@
         <div class="p-3">
             <div class="d-grid gap-2">
                 <button class="btn btn-outline-secondary" @onclick="ShowModalRecoverPassword">
-                    Recuperar Clave <i class="bi bi-lock"></i>
+                    Recover Password <i class="bi bi-lock"></i>
                 </button>
                 <button class="btn btn-outline-secondary" @onclick="ShowModalLogIn">
-                    Iniciar Sesión <i class="bi bi-box-arrow-in-right"></i>
+                    Sign In <i class="bi bi-box-arrow-in-right"></i>
                 </button>
             </div>
         </div>

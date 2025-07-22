@@ -34,7 +34,7 @@ builder.Services.AddSingleton(typeof(IStringLocalizer<>), typeof(StringLocalizer
 builder.Services.AddSingleton<IStringLocalizer>(sp =>
 {
     var factory = sp.GetRequiredService<IStringLocalizerFactory>();
-    return factory.Create("Resource", typeof(Resource).Assembly.GetName().Name);
+    return factory.Create("Resource", typeof(Resource).Assembly.GetName().Name!);
 });
 
 // 🌍 Culturas disponibles y detectores
