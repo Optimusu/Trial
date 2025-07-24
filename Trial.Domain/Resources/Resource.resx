@@ -270,23 +270,14 @@
   <data name="Db_Concurrency" xml:space="preserve">
     <value>Data concurrency conflict</value>
   </data>
-  <data name="Key_NewPassword" xml:space="preserve">
-    <value>New Password</value>
-  </data>
-  <data name="Key_ConfirmPassword" xml:space="preserve">
-    <value>Confirm Password</value>
-  </data>
   <data name="Validation_BetweenLength" xml:space="preserve">
-    <value>The field must be between {0} and {1} characters long</value>
+    <value>The field must be between {2} and {1} characters long</value>
   </data>
   <data name="Validation_PasswordMismatch" xml:space="preserve">
     <value>Passwords do not match, please check</value>
   </data>
   <data name="Validation_InvalidEmail" xml:space="preserve">
     <value>{0} is not a valid email address</value>
-  </data>
-  <data name="Key_CurrentPassword" xml:space="preserve">
-    <value>Current Password</value>
   </data>
   <data name="Generic_UserFail" xml:space="preserve">
     <value>Failed to retrieve user data</value>
@@ -320,9 +311,6 @@
   </data>
   <data name="Generic_RecordDeletedNoImage" xml:space="preserve">
     <value>The record was deleted, but the image was not removed</value>
-  </data>
-  <data name="Key_SelectUserRole" xml:space="preserve">
-    <value>Select User Type</value>
   </data>
   <data name="Error.NotFound" xml:space="preserve">
     <value>Resource not found</value>
@@ -416,5 +404,17 @@
   </data>
   <data name="Http.Title.LoginError" xml:space="preserve">
     <value>Login Error</value>
+  </data>
+  <data name="ModeloSelectUserRole" xml:space="preserve">
+    <value>Select User Type</value>
+  </data>
+  <data name="ModeloConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="ModeloCurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="ModeloNewPassword" xml:space="preserve">
+    <value>New Password</value>
   </data>
 </root>

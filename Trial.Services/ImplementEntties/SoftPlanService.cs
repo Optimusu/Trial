@@ -36,7 +36,18 @@ public class SoftPlanService : ISoftPlanService
     {
         try
         {
-            IEnumerable<SoftPlan> ListModel = await _context.SoftPlans.Where(x => x.Active).ToListAsync();
+            List<SoftPlan> ListModel = await _context.SoftPlans.Where(x => x.Active).ToListAsync();
+            // Insertar el elemento neutro al inicio
+            var defaultItem = new SoftPlan
+            {
+                SoftPlanId = 0,
+                Name = "[Select Plan]",
+                Meses = 0,
+                Price = 0,
+                TrialsCount = 0,
+                Active = true
+            };
+            ListModel.Insert(0, defaultItem);
 
             return new ActionResponse<IEnumerable<SoftPlan>>
             {

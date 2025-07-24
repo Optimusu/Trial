@@ -736,42 +736,6 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confirm Password.
-        /// </summary>
-        public static string Key_ConfirmPassword {
-            get {
-                return ResourceManager.GetString("Key_ConfirmPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Current Password.
-        /// </summary>
-        public static string Key_CurrentPassword {
-            get {
-                return ResourceManager.GetString("Key_CurrentPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Password.
-        /// </summary>
-        public static string Key_NewPassword {
-            get {
-                return ResourceManager.GetString("Key_NewPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select User Type.
-        /// </summary>
-        public static string Key_SelectUserRole {
-            get {
-                return ResourceManager.GetString("Key_SelectUserRole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {
@@ -786,6 +750,42 @@ namespace Trial.Domain.Resources {
         public static string Logo {
             get {
                 return ResourceManager.GetString("Logo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string ModeloConfirmPassword {
+            get {
+                return ResourceManager.GetString("ModeloConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Password.
+        /// </summary>
+        public static string ModeloCurrentPassword {
+            get {
+                return ResourceManager.GetString("ModeloCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string ModeloNewPassword {
+            get {
+                return ResourceManager.GetString("ModeloNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select User Type.
+        /// </summary>
+        public static string ModeloSelectUserRole {
+            get {
+                return ResourceManager.GetString("ModeloSelectUserRole", resourceCulture);
             }
         }
         
@@ -907,7 +907,7 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The field must be between {0} and {1} characters long.
+        ///   Looks up a localized string similar to The field must be between {2} and {1} characters long.
         /// </summary>
         public static string Validation_BetweenLength {
             get {

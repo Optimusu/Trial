@@ -28,9 +28,9 @@ namespace Trial.AppFront.Shared
             NameCorp = claims.FirstOrDefault(x => x.Type == "CorpName")?.Value;
         }
 
-        private void ShowModalLogIn()
+        private async Task ShowModalLogIn()
         {
-            _navigation.NavigateTo("/login");
+            await _modalService.ShowAsync<Login>();
         }
 
         private async Task ShowModalLogOut()
@@ -38,14 +38,14 @@ namespace Trial.AppFront.Shared
             await _modalService.ShowAsync<LogoutModal>();
         }
 
-        private void ShowModalRecoverPassword()
+        private async Task ShowModalRecoverPassword()
         {
-            _navigation.NavigateTo("/recover-password");
+            await _modalService.ShowAsync<RecoverPassword>();
         }
 
-        private void ShowModalCambiarClave()
+        private async Task ShowModalCambiarClave()
         {
-            _navigation.NavigateTo("/change-password");
+            await _modalService.ShowAsync<ChangePassword>();
         }
     }
 }

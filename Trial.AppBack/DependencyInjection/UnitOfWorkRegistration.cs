@@ -24,6 +24,10 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IStateService, StateService>();
             services.AddScoped<ICityUnitOfWork, CityUnitOfWork>();
             services.AddScoped<ICityService, CityService>();
+            services.AddScoped<ISoftPlanUnitOfWork, SoftPlanUnitOfWork>();
+            services.AddScoped<ISoftPlanService, SoftPlanService>();
+            services.AddScoped<ICorporationUnitOfWork, CorporationUnitOfWork>();
+            services.AddScoped<ICorporationService, CorporationService>();
         }
     }
 }

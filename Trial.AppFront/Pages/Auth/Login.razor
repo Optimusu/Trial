@@ -1,59 +1,61 @@
-﻿@page "/Login"
+﻿<div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4" style="border-radius: 12px; max-width: 500px;">
+            <!-- Logo -->
+            <div class="d-flex justify-content-center mb-4">
+                <img src="images/LogoBicicletaRoja.png" alt="App Logo" width="300" />
+            </div>
 
-<div class="d-flex justify-content-center pt-5">
-    <div class="card shadow p-4" style="width: 100%; max-width: 500px; border-radius: 12px;">
-        <!-- Cabecera con logo a la izquierda -->
-        <div class="d-flex align-items-center mb-4">
-            <img src="images/LogoBicicletaRoja.png" alt="App Logo" width="300" class="me-2" />
-        </div>
-        <div class="d-flex align-items-center mb-4">
-            <div>
+            <!-- Título -->
+            <div class="mb-3 text-center">
                 <h4 class="mb-0">Sign in</h4>
-                <small class="text-muted">Sign in with your email address</small>
+                <small class="text-muted"></small>
             </div>
+
+            <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 110px">
+                            <i class="fa fa-lock me-2"></i> @GetDisplayName(() => loginDTO.Email)
+                        </span>
+                        <InputText class="form-control" placeholder="you@example.com" @bind-Value="loginDTO.Email" />
+                    </div>
+                    <ValidationMessage For="@(() => loginDTO.Email)" />
+                </div>
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 110px">
+                            <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+                        </span>
+                        <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+                    </div>
+                    <ValidationMessage For="@(() => loginDTO.Password)" />
+                </div>
+
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                        <InputCheckbox id="remember" class="form-check-input" @bind-Value="rememberMe" />
+                        <label class="form-check-label" for="remember">Keep me signed in</label>
+                    </div>
+                    <a @onclick="OpenRecoverPasswordModal" class="small link-primary text-decoration-none">Forgot password?</a>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-gradient-primary" style="width: 48%;">
+                        <i class="fa fa-lock me-2"></i> Sign in
+                    </button>
+                    <button class="btn btn-gradient-black" @onclick="CloseModal" style="width: 48%;">
+                        Close
+                    </button>
+                </div>
+
+            </EditForm>
         </div>
-
-        <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
-            <DataAnnotationsValidator />
-
-            <div class="mb-3">
-                <div class="input-group">
-                    <span class="input-group-text" style="width: 110px">
-                        <i class="fa fa-lock me-2"></i>
-                        Email
-                    </span>
-                    <InputText class="form-control" placeholder="you@example.com" @bind-Value="loginDTO.Email" />
-                </div>
-                <ValidationMessage For="@(() => loginDTO.Email)" />
-            </div>
-            <div class="mb-3">
-                <div class="input-group">
-                    <span class="input-group-text" style="width: 110px">
-                        <i class="fa fa-envelope me-2"></i>
-                        Password
-                    </span>
-                    <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
-                </div>
-                <ValidationMessage For="@(() => loginDTO.Password)" />
-            </div>
-
-            <div class="mb-3 d-flex justify-content-between align-items-center">
-                <div class="form-check">
-                    <InputCheckbox id="remember" class="form-check-input" @bind-Value="rememberMe" />
-                    <label class="form-check-label" for="remember">Keep me signed in</label>
-                </div>
-                <a href="/RecoverPassword" class="small link-primary text-decoration-none">Forgot password?</a>
-            </div>
-
-            <!-- Botón con mitad de ancho alineado a la derecha -->
-            <div class="d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-gradient-primary" style="width: 50%;">
-                    <i class="fa fa-lock me-2"></i>
-                    Sign in
-                </button>
-            </div>
-        </EditForm>
     </div>
 </div>
+
 
 

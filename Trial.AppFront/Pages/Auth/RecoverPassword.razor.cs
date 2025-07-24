@@ -1,8 +1,8 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
-using Trial.AppFront.AuthenticationProviders;
 using Trial.AppFront.GenericoModal;
 using Trial.AppFront.Helpers;
 using Trial.DomainLogic.ResponsesSec;
@@ -10,29 +10,24 @@ using Trial.HttpServices;
 
 namespace Trial.AppFront.Pages.Auth;
 
-public partial class Login
+public partial class RecoverPassword
 {
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigation { get; set; } = null!;
-    [Inject] private ILoginService _loginService { get; set; } = null!;
     [Inject] private HttpResponseHandler _httpHandler { get; set; } = null!;
     [Inject] private ModalService _modalService { get; set; } = null!;
+    [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
 
-    private LoginDTO loginDTO = new();
-    private bool rememberMe;
+    private EmailDTO EmailDTO = new();
 
-    private async Task LoginAsync()
+    private async Task SendRecoverPasswordEmailTokenAsync()
     {
-        var responseHttp = await _repository.PostAsync<LoginDTO, TokenDTO>("/api/v1/accounts/Login", loginDTO);
+        var responseHttp = await _repository.PostAsync("/api/v1/accounts/RecoverPassword", EmailDTO);
         if (await _httpHandler.HandleErrorAsync(responseHttp)) return;
-        await _loginService.LoginAsync(responseHttp.Response!.Token);
-        _navigation.NavigateTo("/");
-        _modalService.Close();
-    }
 
-    private async Task OpenRecoverPasswordModal()
-    {
-        await _modalService.ShowAsync<RecoverPassword>();
+        _modalService.Close();
+        _navigation.NavigateTo("/");
+        await _sweetAlert.FireAsync("Email Sent", "We've sent you instructions to reset your password. Please check your inbox.", SweetAlertIcon.Success);
     }
 
     private void CloseModal()

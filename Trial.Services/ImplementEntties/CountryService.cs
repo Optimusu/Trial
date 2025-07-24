@@ -35,7 +35,14 @@ public class CountryService : ICountryServices
     {
         try
         {
-            var ListModel = await _context.Countries.ToListAsync();
+            List<Country> ListModel = await _context.Countries.ToListAsync();
+            // Insertar el elemento neutro al inicio
+            var defaultItem = new Country
+            {
+                CountryId = 0,
+                Name = "[Select Country]"
+            };
+            ListModel.Insert(0, defaultItem);
             return new ActionResponse<IEnumerable<Country>>
             {
                 WasSuccess = true,

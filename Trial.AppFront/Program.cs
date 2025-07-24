@@ -2,13 +2,11 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using Trial.AppFront;
 using Trial.AppFront.AuthenticationProviders;
 using Trial.AppFront.GenericoModal;
 using Trial.AppFront.Helpers;
-using Trial.Domain.Resources;
 using Trial.HttpServices;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -16,9 +14,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7229") });
-
-//Para manejar los Modales como MudBlazor
-builder.Services.AddScoped<ModalService>();
 
 // Sistema de Seguridad
 builder.Services.AddAuthorizationCore();
@@ -40,18 +35,19 @@ builder.Services.AddScoped(sp =>
         async () =>
         {
             var token = await jsRuntime.GetLocalStorage("TOKEN_KEY");
-            return Convert.ToString(token);
+            return string.IsNullOrWhiteSpace(token) ? null : token;
         }
     );
 });
 
 // Registrar IRepository como Repository
 builder.Services.AddScoped<IRepository>(sp => sp.GetRequiredService<Repository>());
+//Para manejar los Modales como MudBlazor
+builder.Services.AddScoped<ModalService>();
 
-// Authentication Provider
+//Authentication Provider
 builder.Services.AddScoped<AuthenticationProviderJWT>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 
-var host = builder.Build();
-await host.RunAsync();
+await builder.Build().RunAsync();

@@ -1,8 +1,8 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
-using Trial.AppFront.AuthenticationProviders;
 using Trial.AppFront.GenericoModal;
 using Trial.AppFront.Helpers;
 using Trial.DomainLogic.ResponsesSec;
@@ -10,34 +10,26 @@ using Trial.HttpServices;
 
 namespace Trial.AppFront.Pages.Auth;
 
-public partial class Login
+public partial class ResetPassword
 {
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigation { get; set; } = null!;
-    [Inject] private ILoginService _loginService { get; set; } = null!;
     [Inject] private HttpResponseHandler _httpHandler { get; set; } = null!;
     [Inject] private ModalService _modalService { get; set; } = null!;
+    [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
 
-    private LoginDTO loginDTO = new();
-    private bool rememberMe;
+    private ResetPasswordDTO resetPasswordDTO = new();
 
-    private async Task LoginAsync()
+    [Parameter, SupplyParameterFromQuery] public string token { get; set; } = string.Empty;
+
+    private async Task ChangePasswordAsync()
     {
-        var responseHttp = await _repository.PostAsync<LoginDTO, TokenDTO>("/api/v1/accounts/Login", loginDTO);
+        resetPasswordDTO.Token = token;
+        var responseHttp = await _repository.PostAsync("/api/v1/accounts/ResetPassword", resetPasswordDTO);
         if (await _httpHandler.HandleErrorAsync(responseHttp)) return;
-        await _loginService.LoginAsync(responseHttp.Response!.Token);
+        await _sweetAlert.FireAsync("Password Updated", "Your password has been changed successfully.", SweetAlertIcon.Success);
         _navigation.NavigateTo("/");
-        _modalService.Close();
-    }
-
-    private async Task OpenRecoverPasswordModal()
-    {
-        await _modalService.ShowAsync<RecoverPassword>();
-    }
-
-    private void CloseModal()
-    {
-        _modalService.Close();
+        await _modalService.ShowAsync<Login>();
     }
 
     private string GetDisplayName<T>(Expression<Func<T>> expression)
