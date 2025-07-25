@@ -45,6 +45,14 @@ public class CorporationService : ICorporationService
         try
         {
             var ListModel = await _context.Corporations.Where(x => x.Active).OrderBy(x => x.Name).ToListAsync();
+            // Insertar el elemento neutro al inicio
+            var defaultItem = new Corporation
+            {
+                CorporationId = 0,
+                Name = "[Select Plan]",
+                Active = true
+            };
+            ListModel.Insert(0, defaultItem);
 
             return new ActionResponse<IEnumerable<Corporation>>
             {

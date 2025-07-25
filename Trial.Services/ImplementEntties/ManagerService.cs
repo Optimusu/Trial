@@ -122,6 +122,7 @@ public class ManagerService : IManagerService
                 ManagerId = modelo.ManagerId,
                 FirstName = modelo.FirstName,
                 LastName = modelo.LastName,
+                TypeDocument = modelo.TypeDocument,
                 FullName = $"{modelo.FirstName} {modelo.LastName}",
                 NroDocument = modelo.NroDocument,
                 PhoneNumber = modelo.PhoneNumber,

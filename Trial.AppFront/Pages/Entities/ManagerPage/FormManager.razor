@@ -1,0 +1,146 @@
+﻿<EditForm Model="Manager" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="row">
+            <!-- Primera columna -->
+            <div class="col-md-6">
+                <!-- Nombre -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.FirstName)
+                        </span>
+                        <InputText class="form-control" placeholder="First name..." @bind-Value="Manager.FirstName" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.FirstName)" />
+                </div>
+
+                <!-- Apellido -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.LastName)
+                        </span>
+                        <InputText class="form-control" placeholder="Last name..." @bind-Value="Manager.LastName" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.LastName)" />
+                </div>
+
+                <!-- Tipo Documento -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.TypeDocument)
+                        </span>
+                        <InputText class="form-control" placeholder="Type number..." @bind-Value="Manager.TypeDocument" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.TypeDocument)" />
+                </div>
+
+                <!-- Documento -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.NroDocument)
+                        </span>
+                        <InputText class="form-control" placeholder="Document number..." @bind-Value="Manager.NroDocument" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.NroDocument)" />
+                </div>
+
+                <!-- Teléfono -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.PhoneNumber)
+                        </span>
+                        <InputText class="form-control" placeholder="Phone..." @bind-Value="Manager.PhoneNumber" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.PhoneNumber)" />
+                </div>
+
+                <!-- Dirección -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.Address)
+                        </span>
+                        <InputText class="form-control" placeholder="Address..." @bind-Value="Manager.Address" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.Address)" />
+                </div>
+            </div>
+
+            <!-- Segunda columna -->
+            <div class="col-md-6">
+                <!-- País -->
+                <div class="mb-0">
+                    @if (Corporations is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Seleccionar País</span>
+                            <select class="form-select" value="@Manager.CorporationId" @onchange="CorporationChanged">
+                                @foreach (var item in Corporations)
+                                {
+                                    <option value="@item.CountryId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+                <!-- Dirección -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.Job)
+                        </span>
+                        <InputText class="form-control" placeholder="Job..." @bind-Value="Manager.Job" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.Job)" />
+                </div>
+
+                <!-- Dirección -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.UserName)
+                        </span>
+                        <InputText class="form-control" placeholder="Email..." @bind-Value="Manager.UserName" />
+                    </div>
+                    <ValidationMessage For="@(() => Manager.UserName)" />
+                </div>
+
+                <!-- Estado activo -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Manager.Active)
+                        </span>
+                        <div class="d-flex align-items-center ps-3">
+                            <InputCheckbox @bind-Value="Manager.Active" class="form-check-input me-2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Imagen -->
+    <InputImage ImageSelected="ImageSelected" ImageUrl="@ImageUrl" />
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-floppy-disk me-2"></i> Guardar
+        </button>
+        <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
+            <i class="fa fa-arrow-left"></i> Volver
+        </button>
+    </div>
+
+</EditForm>

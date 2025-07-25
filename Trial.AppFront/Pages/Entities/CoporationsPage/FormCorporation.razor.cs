@@ -7,7 +7,7 @@ using Trial.AppFront.Helpers;
 using Trial.Domain.Entities;
 using Trial.HttpServices;
 
-namespace Trial.AppFront.Pages.Entities.Coporations;
+namespace Trial.AppFront.Pages.Entities.CoporationsPage;
 
 public partial class FormCorporation
 {

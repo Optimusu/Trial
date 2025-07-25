@@ -5,9 +5,9 @@ using Trial.AppFront.Helpers;
 using Trial.Domain.Entities;
 using Trial.HttpServices;
 
-namespace Trial.AppFront.Pages.Entities.Coporations;
+namespace Trial.AppFront.Pages.Entities.ManagerPage;
 
-public partial class CreateCorporation
+public partial class CreateManager
 {
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
@@ -19,19 +19,19 @@ public partial class CreateCorporation
 
     [Parameter] public string? Title { get; set; }
 
-    private Corporation _Corporation = new() { Active = true };
+    private Manager _Manager = new() { Active = true };
 
-    private string BaseUrl = "/api/v1/corporations";
-    private string BaseView = "/corporations";
+    private string BaseUrl = "/api/v1/managers";
+    private string BaseView = "/managers";
 
     private async Task Create()
     {
-        if (_Corporation.SoftPlanId == 0 || _Corporation.CountryId == 0)
+        if (_Manager.CorporationId == 0)
         {
             await _sweetAlert.FireAsync(Messages.ValidationWarningTitle, Messages.ValidationWarningMessage, SweetAlertIcon.Warning);
             return;
         }
-        var responseHttp = await _repository.PostAsync($"{BaseUrl}", _Corporation);
+        var responseHttp = await _repository.PostAsync($"{BaseUrl}", _Manager);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 

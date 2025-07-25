@@ -28,6 +28,8 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<ISoftPlanService, SoftPlanService>();
             services.AddScoped<ICorporationUnitOfWork, CorporationUnitOfWork>();
             services.AddScoped<ICorporationService, CorporationService>();
+            services.AddScoped<IManagerUnitOfWork, ManagerUnitOfWork>();
+            services.AddScoped<IManagerService, ManagerService>();
         }
     }
 }

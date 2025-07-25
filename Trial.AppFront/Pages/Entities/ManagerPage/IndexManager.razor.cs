@@ -2,13 +2,13 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Trial.AppFront.GenericoModal;
 using Trial.AppFront.Helpers;
-using Trial.AppFront.Pages.Entities.SoftPlanPage;
+using Trial.AppFront.Pages.Entities.CoporationsPage;
 using Trial.Domain.Entities;
 using Trial.HttpServices;
 
-namespace Trial.AppFront.Pages.Entities.Coporations;
+namespace Trial.AppFront.Pages.Entities.ManagerPage;
 
-public partial class IndexCorporation
+public partial class IndexManager
 {
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
@@ -22,8 +22,8 @@ public partial class IndexCorporation
     private int TotalPages;      //Cantidad total de paginas
     private int PageSize = 2;  //Cantidad de registros por pagina
 
-    private const string baseUrl = "api/v1/corporations";
-    public List<Corporation>? Corporations { get; set; }
+    private const string baseUrl = "api/v1/managers";
+    public List<Manager>? Managers { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,7 +49,7 @@ public partial class IndexCorporation
         {
             url += $"&filter={Filter}";
         }
-        var responseHttp = await _repository.GetAsync<List<Corporation>>(url);
+        var responseHttp = await _repository.GetAsync<List<Manager>>(url);
         // Centralizamos el manejo de errores
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled)
@@ -58,7 +58,7 @@ public partial class IndexCorporation
             return;
         }
 
-        Corporations = responseHttp.Response;
+        Managers = responseHttp.Response;
         TotalPages = int.Parse(responseHttp.HttpResponseMessage.Headers.GetValues("Totalpages").FirstOrDefault()!);
     }
 
@@ -69,17 +69,17 @@ public partial class IndexCorporation
             var parameters = new Dictionary<string, object>
             {
                 { "Id", id },
-                { "Title", "Edit Corporation"  }
+                { "Title", "Edit Manager"  }
             };
-            await _modalService.ShowAsync<EditCorporation>(parameters);
+            await _modalService.ShowAsync<EditManager>(parameters);
         }
         else
         {
             var parameters = new Dictionary<string, object>
             {
-                { "Title", "Create Corporation"  }
+                { "Title", "Create Manager"  }
             };
-            await _modalService.ShowAsync<CreateCorporation>(parameters);
+            await _modalService.ShowAsync<CreateManager>(parameters);
         }
     }
 

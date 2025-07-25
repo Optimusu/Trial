@@ -25,9 +25,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="wwwroot\images\logo.png">
+	  <Content Update="wwwroot\Images\logo.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\Images\ImgCorporation\" />
+	  <Folder Include="wwwroot\Images\ImgManager\" />
+	  <Folder Include="wwwroot\Images\ImgUsuarios\" />
 	</ItemGroup>
 
 </Project>
