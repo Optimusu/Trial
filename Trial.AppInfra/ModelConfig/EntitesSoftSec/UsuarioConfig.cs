@@ -13,6 +13,5 @@ public class UsuarioConfig : IEntityTypeConfiguration<Usuario>
         builder.HasIndex(x => new { x.FullName, x.Nro_Document, x.CorporationId }).IsUnique();
         //Evitar el borrado en cascada
         builder.HasOne(e => e.Corporation).WithMany(c => c.Usuarios).OnDelete(DeleteBehavior.Restrict);
-        builder.HasOne(e => e.DocumentType).WithMany(c => c.Usuarios).OnDelete(DeleteBehavior.Restrict);
     }
 }

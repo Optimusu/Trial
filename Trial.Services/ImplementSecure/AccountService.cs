@@ -293,6 +293,7 @@ public class AccountService : IAccountService
         }
         var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Email!),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
@@ -300,6 +301,12 @@ public class AccountService : IAccountService
                 new Claim("CorpName", NomCompa),
                 new Claim("LogoCorp", LogoCompa),
             };
+        // Solo agregar el CorporateId si el usuario NO es Admin
+        if (RolUsuario == null && user.CorporationId.HasValue)
+        {
+            claims.Add(new Claim("CorporateId", user.CorporationId.Value.ToString()));
+        }
+
         // Agregar los roles del usuario a los claims
         foreach (var item in RolesUsuario)
         {

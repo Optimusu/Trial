@@ -25,9 +25,10 @@ public class Usuario
     [Display(Name = nameof(Resource.FullName), ResourceType = typeof(Resource))]
     public string? FullName { get; set; }
 
+    [MaxLength(5, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = nameof(Resource.TypeDocument), ResourceType = typeof(Resource))]
-    public int DocumentTypeId { get; set; }
+    public string? TypeDocument { get; set; }
 
     [MaxLength(15, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
@@ -67,8 +68,8 @@ public class Usuario
     //TODO: Pending to put the correct paths
     [Display(Name = nameof(Resource.Photo), ResourceType = typeof(Resource))]
     public string ImageFullPath => Photo == string.Empty || Photo == null
-    ? $"https://localhost:7224/Images/NoImage.png"
-    : $"https://localhost:7224/Images/ImgUsuarios/{Photo}";
+    ? $"https://localhost:7229/Images/NoImage.png"
+    : $"https://localhost:7229/Images/ImgUsuarios/{Photo}";
 
     //? $"https://spi.nexxtplanet.net/Images/NoImage.png"
     //: $"https://spi.nexxtplanet.net/Images/ImgUsuarios/{Photo}";
@@ -81,8 +82,6 @@ public class Usuario
     public int CorporationId { get; set; }
 
     public Corporation? Corporation { get; set; }
-
-    public DocumentType? DocumentType { get; set; }
 
     public ICollection<UsuarioRole>? UsuarioRoles { get; set; }
 }

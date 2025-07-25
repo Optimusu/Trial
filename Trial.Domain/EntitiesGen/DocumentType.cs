@@ -29,6 +29,4 @@ public class DocumentType
     public Corporation? Corporation { get; set; }
 
     public Usuario? Usuario { get; set; }
-
-    public ICollection<Usuario>? Usuarios { get; set; }
 }

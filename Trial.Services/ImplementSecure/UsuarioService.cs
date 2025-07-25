@@ -67,7 +67,7 @@ public class UsuarioService : IUsuarioService
                 //Busqueda grandes mateniendo los indices de los campos, campo Esta Collation CI para Case Insensitive
                 queryable = queryable.Where(u => EF.Functions.Like(u.FullName, $"%{pagination.Filter}%"));
             }
-            var result = await queryable.ApplyFullPaginationAsync(_httpContextAccessor.HttpContext!, pagination);
+            await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
             var modelo = await queryable.OrderBy(x => x.FullName).Paginate(pagination).ToListAsync();
 
             return new ActionResponse<IEnumerable<Usuario>>

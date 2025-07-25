@@ -16,6 +16,10 @@ namespace Trial.AppBack.DependencyInjection
             //EntitiesSecurities Software
             services.AddScoped<IAccountUnitOfWork, AccountUnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUsuarioUnitOfWork, UsuarioUnitOfWork>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IUsuarioRoleUnitOfWork, UsuarioRoleUnitOfWork>();
+            services.AddScoped<IUsuarioRoleService, UsuarioRoleService>();
 
             //Entities
             services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();

@@ -1,9 +1,9 @@
-﻿@page "/managers"
-@attribute [Authorize(Roles = "Admin")]
+﻿@page "/usuarios"
+@attribute [Authorize(Roles = "Administrator")]
 
 <div class="container pt-4">
     <div class="card shadow-lg p-4 mb-5" style="border-radius: 12px;">
-        <h3 class="mb-4">Manager</h3>
+        <h3 class="mb-4">Users Settings</h3>
 
         <!-- Botón + Filtro -->
         <div class="row align-items-center mb-3">
@@ -18,25 +18,26 @@
         </div>
 
         <hr />
-        <GenericList MyList="Managers">
+        <GenericList MyList="Usuarios">
             <Body>
-                @if (Managers is not null)
+                @if (Usuarios is not null)
                 {
                     <div class="table-responsive">
                         <table class="table table-hover table-striped align-middle">
                             <thead class="table-dark">
                                 <tr>
                                     <th>Foto</th>
-                                    <th>Usuario</th>
-                                    <th>Corporacion</th>
-                                    <th>Puesto</th>
+                                    <th>Nombre</th>
+                                    <th>Documento</th>
+                                    <th>Telefono</th>
                                     <th>Activo</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Managers!)
+                                @foreach (var item in Usuarios!)
                                 {
                                     <tr>
                                         <td>
@@ -46,21 +47,26 @@
                                             @item.FullName
                                         </td>
                                         <td>
-                                            @item.Corporation!.Name
+                                            @item.Nro_Document
                                         </td>
                                         <td>
-                                            @item.Job
+                                            @item.PhoneNumber
                                         </td>
                                         <td>
                                             <input type="checkbox" class="form-check-input" checked="@item.Active" disabled />
                                         </td>
                                         <td style="width:1px;">
-                                            <button class="btn-shadow-black" @onclick="() => ShowModalAsync(item.ManagerId, true)">
+                                            <button class="btn-shadow-black" @onclick="() => ShowModalAsync(item.UsuarioId, true)">
                                                 <i class="fa fa-edit"></i>
                                             </button>
                                         </td>
                                         <td style="width:1px;">
-                                            <button class="btn-shadow-danger" @onclick="() => DeleteAsync(item.ManagerId)">
+                                            <button class="btn-shadow-black" @onclick="() => ShowModalDetailsAsync(item.UsuarioId)">
+                                                <i class="fa fa-users"></i>
+                                            </button>
+                                        </td>
+                                        <td style="width:1px;">
+                                            <button class="btn-shadow-danger" @onclick="() => DeleteAsync(item.UsuarioId)">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </td>
@@ -75,7 +81,7 @@
         </GenericList>
         <!-- Tabla -->
         <hr />
-        @if (Managers is not null)
+        @if (Usuarios is not null)
         {
             <!-- Paginación -->
             <Pagination CurrentPage="CurrentPage"
