@@ -1,6 +1,6 @@
 ﻿<EditForm Model="UsuarioRole" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
-@*     <!-- UserType -->
+    <!-- UserType -->
     <div class="mb-0">
         @if (ListUserType is null)
         {
@@ -13,12 +13,12 @@
                 <select class="form-select" @onchange="UsertTypeChanged">
                     @foreach (var item in ListUserType)
                     {
-                        <option value="@item.Name">@item.Name</option>
+                        <option value="@item">@item.Name</option>
                     }
                 </select>
             </div>
         }
-    </div> *@
+    </div>
 
 
     <!-- Botones -->
