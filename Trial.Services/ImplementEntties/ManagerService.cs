@@ -9,6 +9,7 @@ using Trial.AppInfra.EmailHelper;
 using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.Extensions;
 using Trial.AppInfra.FileHelper;
+using Trial.AppInfra.Mappings;
 using Trial.AppInfra.Transactions;
 using Trial.AppInfra.UserHelper;
 using Trial.Domain.Entities;
@@ -30,12 +31,13 @@ public class ManagerService : IManagerService
     private readonly IEmailHelper _emailHelper;
     private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
+    private readonly IMapperService _mapperService;
     private readonly ImgSetting _imgOption;
 
     public ManagerService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, IMemoryCache cache, IFileStorage fileStorage,
         IUserHelper userHelper, IEmailHelper emailHelper, IOptions<ImgSetting> ImgOption,
-        HttpErrorHandler httpErrorHandler, IStringLocalizer localizer)
+        HttpErrorHandler httpErrorHandler, IStringLocalizer localizer, IMapperService mapperService)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
@@ -45,6 +47,7 @@ public class ManagerService : IManagerService
         _emailHelper = emailHelper;
         _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
+        _mapperService = mapperService;
         _imgOption = ImgOption.Value;
     }
 
@@ -202,11 +205,33 @@ public class ManagerService : IManagerService
         }
     }
 
-    public async Task<ActionResponse<Manager>> AddAsync(Manager modelo, string frontUrl)
+    public async Task<ActionResponse<Manager>> AddAsync(Manager Newmodelo, string frontUrl)
     {
         await _transactionManager.BeginTransactionAsync();
         try
         {
+            Manager modelo = new()
+            {
+                ManagerId = Newmodelo.ManagerId,
+                FirstName = Newmodelo.FirstName,
+                LastName = Newmodelo.LastName,
+                TypeDocument = Newmodelo.TypeDocument,
+                FullName = $"{Newmodelo.FirstName} {Newmodelo.LastName}",
+                NroDocument = Newmodelo.NroDocument,
+                PhoneNumber = Newmodelo.PhoneNumber,
+                Address = Newmodelo.Address,
+                UserName = Newmodelo.UserName,
+                CorporationId = Newmodelo.CorporationId,
+                Job = Newmodelo.Job,
+                UserType = UserType.Administrator,  //Tipo de UserRole
+                Imagen = Newmodelo.Imagen,
+                Active = Newmodelo.Active,
+            };
+            if (Newmodelo.ImgBase64 != null)
+            {
+                modelo.ImgBase64 = Newmodelo.ImgBase64;
+            }
+
             User CheckEmail = await _userHelper.GetUserAsync(modelo.UserName);
             if (CheckEmail != null)
             {
@@ -217,8 +242,6 @@ public class ManagerService : IManagerService
                 };
             }
 
-            modelo.FullName = $"{modelo.FirstName} {modelo.LastName}";
-            modelo.UserType = UserType.Administrator;
             if (!string.IsNullOrEmpty(modelo.ImgBase64))
             {
                 string guid = Guid.NewGuid().ToString() + ".jpg";

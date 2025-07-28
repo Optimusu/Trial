@@ -106,6 +106,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select User Role.
+        /// </summary>
+        public static string Combo_SelectRole {
+            get {
+                return ResourceManager.GetString("Combo_SelectRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company/Person.
         /// </summary>
         public static string CompanyPerson {

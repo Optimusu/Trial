@@ -417,4 +417,7 @@
   <data name="ModeloNewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>
+  <data name="Combo_SelectRole" xml:space="preserve">
+    <value>Select User Role</value>
+  </data>
 </root>

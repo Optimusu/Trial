@@ -48,7 +48,7 @@ public class UsuarioRoleService : IUsuarioRoleService
 
             list.Insert(0, new EnumItemModel
             {
-                Name = _localizer["Key_SelectUserRole"],
+                Name = _localizer["Combo_SelectRole"],
                 Value = 0
             });
 
@@ -178,6 +178,8 @@ public class UsuarioRoleService : IUsuarioRoleService
             var usuario = await _context.Usuarios.FindAsync(DataRemove.UsuarioId);
             var userAsp = await _userHelper.GetUserAsync(usuario!.UserName);
             var registro = await _context.UserRoleDetails.Where(c => c.UserId == userAsp.Id && c.UserType == DataRemove.UserType).FirstOrDefaultAsync();
+            await _userHelper.RemoveUserToRoleAsync(userAsp, DataRemove.UserType.ToString());
+            await _userHelper.RemoveUserClaims(DataRemove.UserType, userAsp.Email!);
 
             _context.UserRoleDetails.Remove(registro!);
             await _transactionManager.SaveChangesAsync();

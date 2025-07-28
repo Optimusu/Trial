@@ -12,8 +12,8 @@ using Trial.AppInfra;
 namespace Trial.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250725164949_UpdateUsuarioDb")]
-    partial class UpdateUsuarioDb
+    [Migration("20250727215152_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

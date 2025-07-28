@@ -195,7 +195,7 @@ public class UsuarioService : IUsuarioService
         {
             return new ActionResponse<Usuario>
             {
-                WasSuccess = true,
+                WasSuccess = false,
                 Message = _localizer["Generic_EmailAlreadyUsed"]
             };
         }

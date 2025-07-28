@@ -2,6 +2,7 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Trial.AppFront.Helpers;
 using Trial.Domain.EntitesSoftSec;
+using Trial.Domain.Entities;
 using Trial.Domain.Enum;
 using Trial.HttpServices;
 

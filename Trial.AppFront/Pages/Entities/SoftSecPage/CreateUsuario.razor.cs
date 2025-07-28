@@ -20,7 +20,7 @@ public partial class CreateUsuario
 
     [Parameter] public string? Title { get; set; }
 
-    private Usuario Usuario = new();
+    private Usuario Usuario = new() { Active = true };
 
     private string BaseUrl = "/api/v1/usuarios";
     private string BaseView = "/usuarios";
