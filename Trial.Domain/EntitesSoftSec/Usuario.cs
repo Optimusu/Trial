@@ -64,6 +64,8 @@ public class Usuario
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
 
+    public int TotalRoles => UsuarioRoles == null ? 0 : UsuarioRoles.Count();
+
     //Propiedades Virtuales
     //TODO: Pending to put the correct paths
     [Display(Name = nameof(Resource.Photo), ResourceType = typeof(Resource))]
