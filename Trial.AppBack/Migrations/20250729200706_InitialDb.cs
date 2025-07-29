@@ -191,6 +191,49 @@ namespace Trial.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DocumentTypes",
+                columns: table => new
+                {
+                    DocumentTypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DocumentName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentTypes", x => x.DocumentTypeId);
+                    table.ForeignKey(
+                        name: "FK_DocumentTypes_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Indications",
+                columns: table => new
+                {
+                    IndicationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Indications", x => x.IndicationId);
+                    table.ForeignKey(
+                        name: "FK_Indications_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Managers",
                 columns: table => new
                 {
@@ -219,6 +262,50 @@ namespace Trial.AppBack.Migrations
                         principalTable: "Corporations",
                         principalColumn: "CorporationId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sponsors",
+                columns: table => new
+                {
+                    SponsorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sponsors", x => x.SponsorId);
+                    table.ForeignKey(
+                        name: "FK_Sponsors_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TherapeuticAreas",
+                columns: table => new
+                {
+                    TherapeuticAreaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TherapeuticAreas", x => x.TherapeuticAreaId);
+                    table.ForeignKey(
+                        name: "FK_TherapeuticAreas_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -357,33 +444,6 @@ namespace Trial.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DocumentType",
-                columns: table => new
-                {
-                    DocumentTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DocumentName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    CorporationId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentType", x => x.DocumentTypeId);
-                    table.ForeignKey(
-                        name: "FK_DocumentType_Corporations_CorporationId",
-                        column: x => x.CorporationId,
-                        principalTable: "Corporations",
-                        principalColumn: "CorporationId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DocumentType_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UsuarioRoles",
                 columns: table => new
                 {
@@ -493,20 +553,26 @@ namespace Trial.AppBack.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentType_CorporationId",
-                table: "DocumentType",
+                name: "IX_DocumentTypes_CorporationId",
+                table: "DocumentTypes",
                 column: "CorporationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentType_DocumentName_CorporationId",
-                table: "DocumentType",
+                name: "IX_DocumentTypes_DocumentName_CorporationId",
+                table: "DocumentTypes",
                 columns: new[] { "DocumentName", "CorporationId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentType_UsuarioId",
-                table: "DocumentType",
-                column: "UsuarioId");
+                name: "IX_Indications_CorporationId",
+                table: "Indications",
+                column: "CorporationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Indications_Name_CorporationId",
+                table: "Indications",
+                columns: new[] { "Name", "CorporationId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Managers_CorporationId",
@@ -533,6 +599,17 @@ namespace Trial.AppBack.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Sponsors_CorporationId",
+                table: "Sponsors",
+                column: "CorporationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sponsors_Name_CorporationId",
+                table: "Sponsors",
+                columns: new[] { "Name", "CorporationId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId",
                 table: "States",
                 column: "CountryId");
@@ -547,6 +624,17 @@ namespace Trial.AppBack.Migrations
                 name: "IX_States_StateId",
                 table: "States",
                 column: "StateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TherapeuticAreas_CorporationId",
+                table: "TherapeuticAreas",
+                column: "CorporationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TherapeuticAreas_Name_CorporationId",
+                table: "TherapeuticAreas",
+                columns: new[] { "Name", "CorporationId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoleDetails_UserId",
@@ -617,10 +705,19 @@ namespace Trial.AppBack.Migrations
                 name: "Cities");
 
             migrationBuilder.DropTable(
-                name: "DocumentType");
+                name: "DocumentTypes");
+
+            migrationBuilder.DropTable(
+                name: "Indications");
 
             migrationBuilder.DropTable(
                 name: "Managers");
+
+            migrationBuilder.DropTable(
+                name: "Sponsors");
+
+            migrationBuilder.DropTable(
+                name: "TherapeuticAreas");
 
             migrationBuilder.DropTable(
                 name: "UserRoleDetails");

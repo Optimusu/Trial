@@ -420,4 +420,13 @@
   <data name="Combo_SelectRole" xml:space="preserve">
     <value>Select User Role</value>
   </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="TherapeuticArea" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="Indication" xml:space="preserve">
+    <value>Indication</value>
+  </data>
 </root>

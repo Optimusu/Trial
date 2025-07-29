@@ -646,9 +646,11 @@ namespace Trial.AppBack.Migrations
 
             modelBuilder.Entity("Trial.Domain.EntitiesGen.DocumentType", b =>
                 {
-                    b.Property<Guid>("DocumentTypeId")
+                    b.Property<int>("DocumentTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentTypeId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -656,29 +658,118 @@ namespace Trial.AppBack.Migrations
                     b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<string>("DocumentName")
                         .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("DocumentTypeId");
 
                     b.HasIndex("CorporationId");
 
-                    b.HasIndex("UsuarioId");
-
                     b.HasIndex("DocumentName", "CorporationId")
                         .IsUnique();
 
-                    b.ToTable("DocumentType");
+                    b.ToTable("DocumentTypes");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Indication", b =>
+                {
+                    b.Property<int>("IndicationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IndicationId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("IndicationId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("Name", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("Indications");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Sponsor", b =>
+                {
+                    b.Property<int>("SponsorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SponsorId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("SponsorId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("Name", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("Sponsors");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.TherapeuticArea", b =>
+                {
+                    b.Property<int>("TherapeuticAreaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TherapeuticAreaId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("TherapeuticAreaId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("Name", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("TherapeuticAreas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -841,13 +932,40 @@ namespace Trial.AppBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Trial.Domain.EntitesSoftSec.Usuario", "Usuario")
+                    b.Navigation("Corporation");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Indication", b =>
+                {
+                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
                         .WithMany()
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Corporation");
+                });
 
-                    b.Navigation("Usuario");
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Sponsor", b =>
+                {
+                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporation");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.TherapeuticArea", b =>
+                {
+                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporation");
                 });
 
             modelBuilder.Entity("Trial.Domain.EntitesSoftSec.Usuario", b =>

@@ -15,26 +15,6 @@
                 <span class="fa fa-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        <AuthorizeView Roles="Monitor">
-            <Authorized>
-                <!-- Grupo: Configuración -->
-                <div class="nav-item px-3">
-                    <button class="nav-link text-white d-flex align-items-center gap-2 w-100"
-                            @onclick="submenu1"
-                            style="background: none; border: none;">
-                        <span class="fa fa-shield" aria-hidden="true"></span> Monitor
-                        <span class="ms-auto fa @(expandSubMenu1 ? "fa-chevron-up" : "fa-chevron-down")"></span>
-                    </button>
-
-                    @if (expandSubMenu1)
-                    {
-                        <NavLink class="nav-link text-white ps-4" href="/usuarios">
-                            <span class="fa fa-users me-2" aria-hidden="true"></span> Chequeo
-                        </NavLink>
-                    }
-                </div>
-            </Authorized>
-        </AuthorizeView>
         <AuthorizeView Roles="Administrator">
             <Authorized>
                 <!-- Grupo: Configuración -->
@@ -42,14 +22,23 @@
                     <button class="nav-link text-white d-flex align-items-center gap-2 w-100"
                             @onclick="submenu1"
                             style="background: none; border: none;">
-                        <span class="fa fa-shield" aria-hidden="true"></span> Security
+                        <span class="fa fa-shield" aria-hidden="true"></span> General
                         <span class="ms-auto fa @(expandSubMenu1 ? "fa-chevron-up" : "fa-chevron-down")"></span>
                     </button>
 
                     @if (expandSubMenu1)
                     {
-                        <NavLink class="nav-link text-white ps-4" href="/usuarios">
-                            <span class="fa fa-users me-2" aria-hidden="true"></span> Users
+                        <NavLink class="nav-link text-white ps-4" href="/documentTypes">
+                            <span class="fa fa-users me-2" aria-hidden="true"></span> Document Type
+                        </NavLink>
+                        <NavLink class="nav-link text-white ps-4" href="/therapeutics">
+                            <span class="fa fa-users me-2" aria-hidden="true"></span> Therapeutic Area
+                        </NavLink>
+                        <NavLink class="nav-link text-white ps-4" href="/indications">
+                            <span class="fa fa-users me-2" aria-hidden="true"></span> Indication
+                        </NavLink>
+                        <NavLink class="nav-link text-white ps-4" href="/sponsors">
+                            <span class="fa fa-users me-2" aria-hidden="true"></span> Sponsor
                         </NavLink>
                     }
                 </div>

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Trial.Domain.EntitesSoftSec;
 using Trial.Domain.Entities;
+using Trial.Domain.EntitiesGen;
 
 namespace Trial.AppInfra;
 
@@ -29,6 +30,13 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<SoftPlan> SoftPlans => Set<SoftPlan>();
     public DbSet<Manager> Managers => Set<Manager>();
     public DbSet<Corporation> Corporations => Set<Corporation>();
+
+    //EntitiesGen
+
+    public DbSet<DocumentType> DocumentTypes => Set<DocumentType>();
+    public DbSet<TherapeuticArea> TherapeuticAreas => Set<TherapeuticArea>();
+    public DbSet<Indication> Indications => Set<Indication>();
+    public DbSet<Sponsor> Sponsors => Set<Sponsor>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

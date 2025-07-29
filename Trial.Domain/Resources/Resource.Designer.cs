@@ -736,6 +736,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indication.
+        /// </summary>
+        public static string Indication {
+            get {
+                return ResourceManager.GetString("Indication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Position.
         /// </summary>
         public static string JobPosition {
@@ -862,6 +871,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sponsor.
+        /// </summary>
+        public static string Sponsor {
+            get {
+                return ResourceManager.GetString("Sponsor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State.
         /// </summary>
         public static string State {
@@ -876,6 +894,15 @@ namespace Trial.Domain.Resources {
         public static string States {
             get {
                 return ResourceManager.GetString("States", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Area.
+        /// </summary>
+        public static string TherapeuticArea {
+            get {
+                return ResourceManager.GetString("TherapeuticArea", resourceCulture);
             }
         }
         
