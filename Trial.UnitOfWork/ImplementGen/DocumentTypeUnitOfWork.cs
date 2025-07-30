@@ -15,9 +15,9 @@ public class DocumentTypeUnitOfWork : IDocumentTypeUnitOfWork
         _documentTypeService = documentTypeService;
     }
 
-    public async Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync() => await _documentTypeService.ComboAsync();
+    public async Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync(string Email) => await _documentTypeService.ComboAsync(Email);
 
-    public async Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination) => await _documentTypeService.GetAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination, string Email) => await _documentTypeService.GetAsync(pagination, Email);
 
     public async Task<ActionResponse<DocumentType>> GetAsync(int id) => await _documentTypeService.GetAsync(id);
 

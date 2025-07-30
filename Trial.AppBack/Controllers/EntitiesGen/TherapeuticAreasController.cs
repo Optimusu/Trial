@@ -32,7 +32,8 @@ namespace Trial.AppBack.Controllers.Entities
         {
             try
             {
-                var response = await _unitOfWork.ComboAsync();
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.ComboAsync(userClaimsInfo.Email);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -50,7 +51,8 @@ namespace Trial.AppBack.Controllers.Entities
         {
             try
             {
-                var response = await _unitOfWork.GetAsync(pagination);
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.Email);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)

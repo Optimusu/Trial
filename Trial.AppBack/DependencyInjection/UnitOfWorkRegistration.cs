@@ -48,6 +48,12 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IIndicationService, IndicationService>();
             services.AddScoped<ISponsorUnitOfWork, SponsorUnitOfWork>();
             services.AddScoped<ISponsorService, SponsorService>();
+            services.AddScoped<IEnrollingUnitOfWork, EnrollingUnitOfWork>();
+            services.AddScoped<IEnrollingService, EnrollingService>();
+            services.AddScoped<IIrbUnitOfWork, IrbUnitOfWork>();
+            services.AddScoped<IIrbService, IrbService>();
+            services.AddScoped<ICroUnitOfWork, CroUnitOfWork>();
+            services.AddScoped<ICroService, CroService>();
         }
     }
 }

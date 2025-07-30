@@ -6,9 +6,9 @@ namespace Trial.Services.InterfacesGen;
 
 public interface IIndicationService
 {
-    Task<ActionResponse<IEnumerable<Indication>>> ComboAsync();
+    Task<ActionResponse<IEnumerable<Indication>>> ComboAsync(string Email);
 
-    Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination);
+    Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination, string Email);
 
     Task<ActionResponse<Indication>> GetAsync(int id);
 

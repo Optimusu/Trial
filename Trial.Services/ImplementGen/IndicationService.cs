@@ -36,11 +36,21 @@ public class IndicationService : IIndicationService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Indication>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<Indication>>> ComboAsync(string Email)
     {
         try
         {
-            List<Indication> ListModel = await _context.Indications.Where(x => x.Active).ToListAsync();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<Indication>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            List<Indication> ListModel = await _context.Indications.Where(x => x.Active && x.CorporationId == user.CorporationId).ToListAsync();
             // Insertar el elemento neutro al inicio
             var defaultItem = new Indication
             {
@@ -62,11 +72,21 @@ public class IndicationService : IIndicationService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination, string Email)
     {
         try
         {
-            var queryable = _context.Indications.AsQueryable();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<Indication>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            var queryable = _context.Indications.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

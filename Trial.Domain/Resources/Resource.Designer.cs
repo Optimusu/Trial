@@ -142,6 +142,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CRO.
+        /// </summary>
+        public static string CRO {
+            get {
+                return ResourceManager.GetString("CRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date End.
         /// </summary>
         public static string DateEnd {
@@ -219,6 +228,15 @@ namespace Trial.Domain.Resources {
         public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enrolling.
+        /// </summary>
+        public static string Enrolling {
+            get {
+                return ResourceManager.GetString("Enrolling", resourceCulture);
             }
         }
         
@@ -741,6 +759,15 @@ namespace Trial.Domain.Resources {
         public static string Indication {
             get {
                 return ResourceManager.GetString("Indication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IRB.
+        /// </summary>
+        public static string IRB {
+            get {
+                return ResourceManager.GetString("IRB", resourceCulture);
             }
         }
         

@@ -37,6 +37,9 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<TherapeuticArea> TherapeuticAreas => Set<TherapeuticArea>();
     public DbSet<Indication> Indications => Set<Indication>();
     public DbSet<Sponsor> Sponsors => Set<Sponsor>();
+    public DbSet<Enrolling> Enrollings => Set<Enrolling>();
+    public DbSet<Irb> Irbs => Set<Irb>();
+    public DbSet<Cro> Cros => Set<Cro>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

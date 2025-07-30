@@ -6,9 +6,9 @@ namespace Trial.Services.InterfacesGen;
 
 public interface ITherapeuticAreaService
 {
-    Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync();
+    Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync(string Email);
 
-    Task<ActionResponse<IEnumerable<TherapeuticArea>>> GetAsync(PaginationDTO pagination);
+    Task<ActionResponse<IEnumerable<TherapeuticArea>>> GetAsync(PaginationDTO pagination, string Email);
 
     Task<ActionResponse<TherapeuticArea>> GetAsync(int id);
 

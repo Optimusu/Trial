@@ -429,4 +429,13 @@
   <data name="Indication" xml:space="preserve">
     <value>Indication</value>
   </data>
+  <data name="Enrolling" xml:space="preserve">
+    <value>Enrolling</value>
+  </data>
+  <data name="CRO" xml:space="preserve">
+    <value>CRO</value>
+  </data>
+  <data name="IRB" xml:space="preserve">
+    <value>IRB</value>
+  </data>
 </root>

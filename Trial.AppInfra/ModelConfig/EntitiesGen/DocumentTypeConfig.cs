@@ -10,5 +10,6 @@ public class DocumentTypeConfig : IEntityTypeConfiguration<DocumentType>
     {
         builder.HasKey(e => e.DocumentTypeId);
         builder.HasIndex(e => new { e.DocumentName, e.CorporationId }).IsUnique();
+        builder.Property(e => e.DocumentName).UseCollation("Latin1_General_CI_AS"); //Para poderlo volver Collation CI
     }
 }

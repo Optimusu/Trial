@@ -36,11 +36,21 @@ public class SponsorService : ISponsorService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync(string Email)
     {
         try
         {
-            List<Sponsor> ListModel = await _context.Sponsors.Where(x => x.Active).ToListAsync();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<Sponsor>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            List<Sponsor> ListModel = await _context.Sponsors.Where(x => x.Active && x.CorporationId == user.CorporationId).ToListAsync();
             // Insertar el elemento neutro al inicio
             var defaultItem = new Sponsor
             {
@@ -62,11 +72,21 @@ public class SponsorService : ISponsorService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination, string Email)
     {
         try
         {
-            var queryable = _context.Sponsors.AsQueryable();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<Sponsor>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            var queryable = _context.Sponsors.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

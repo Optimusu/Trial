@@ -36,7 +36,7 @@ public class DocumentTypeService : IDocumentTypeService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync(string Email)
     {
         try
         {
@@ -62,11 +62,21 @@ public class DocumentTypeService : IDocumentTypeService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination, string Email)
     {
         try
         {
-            var queryable = _context.DocumentTypes.AsQueryable();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<DocumentType>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            var queryable = _context.DocumentTypes.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

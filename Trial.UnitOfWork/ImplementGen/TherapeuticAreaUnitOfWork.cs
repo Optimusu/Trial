@@ -15,9 +15,9 @@ public class TherapeuticAreaUnitOfWork : ITherapeuticAreaUnitOfWork
         _therapeuticArea = therapeuticArea;
     }
 
-    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync() => await _therapeuticArea.ComboAsync();
+    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync(string Email) => await _therapeuticArea.ComboAsync(Email);
 
-    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> GetAsync(PaginationDTO pagination) => await _therapeuticArea.GetAsync(pagination);
+    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> GetAsync(PaginationDTO pagination, string Email) => await _therapeuticArea.GetAsync(pagination, Email);
 
     public async Task<ActionResponse<TherapeuticArea>> GetAsync(int id) => await _therapeuticArea.GetAsync(id);
 

@@ -6,9 +6,9 @@ namespace Trial.Services.InterfacesGen;
 
 public interface ISponsorService
 {
-    Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync();
+    Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync(string Email);
 
-    Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination);
+    Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination, string Email);
 
     Task<ActionResponse<Sponsor>> GetAsync(int id);
 

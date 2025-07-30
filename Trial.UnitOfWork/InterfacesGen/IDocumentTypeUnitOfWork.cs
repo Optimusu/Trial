@@ -6,9 +6,9 @@ namespace Trial.UnitOfWork.InterfacesGen;
 
 public interface IDocumentTypeUnitOfWork
 {
-    Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync();
+    Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync(string Email);
 
-    Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination);
+    Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination, string Email);
 
     Task<ActionResponse<DocumentType>> GetAsync(int id);
 

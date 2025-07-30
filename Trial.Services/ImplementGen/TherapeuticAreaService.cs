@@ -7,7 +7,6 @@ using Trial.AppInfra.Extensions;
 using Trial.AppInfra.Transactions;
 using Trial.AppInfra.UserHelper;
 using Trial.AppInfra.Validations;
-using Trial.Domain.EntitesSoftSec;
 using Trial.Domain.Entities;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
@@ -37,11 +36,20 @@ public class TherapeuticAreaService : ITherapeuticAreaService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync(string Email)
     {
         try
         {
-            List<TherapeuticArea> ListModel = await _context.TherapeuticAreas.Where(x => x.Active).ToListAsync();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<TherapeuticArea>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+            List<TherapeuticArea> ListModel = await _context.TherapeuticAreas.Where(x => x.Active && x.CorporationId == user.CorporationId).ToListAsync();
             // Insertar el elemento neutro al inicio
             var defaultItem = new TherapeuticArea
             {
@@ -63,11 +71,21 @@ public class TherapeuticAreaService : ITherapeuticAreaService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> GetAsync(PaginationDTO pagination, string Email)
     {
         try
         {
-            var queryable = _context.TherapeuticAreas.AsQueryable();
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<TherapeuticArea>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            var queryable = _context.TherapeuticAreas.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

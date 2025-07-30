@@ -644,6 +644,36 @@ namespace Trial.AppBack.Migrations
                     b.ToTable("UserRoleDetails");
                 });
 
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Cro", b =>
+                {
+                    b.Property<int>("CroId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CroId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
+
+                    b.HasKey("CroId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("Name", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("Cros");
+                });
+
             modelBuilder.Entity("Trial.Domain.EntitiesGen.DocumentType", b =>
                 {
                     b.Property<int>("DocumentTypeId")
@@ -660,8 +690,9 @@ namespace Trial.AppBack.Migrations
 
                     b.Property<string>("DocumentName")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("DocumentTypeId");
 
@@ -671,6 +702,36 @@ namespace Trial.AppBack.Migrations
                         .IsUnique();
 
                     b.ToTable("DocumentTypes");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Enrolling", b =>
+                {
+                    b.Property<int>("EnrollingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollingId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
+
+                    b.HasKey("EnrollingId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("Name", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("Enrollings");
                 });
 
             modelBuilder.Entity("Trial.Domain.EntitiesGen.Indication", b =>
@@ -694,7 +755,8 @@ namespace Trial.AppBack.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("IndicationId");
 
@@ -704,6 +766,36 @@ namespace Trial.AppBack.Migrations
                         .IsUnique();
 
                     b.ToTable("Indications");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Irb", b =>
+                {
+                    b.Property<int>("IrbId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IrbId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
+
+                    b.HasKey("IrbId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("Name", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("Irbs");
                 });
 
             modelBuilder.Entity("Trial.Domain.EntitiesGen.Sponsor", b =>
@@ -727,7 +819,8 @@ namespace Trial.AppBack.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("SponsorId");
 
@@ -760,7 +853,8 @@ namespace Trial.AppBack.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("TherapeuticAreaId");
 
@@ -924,6 +1018,17 @@ namespace Trial.AppBack.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Cro", b =>
+                {
+                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporation");
+                });
+
             modelBuilder.Entity("Trial.Domain.EntitiesGen.DocumentType", b =>
                 {
                     b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
@@ -935,7 +1040,29 @@ namespace Trial.AppBack.Migrations
                     b.Navigation("Corporation");
                 });
 
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Enrolling", b =>
+                {
+                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporation");
+                });
+
             modelBuilder.Entity("Trial.Domain.EntitiesGen.Indication", b =>
+                {
+                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporation");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Irb", b =>
                 {
                     b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
                         .WithMany()
