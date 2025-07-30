@@ -9,7 +9,7 @@ public class DocumentType
     [Key]
     public int DocumentTypeId { get; set; }
 
-    [MaxLength(5, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
+    [MaxLength(15, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = nameof(Resource.Document), ResourceType = typeof(Resource))]
     public string DocumentName { get; set; } = null!;

@@ -68,7 +68,7 @@ public partial class IndexSponsor
             var parameters = new Dictionary<string, object>
             {
                 { "Id", id },
-                { "Title", "Edit Soft Plan"  }
+                { "Title", "Edit Sponsor"  }
             };
             await _modalService.ShowAsync<EditSponsor>(parameters);
         }
@@ -76,7 +76,7 @@ public partial class IndexSponsor
         {
             var parameters = new Dictionary<string, object>
             {
-                { "Title", "Create Soft Plan"  }
+                { "Title", "Create Sponsor"  }
             };
             await _modalService.ShowAsync<CreateSponsor>(parameters);
         }

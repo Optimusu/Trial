@@ -44,12 +44,14 @@ public partial class EditSponsor
 
         await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
         _modalService.Close();
+        _navigationManager.NavigateTo("/");
         _navigationManager.NavigateTo(BaseView);
     }
 
     private void Return()
     {
         _modalService.Close();
+        _navigationManager.NavigateTo("/");
         _navigationManager.NavigateTo($"{BaseView}");
     }
 }

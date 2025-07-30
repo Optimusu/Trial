@@ -68,7 +68,7 @@ public partial class IndexTherapeuticArea
             var parameters = new Dictionary<string, object>
             {
                 { "Id", id },
-                { "Title", "Edit Soft Plan"  }
+                { "Title", "Edit Therapeutic"  }
             };
             await _modalService.ShowAsync<EditTherapeuticArea>(parameters);
         }
@@ -76,7 +76,7 @@ public partial class IndexTherapeuticArea
         {
             var parameters = new Dictionary<string, object>
             {
-                { "Title", "Create Soft Plan"  }
+                { "Title", "Create Therapeutic"  }
             };
             await _modalService.ShowAsync<CreateTherapeuticArea>(parameters);
         }

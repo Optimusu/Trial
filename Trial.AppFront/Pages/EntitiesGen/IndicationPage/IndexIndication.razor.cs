@@ -68,7 +68,7 @@ public partial class IndexIndication
             var parameters = new Dictionary<string, object>
             {
                 { "Id", id },
-                { "Title", "Edit Soft Plan"  }
+                { "Title", "Edit Indication"  }
             };
             await _modalService.ShowAsync<EditIndication>(parameters);
         }
@@ -76,7 +76,7 @@ public partial class IndexIndication
         {
             var parameters = new Dictionary<string, object>
             {
-                { "Title", "Create Soft Plan"  }
+                { "Title", "Create Indication"  }
             };
             await _modalService.ShowAsync<CreateIndication>(parameters);
         }

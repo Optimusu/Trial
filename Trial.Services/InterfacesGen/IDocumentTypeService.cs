@@ -14,7 +14,7 @@ public interface IDocumentTypeService
 
     Task<ActionResponse<DocumentType>> UpdateAsync(DocumentType modelo);
 
-    Task<ActionResponse<DocumentType>> AddAsync(DocumentType modelo);
+    Task<ActionResponse<DocumentType>> AddAsync(DocumentType modelo, string Email);
 
     Task<ActionResponse<bool>> DeleteAsync(int id);
 }

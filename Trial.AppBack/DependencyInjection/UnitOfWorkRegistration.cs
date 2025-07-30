@@ -1,10 +1,14 @@
 ﻿using Trial.Services.ImplementEntties;
+using Trial.Services.ImplementGen;
 using Trial.Services.ImplementSecure;
 using Trial.Services.InterfaceEntities;
+using Trial.Services.InterfacesGen;
 using Trial.Services.InterfacesSecure;
 using Trial.UnitOfWork.ImplementEntities;
+using Trial.UnitOfWork.ImplementGen;
 using Trial.UnitOfWork.ImplementSecure;
 using Trial.UnitOfWork.InterfaceEntities;
+using Trial.UnitOfWork.InterfacesGen;
 using Trial.UnitOfWork.InterfacesSecure;
 
 namespace Trial.AppBack.DependencyInjection
@@ -34,6 +38,16 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<ICorporationService, CorporationService>();
             services.AddScoped<IManagerUnitOfWork, ManagerUnitOfWork>();
             services.AddScoped<IManagerService, ManagerService>();
+
+            //EntitiesGen
+            services.AddScoped<IDocumentTypeUnitOfWork, DocumentTypeUnitOfWork>();
+            services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+            services.AddScoped<ITherapeuticAreaUnitOfWork, TherapeuticAreaUnitOfWork>();
+            services.AddScoped<ITherapeuticAreaService, TherapeuticAreaService>();
+            services.AddScoped<IIndicationUnitOfWork, IndicationUnitOfWork>();
+            services.AddScoped<IIndicationService, IndicationService>();
+            services.AddScoped<ISponsorUnitOfWork, SponsorUnitOfWork>();
+            services.AddScoped<ISponsorService, SponsorService>();
         }
     }
 }

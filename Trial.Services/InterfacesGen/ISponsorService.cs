@@ -14,7 +14,7 @@ public interface ISponsorService
 
     Task<ActionResponse<Sponsor>> UpdateAsync(Sponsor modelo);
 
-    Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo);
+    Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo, string Email);
 
     Task<ActionResponse<bool>> DeleteAsync(int id);
 }

@@ -23,7 +23,7 @@ public class TherapeuticAreaUnitOfWork : ITherapeuticAreaUnitOfWork
 
     public async Task<ActionResponse<TherapeuticArea>> UpdateAsync(TherapeuticArea modelo) => await _therapeuticArea.UpdateAsync(modelo);
 
-    public async Task<ActionResponse<TherapeuticArea>> AddAsync(TherapeuticArea modelo) => await _therapeuticArea.AddAsync(modelo);
+    public async Task<ActionResponse<TherapeuticArea>> AddAsync(TherapeuticArea modelo, string Email) => await _therapeuticArea.AddAsync(modelo, Email);
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _therapeuticArea.DeleteAsync(id);
 }

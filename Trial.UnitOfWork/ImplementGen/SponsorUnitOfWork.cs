@@ -23,7 +23,7 @@ public class SponsorUnitOfWork : ISponsorUnitOfWork
 
     public async Task<ActionResponse<Sponsor>> UpdateAsync(Sponsor modelo) => await _sponsorService.UpdateAsync(modelo);
 
-    public async Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo) => await _sponsorService.AddAsync(modelo);
+    public async Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo, string Email) => await _sponsorService.AddAsync(modelo, Email);
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _sponsorService.DeleteAsync(id);
 }

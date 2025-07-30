@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
+using Trial.DomainLogic.ResponsesSec;
 using Trial.UnitOfWork.InterfacesGen;
 
 namespace Trial.AppBack.Controllers.Entities
@@ -102,7 +104,8 @@ namespace Trial.AppBack.Controllers.Entities
         {
             try
             {
-                var response = await _unitOfWork.AddAsync(modelo);
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.Email);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)

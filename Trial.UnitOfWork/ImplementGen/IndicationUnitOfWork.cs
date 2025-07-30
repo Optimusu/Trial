@@ -23,7 +23,7 @@ public class IndicationUnitOfWork : IIndicationUnitOfWork
 
     public async Task<ActionResponse<Indication>> UpdateAsync(Indication modelo) => await _indicationService.UpdateAsync(modelo);
 
-    public async Task<ActionResponse<Indication>> AddAsync(Indication modelo) => await _indicationService.AddAsync(modelo);
+    public async Task<ActionResponse<Indication>> AddAsync(Indication modelo, string Email) => await _indicationService.AddAsync(modelo, Email);
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _indicationService.DeleteAsync(id);
 }

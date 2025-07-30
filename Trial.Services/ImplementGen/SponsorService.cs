@@ -5,7 +5,9 @@ using Trial.AppInfra;
 using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.Extensions;
 using Trial.AppInfra.Transactions;
+using Trial.AppInfra.UserHelper;
 using Trial.AppInfra.Validations;
+using Trial.Domain.Entities;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
@@ -20,16 +22,18 @@ public class SponsorService : ISponsorService
     private readonly ITransactionManager _transactionManager;
     private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
+    private readonly IUserHelper _userHelper;
 
     public SponsorService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
-        IStringLocalizer localizer)
+        IStringLocalizer localizer, IUserHelper userHelper)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
         _transactionManager = transactionManager;
         _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
+        _userHelper = userHelper;
     }
 
     public async Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync()
@@ -153,8 +157,19 @@ public class SponsorService : ISponsorService
         }
     }
 
-    public async Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo)
+    public async Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo, string Email)
     {
+        User user = await _userHelper.GetUserAsync(Email);
+        if (user == null)
+        {
+            return new ActionResponse<Sponsor>
+            {
+                WasSuccess = false,
+                Message = _localizer["Generic_AuthIdFail"]
+            };
+        }
+        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
+
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<Sponsor>

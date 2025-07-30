@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
+using Trial.AppInfra.UserHelper;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
+using Trial.DomainLogic.ResponsesSec;
 using Trial.UnitOfWork.InterfacesGen;
 
 namespace Trial.AppBack.Controllers.EntitiesGen
@@ -18,11 +21,14 @@ namespace Trial.AppBack.Controllers.EntitiesGen
     {
         private readonly IDocumentTypeUnitOfWork _unitOfWork;
         private readonly IStringLocalizer _localizer;
+        private readonly IUserHelper _userHelper;
 
-        public DocumentTypesController(IDocumentTypeUnitOfWork unitOfWork, IStringLocalizer localizer)
+        public DocumentTypesController(IDocumentTypeUnitOfWork unitOfWork, IStringLocalizer localizer,
+            IUserHelper userHelper)
         {
             _unitOfWork = unitOfWork;
             _localizer = localizer;
+            _userHelper = userHelper;
         }
 
         [HttpGet("loadCombo")]
@@ -102,7 +108,8 @@ namespace Trial.AppBack.Controllers.EntitiesGen
         {
             try
             {
-                var response = await _unitOfWork.AddAsync(modelo);
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.Email);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)

@@ -5,7 +5,10 @@ using Trial.AppInfra;
 using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.Extensions;
 using Trial.AppInfra.Transactions;
+using Trial.AppInfra.UserHelper;
 using Trial.AppInfra.Validations;
+using Trial.Domain.EntitesSoftSec;
+using Trial.Domain.Entities;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
@@ -20,16 +23,18 @@ public class TherapeuticAreaService : ITherapeuticAreaService
     private readonly ITransactionManager _transactionManager;
     private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
+    private readonly IUserHelper _userHelper;
 
     public TherapeuticAreaService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
-        IStringLocalizer localizer)
+        IStringLocalizer localizer, IUserHelper userHelper)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
         _transactionManager = transactionManager;
         _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
+        _userHelper = userHelper;
     }
 
     public async Task<ActionResponse<IEnumerable<TherapeuticArea>>> ComboAsync()
@@ -149,18 +154,28 @@ public class TherapeuticAreaService : ITherapeuticAreaService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<TherapeuticArea>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<TherapeuticArea>(ex); //Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<TherapeuticArea>> AddAsync(TherapeuticArea modelo)
+    public async Task<ActionResponse<TherapeuticArea>> AddAsync(TherapeuticArea modelo, string Email)
     {
+        User user = await _userHelper.GetUserAsync(Email);
+        if (user == null)
+        {
+            return new ActionResponse<TherapeuticArea>
+            {
+                WasSuccess = false,
+                Message = _localizer["Generic_AuthIdFail"]
+            };
+        }
+        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<TherapeuticArea>
             {
                 WasSuccess = false,
-                Message = _localizer["Generic_InvalidModel"] // 🧠 Clave multilenguaje para modelo nulo
+                Message = _localizer["Generic_InvalidModel"] //Clave multilenguaje para modelo nulo
             };
         }
 

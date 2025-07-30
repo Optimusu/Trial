@@ -68,7 +68,7 @@ public partial class IndexDocumentType
             var parameters = new Dictionary<string, object>
             {
                 { "Id", id },
-                { "Title", "Edit Soft Plan"  }
+                { "Title", "Edit Document Type"  }
             };
             await _modalService.ShowAsync<EditDocumentType>(parameters);
         }
@@ -76,7 +76,7 @@ public partial class IndexDocumentType
         {
             var parameters = new Dictionary<string, object>
             {
-                { "Title", "Create Soft Plan"  }
+                { "Title", "Create Document Type"  }
             };
             await _modalService.ShowAsync<CreateDocumentType>(parameters);
         }

@@ -14,7 +14,7 @@ public interface IIndicationUnitOfWork
 
     Task<ActionResponse<Indication>> UpdateAsync(Indication modelo);
 
-    Task<ActionResponse<Indication>> AddAsync(Indication modelo);
+    Task<ActionResponse<Indication>> AddAsync(Indication modelo, string Email);
 
     Task<ActionResponse<bool>> DeleteAsync(int id);
 }

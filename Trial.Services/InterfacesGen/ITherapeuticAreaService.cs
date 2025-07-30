@@ -14,7 +14,7 @@ public interface ITherapeuticAreaService
 
     Task<ActionResponse<TherapeuticArea>> UpdateAsync(TherapeuticArea modelo);
 
-    Task<ActionResponse<TherapeuticArea>> AddAsync(TherapeuticArea modelo);
+    Task<ActionResponse<TherapeuticArea>> AddAsync(TherapeuticArea modelo, string Email);
 
     Task<ActionResponse<bool>> DeleteAsync(int id);
 }
