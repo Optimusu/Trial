@@ -75,6 +75,26 @@
                         </div>
                     }
                 </div>
+
+                <!-- Phase -->
+                <div class="mb-0">
+                    @if (ListPhase is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Phase </span>
+                            <select class="form-select" value="@SelectPhase" @onchange="PhaseChanged">
+                                @foreach (var item in ListPhase)
+                                {
+                                    <option value="@item.Value">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
             </div>
 
 

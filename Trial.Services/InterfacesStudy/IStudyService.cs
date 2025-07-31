@@ -1,4 +1,5 @@
 ﻿using Trial.Domain.EntitiesStudy;
+using Trial.Domain.Enum;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
 
@@ -6,6 +7,8 @@ namespace Trial.Services.InterfacesStudy;
 
 public interface IStudyService
 {
+    Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync();
+
     Task<ActionResponse<IEnumerable<Study>>> GetAsync(PaginationDTO pagination, string Email);
 
     Task<ActionResponse<Study>> GetAsync(Guid id);

@@ -27,6 +27,24 @@ namespace Trial.AppBack.Controllers.EntitiesStudy
             _localizer = localizer;
         }
 
+        [HttpGet("loadComboPhase")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            try
+            {
+                var response = await _unitOfWork.ComboAsync();
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
         {

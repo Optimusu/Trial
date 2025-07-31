@@ -48,7 +48,7 @@ public class UsuarioRoleService : IUsuarioRoleService
 
             list.Insert(0, new EnumItemModel
             {
-                Name = _localizer["Combo_SelectRole"],
+                Name = _localizer["Select Role"],
                 Value = 0
             });
 

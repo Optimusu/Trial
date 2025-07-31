@@ -12,7 +12,7 @@ namespace Trial.AppBack.Controllers.EntitiesGen
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/cros")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
     [ApiController]
     public class CrosController : ControllerBase
     {

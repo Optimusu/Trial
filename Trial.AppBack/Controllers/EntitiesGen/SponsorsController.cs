@@ -3,18 +3,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
-using Trial.DomainLogic.ResponsesSec;
 using Trial.UnitOfWork.InterfacesGen;
 
 namespace Trial.AppBack.Controllers.Entities
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/sponsors")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
     [ApiController]
     public class SponsorsController : ControllerBase
     {

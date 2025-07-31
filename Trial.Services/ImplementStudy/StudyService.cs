@@ -9,6 +9,7 @@ using Trial.AppInfra.UserHelper;
 using Trial.AppInfra.Validations;
 using Trial.Domain.Entities;
 using Trial.Domain.EntitiesStudy;
+using Trial.Domain.Enum;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfacesStudy;
@@ -34,6 +35,34 @@ public class StudyService : IStudyService
         _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
         _userHelper = userHelper;
+    }
+
+    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync()
+    {
+        try
+        {
+            List<EnumItemModel> list = Enum.GetValues(typeof(TrialPhase)).Cast<TrialPhase>().Select(c => new EnumItemModel()
+            {
+                Name = c.ToString(),
+                Value = (int)c
+            }).ToList();
+
+            list.Insert(0, new EnumItemModel
+            {
+                Name = _localizer["[Select Phase]"],
+                Value = 0
+            });
+
+            return new ActionResponse<IEnumerable<EnumItemModel>>
+            {
+                WasSuccess = true,
+                Result = list
+            };
+        }
+        catch (Exception ex)
+        {
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<EnumItemModel>>(ex); //Manejo de errores automático
+        }
     }
 
     public async Task<ActionResponse<IEnumerable<Study>>> GetAsync(PaginationDTO pagination, string Email)

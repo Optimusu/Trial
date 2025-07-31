@@ -1,4 +1,5 @@
 ﻿using Trial.Domain.EntitiesStudy;
+using Trial.Domain.Enum;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfacesStudy;
@@ -14,6 +15,8 @@ public class StudyUnitOfWork : IStudyUnitOfWork
     {
         _studyService = studyService;
     }
+
+    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync() => await _studyService.ComboAsync();
 
     public async Task<ActionResponse<IEnumerable<Study>>> GetAsync(PaginationDTO pagination, string Email) => await _studyService.GetAsync(pagination, Email);
 

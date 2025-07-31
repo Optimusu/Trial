@@ -12,7 +12,7 @@ namespace Trial.AppBack.Controllers.Entities
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/indications")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
     [ApiController]
     public class IndicationsController : ControllerBase
     {

@@ -2,10 +2,12 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using Trial.AppFront.Helpers;
 using Trial.Domain.EntitiesGen;
 using Trial.Domain.EntitiesStudy;
+using Trial.Domain.Enum;
 using Trial.HttpServices;
 
 namespace Trial.AppFront.Pages.EntitiesStudy.StudyPage;
@@ -34,6 +36,8 @@ public partial class FormStudy
     private List<Sponsor>? Sponsors;
     private List<Irb>? Irbs;
     private List<Cro>? Cros;
+    private List<EnumItemModel>? ListPhase;
+    private int SelectPhase;
     private string BaseView = "/studies";
     private string BaseComboTherapeutic = "/api/v1/therapeutics/loadCombo";
     private string BaseComboEnrolling = "/api/v1/enrollings/loadCombo";
@@ -50,6 +54,26 @@ public partial class FormStudy
         await LoadSponsor();
         await LoadIrb();
         await LoadCro();
+        await LoadPhase();
+    }
+
+    private async Task LoadPhase()
+    {
+        var responseHTTP = await _repository.GetAsync<List<EnumItemModel>>($"api/v1/studies/loadComboPhase");
+        bool errorHandled = await _responseHandler.HandleErrorAsync(responseHTTP);
+        if (errorHandled) return;
+        ListPhase = responseHTTP.Response;
+    }
+
+    private void PhaseChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e?.Value?.ToString(), out int modelo))
+        {
+            if (modelo == 1) { Study.TrialPhase = TrialPhase.PhaseI; SelectPhase = 1; }
+            if (modelo == 2) { Study.TrialPhase = TrialPhase.PhaseII; SelectPhase = 2; }
+            if (modelo == 3) { Study.TrialPhase = TrialPhase.PhaseIII; SelectPhase = 3; }
+            if (modelo == 4) { Study.TrialPhase = TrialPhase.PhaseIV; SelectPhase = 4; }
+        }
     }
 
     private async Task LoadCro()
