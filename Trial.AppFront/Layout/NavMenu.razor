@@ -20,6 +20,46 @@
                 <!-- Grupo: Configuración -->
                 <div class="nav-item px-3">
                     <button class="nav-link text-white d-flex align-items-center gap-2 w-100"
+                            @onclick="submenu3"
+                            style="background: none; border: none;">
+                        <span class="fa fa-cogs" aria-hidden="true"></span> Studies
+                        <span class="ms-auto fa @(expandSubMenu3 ? "fa-chevron-up" : "fa-chevron-down")"></span>
+                    </button>
+
+                    @if (expandSubMenu3)
+                    {
+                        <NavLink class="nav-link text-white ps-4" href="/studies">
+                            <span class="fa fa-th-large me-2" aria-hidden="true"></span> Studies
+                        </NavLink>
+                    }
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="Administrator">
+            <Authorized>
+                <!-- Grupo: Configuración -->
+                <div class="nav-item px-3">
+                    <button class="nav-link text-white d-flex align-items-center gap-2 w-100"
+                            @onclick="submenu4"
+                            style="background: none; border: none;">
+                        <span class="fa fa-shield" aria-hidden="true"></span> Security
+                        <span class="ms-auto fa @(expandSubMenu4 ? "fa-chevron-up" : "fa-chevron-down")"></span>
+                    </button>
+
+                    @if (expandSubMenu4)
+                    {
+                        <NavLink class="nav-link text-white ps-4" href="/usuarios">
+                            <span class="fa fa-users me-2" aria-hidden="true"></span> User
+                        </NavLink>
+                    }
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <!-- Grupo: Configuración -->
+                <div class="nav-item px-3">
+                    <button class="nav-link text-white d-flex align-items-center gap-2 w-100"
                             @onclick="submenu1"
                             style="background: none; border: none;">
                         <span class="fa fa-shield" aria-hidden="true"></span> General
@@ -88,6 +128,8 @@
 
     private bool expandSubMenu1;
     private bool expandSubMenu2;
+    private bool expandSubMenu3;
+    private bool expandSubMenu4;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
@@ -100,11 +142,30 @@
     {
         expandSubMenu1 = !expandSubMenu1;
         expandSubMenu2 = false;
+        expandSubMenu3 = false;
+        expandSubMenu4 = false;
     }
 
     private void submenu2()
     {
         expandSubMenu2 = !expandSubMenu2;
+        expandSubMenu3 = false;
         expandSubMenu1 = false;
+        expandSubMenu4 = false;
+    }
+
+    private void submenu3()
+    {
+        expandSubMenu3 = !expandSubMenu3;
+        expandSubMenu1 = false;
+        expandSubMenu2 = false;
+        expandSubMenu4 = false;
+    }
+    private void submenu4()
+    {
+        expandSubMenu4 = !expandSubMenu3;
+        expandSubMenu1 = false;
+        expandSubMenu2 = false;
+        expandSubMenu3 = false;
     }
 }

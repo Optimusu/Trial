@@ -6,15 +6,15 @@ namespace Trial.UnitOfWork.InterfacesGen;
 
 public interface ISponsorUnitOfWork
 {
-    Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync(string Email);
+    Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync();
 
-    Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination, string Email);
+    Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<Sponsor>> GetAsync(int id);
 
     Task<ActionResponse<Sponsor>> UpdateAsync(Sponsor modelo);
 
-    Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo, string Email);
+    Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo);
 
     Task<ActionResponse<bool>> DeleteAsync(int id);
 }

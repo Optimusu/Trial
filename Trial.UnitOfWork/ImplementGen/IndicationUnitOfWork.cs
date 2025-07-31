@@ -15,15 +15,15 @@ public class IndicationUnitOfWork : IIndicationUnitOfWork
         _indicationService = indicationService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Indication>>> ComboAsync(string Email) => await _indicationService.ComboAsync(Email);
+    public async Task<ActionResponse<IEnumerable<Indication>>> ComboAsync() => await _indicationService.ComboAsync();
 
-    public async Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination, string Email) => await _indicationService.GetAsync(pagination, Email);
+    public async Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination) => await _indicationService.GetAsync(pagination);
 
     public async Task<ActionResponse<Indication>> GetAsync(int id) => await _indicationService.GetAsync(id);
 
     public async Task<ActionResponse<Indication>> UpdateAsync(Indication modelo) => await _indicationService.UpdateAsync(modelo);
 
-    public async Task<ActionResponse<Indication>> AddAsync(Indication modelo, string Email) => await _indicationService.AddAsync(modelo, Email);
+    public async Task<ActionResponse<Indication>> AddAsync(Indication modelo) => await _indicationService.AddAsync(modelo);
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _indicationService.DeleteAsync(id);
 }

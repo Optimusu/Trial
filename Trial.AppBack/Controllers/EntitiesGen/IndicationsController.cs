@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Trial.AppBack.Helper;
 using Trial.AppInfra.ErrorHandling;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
-using Trial.DomainLogic.ResponsesSec;
 using Trial.UnitOfWork.InterfacesGen;
 
 namespace Trial.AppBack.Controllers.Entities
@@ -32,8 +30,7 @@ namespace Trial.AppBack.Controllers.Entities
         {
             try
             {
-                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.ComboAsync(userClaimsInfo.Email);
+                var response = await _unitOfWork.ComboAsync();
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -51,8 +48,7 @@ namespace Trial.AppBack.Controllers.Entities
         {
             try
             {
-                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.Email);
+                var response = await _unitOfWork.GetAsync(pagination);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -106,8 +102,7 @@ namespace Trial.AppBack.Controllers.Entities
         {
             try
             {
-                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.Email);
+                var response = await _unitOfWork.AddAsync(modelo);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)

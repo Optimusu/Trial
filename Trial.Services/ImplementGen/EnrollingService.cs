@@ -7,7 +7,6 @@ using Trial.AppInfra.Extensions;
 using Trial.AppInfra.Transactions;
 using Trial.AppInfra.UserHelper;
 using Trial.AppInfra.Validations;
-using Trial.Domain.Entities;
 using Trial.Domain.EntitiesGen;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
@@ -36,20 +35,11 @@ public class EnrollingService : IEnrollingService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Enrolling>>> ComboAsync(string Email)
+    public async Task<ActionResponse<IEnumerable<Enrolling>>> ComboAsync()
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Enrolling>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-            List<Enrolling> ListModel = await _context.Enrollings.Where(x => x.Active && x.CorporationId == user.CorporationId).ToListAsync();
+            List<Enrolling> ListModel = await _context.Enrollings.Where(x => x.Active).ToListAsync();
             // Insertar el elemento neutro al inicio
             var defaultItem = new Enrolling
             {
@@ -71,21 +61,11 @@ public class EnrollingService : IEnrollingService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Enrolling>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Enrolling>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Enrolling>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            var queryable = _context.Enrollings.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.Enrollings.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -176,19 +156,8 @@ public class EnrollingService : IEnrollingService
         }
     }
 
-    public async Task<ActionResponse<Enrolling>> AddAsync(Enrolling modelo, string Email)
+    public async Task<ActionResponse<Enrolling>> AddAsync(Enrolling modelo)
     {
-        User user = await _userHelper.GetUserAsync(Email);
-        if (user == null)
-        {
-            return new ActionResponse<Enrolling>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_AuthIdFail"]
-            };
-        }
-        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<Enrolling>

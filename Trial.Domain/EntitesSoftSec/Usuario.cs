@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Trial.Domain.Entities;
-using Trial.Domain.EntitiesGen;
+using Trial.Domain.EntitiesStudy;
 using Trial.Domain.Resources;
 
 namespace Trial.Domain.EntitesSoftSec;
@@ -86,4 +86,6 @@ public class Usuario
     public Corporation? Corporation { get; set; }
 
     public ICollection<UsuarioRole>? UsuarioRoles { get; set; }
+
+    public ICollection<Study>? Studies { get; set; }
 }

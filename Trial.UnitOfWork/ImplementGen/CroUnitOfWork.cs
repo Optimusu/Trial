@@ -15,15 +15,15 @@ public class CroUnitOfWork : ICroUnitOfWork
         _croService = croService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Cro>>> ComboAsync(string Email) => await _croService.ComboAsync(Email);
+    public async Task<ActionResponse<IEnumerable<Cro>>> ComboAsync() => await _croService.ComboAsync();
 
-    public async Task<ActionResponse<IEnumerable<Cro>>> GetAsync(PaginationDTO pagination, string Email) => await _croService.GetAsync(pagination, Email);
+    public async Task<ActionResponse<IEnumerable<Cro>>> GetAsync(PaginationDTO pagination) => await _croService.GetAsync(pagination);
 
     public async Task<ActionResponse<Cro>> GetAsync(int id) => await _croService.GetAsync(id);
 
     public async Task<ActionResponse<Cro>> UpdateAsync(Cro modelo) => await _croService.UpdateAsync(modelo);
 
-    public async Task<ActionResponse<Cro>> AddAsync(Cro modelo, string Email) => await _croService.AddAsync(modelo, Email);
+    public async Task<ActionResponse<Cro>> AddAsync(Cro modelo) => await _croService.AddAsync(modelo);
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _croService.DeleteAsync(id);
 }

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trial.Domain.Entities;
+using Trial.Domain.EntitiesStudy;
 using Trial.Domain.Resources;
 
 namespace Trial.Domain.EntitiesGen;
@@ -9,7 +9,7 @@ public class Enrolling
     [Key]
     public int EnrollingId { get; set; }
 
-    [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
+    [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = nameof(Resource.Enrolling), ResourceType = typeof(Resource))]
     public string Name { get; set; } = null!;
@@ -18,7 +18,6 @@ public class Enrolling
     public bool Active { get; set; }
 
     //Relaciones
-    public int CorporationId { get; set; }
 
-    public Corporation? Corporation { get; set; }
+    public ICollection<Study>? Studies { get; set; }
 }

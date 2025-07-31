@@ -15,15 +15,15 @@ public class EnrollingUnitOfWork : IEnrollingUnitOfWork
         _enrollingService = enrollingService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Enrolling>>> ComboAsync(string Email) => await _enrollingService.ComboAsync(Email);
+    public async Task<ActionResponse<IEnumerable<Enrolling>>> ComboAsync() => await _enrollingService.ComboAsync();
 
-    public async Task<ActionResponse<IEnumerable<Enrolling>>> GetAsync(PaginationDTO pagination, string Email) => await _enrollingService.GetAsync(pagination, Email);
+    public async Task<ActionResponse<IEnumerable<Enrolling>>> GetAsync(PaginationDTO pagination) => await _enrollingService.GetAsync(pagination);
 
     public async Task<ActionResponse<Enrolling>> GetAsync(int id) => await _enrollingService.GetAsync(id);
 
     public async Task<ActionResponse<Enrolling>> UpdateAsync(Enrolling modelo) => await _enrollingService.UpdateAsync(modelo);
 
-    public async Task<ActionResponse<Enrolling>> AddAsync(Enrolling modelo, string Email) => await _enrollingService.AddAsync(modelo, Email);
+    public async Task<ActionResponse<Enrolling>> AddAsync(Enrolling modelo) => await _enrollingService.AddAsync(modelo);
 
     public async Task<ActionResponse<bool>> DeleteAsync(int id) => await _enrollingService.DeleteAsync(id);
 }

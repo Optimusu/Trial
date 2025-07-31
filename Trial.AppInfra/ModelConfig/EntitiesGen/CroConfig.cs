@@ -9,7 +9,7 @@ public class CroConfig : IEntityTypeConfiguration<Cro>
     public void Configure(EntityTypeBuilder<Cro> builder)
     {
         builder.HasKey(e => e.CroId);
-        builder.HasIndex(e => new { e.Name, e.CorporationId }).IsUnique();
+        builder.HasIndex(e => new { e.Name }).IsUnique();
         builder.Property(e => e.Name).UseCollation("Latin1_General_CI_AS"); //Para poderlo volver Collation CI
     }
 }

@@ -97,6 +97,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clinical Description.
+        /// </summary>
+        public static string ClinicalDescription {
+            get {
+                return ResourceManager.GetString("ClinicalDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
         public static string CodPhone {
@@ -237,6 +246,24 @@ namespace Trial.Domain.Resources {
         public static string Enrolling {
             get {
                 return ResourceManager.GetString("Enrolling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rolling Status.
+        /// </summary>
+        public static string EnrollingStatus {
+            get {
+                return ResourceManager.GetString("EnrollingStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enrollment Goal.
+        /// </summary>
+        public static string EnrollmentGoal {
+            get {
+                return ResourceManager.GetString("EnrollmentGoal", resourceCulture);
             }
         }
         
@@ -880,11 +907,47 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Principal Investigator.
+        /// </summary>
+        public static string PrincipalInvestigator {
+            get {
+                return ResourceManager.GetString("PrincipalInvestigator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protocol.
+        /// </summary>
+        public static string Protocol {
+            get {
+                return ResourceManager.GetString("Protocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complet Protocol.
+        /// </summary>
+        public static string ProtocolComplete {
+            get {
+                return ResourceManager.GetString("ProtocolComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role User.
         /// </summary>
         public static string RoleUser {
             get {
                 return ResourceManager.GetString("RoleUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site Number.
+        /// </summary>
+        public static string SiteNumber {
+            get {
+                return ResourceManager.GetString("SiteNumber", resourceCulture);
             }
         }
         
@@ -925,11 +988,29 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Area.
+        ///   Looks up a localized string similar to Study Number.
+        /// </summary>
+        public static string StudyNumber {
+            get {
+                return ResourceManager.GetString("StudyNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Therapeutic Area.
         /// </summary>
         public static string TherapeuticArea {
             get {
                 return ResourceManager.GetString("TherapeuticArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phase.
+        /// </summary>
+        public static string TrialPhase {
+            get {
+                return ResourceManager.GetString("TrialPhase", resourceCulture);
             }
         }
         

@@ -1,15 +1,19 @@
 ﻿using Trial.Services.ImplementEntties;
 using Trial.Services.ImplementGen;
 using Trial.Services.ImplementSecure;
+using Trial.Services.ImplementStudy;
 using Trial.Services.InterfaceEntities;
 using Trial.Services.InterfacesGen;
 using Trial.Services.InterfacesSecure;
+using Trial.Services.InterfacesStudy;
 using Trial.UnitOfWork.ImplementEntities;
 using Trial.UnitOfWork.ImplementGen;
 using Trial.UnitOfWork.ImplementSecure;
+using Trial.UnitOfWork.ImplementStudy;
 using Trial.UnitOfWork.InterfaceEntities;
 using Trial.UnitOfWork.InterfacesGen;
 using Trial.UnitOfWork.InterfacesSecure;
+using Trial.UnitOfWork.InterfacesStudy;
 
 namespace Trial.AppBack.DependencyInjection
 {
@@ -54,6 +58,10 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IIrbService, IrbService>();
             services.AddScoped<ICroUnitOfWork, CroUnitOfWork>();
             services.AddScoped<ICroService, CroService>();
+
+            //EntitiesStudies
+            services.AddScoped<IStudyUnitOfWork, StudyUnitOfWork>();
+            services.AddScoped<IStudyService, StudyService>();
         }
     }
 }

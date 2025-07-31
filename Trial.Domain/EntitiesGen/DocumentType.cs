@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Trial.Domain.Entities;
 using Trial.Domain.Resources;
 
 namespace Trial.Domain.EntitiesGen;
@@ -16,9 +15,4 @@ public class DocumentType
 
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
-
-    //Relaciones
-    public int CorporationId { get; set; }
-
-    public Corporation? Corporation { get; set; }
 }

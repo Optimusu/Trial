@@ -36,21 +36,11 @@ public class SponsorService : ISponsorService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync(string Email)
+    public async Task<ActionResponse<IEnumerable<Sponsor>>> ComboAsync()
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Sponsor>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            List<Sponsor> ListModel = await _context.Sponsors.Where(x => x.Active && x.CorporationId == user.CorporationId).ToListAsync();
+            List<Sponsor> ListModel = await _context.Sponsors.Where(x => x.Active).ToListAsync();
             // Insertar el elemento neutro al inicio
             var defaultItem = new Sponsor
             {
@@ -72,21 +62,11 @@ public class SponsorService : ISponsorService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Sponsor>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Sponsor>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            var queryable = _context.Sponsors.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.Sponsors.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -177,19 +157,8 @@ public class SponsorService : ISponsorService
         }
     }
 
-    public async Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo, string Email)
+    public async Task<ActionResponse<Sponsor>> AddAsync(Sponsor modelo)
     {
-        User user = await _userHelper.GetUserAsync(Email);
-        if (user == null)
-        {
-            return new ActionResponse<Sponsor>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_AuthIdFail"]
-            };
-        }
-        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<Sponsor>

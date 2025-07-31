@@ -1,0 +1,187 @@
+﻿<EditForm Model="Study" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="row">
+            <!-- Primera columna -->
+            <div class="col-md-6">
+                <!-- Nombre -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Study.SiteNumber)
+                        </span>
+                        <InputText class="form-control" placeholder="Site number..." @bind-Value="Study.SiteNumber" />
+                    </div>
+                    <ValidationMessage For="@(() => Study.SiteNumber)" />
+                </div>
+
+                <!-- Therapeutic Area -->
+                <div class="mb-0">
+                    @if (TherapeuticAreas is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Therapeutic Area </span>
+                            <select class="form-select" value="@Study.TherapeuticAreaId" @onchange="TherapeuticChanged">
+                                @foreach (var item in TherapeuticAreas)
+                                {
+                                    <option value="@item.TherapeuticAreaId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+
+                <!-- Sponsor -->
+                <div class="mb-0">
+                    @if (Sponsors is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Sponsor </span>
+                            <select class="form-select" value="@Study.SponsorId" @onchange="SponsorChanged">
+                                @foreach (var item in Sponsors)
+                                {
+                                    <option value="@item.SponsorId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+
+                <!-- CRO -->
+                <div class="mb-0">
+                    @if (Cros is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">CRO </span>
+                            <select class="form-select" value="@Study.CroId" @onchange="CroChanged">
+                                @foreach (var item in Cros)
+                                {
+                                    <option value="@item.CroId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+            <!-- Segunda columna -->
+            <div class="col-md-6">
+                <!-- Nombre -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Study.StudyNumber)
+                        </span>
+                        <InputText class="form-control" placeholder="Site number..." @bind-Value="Study.StudyNumber" />
+                    </div>
+                    <ValidationMessage For="@(() => Study.StudyNumber)" />
+                </div>
+
+                <!-- Enrolling -->
+                <div class="mb-0">
+                    @if (Enrollings is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Enrolling Status </span>
+                            <select class="form-select" value="@Study.EnrollingId" @onchange="EnrollingChanged">
+                                @foreach (var item in Enrollings)
+                                {
+                                    <option value="@item.EnrollingId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+
+                <!-- Indication -->
+                <div class="mb-0">
+                    @if (Indications is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Indication </span>
+                            <select class="form-select" value="@Study.IndicationId" @onchange="IndicationChanged">
+                                @foreach (var item in Indications)
+                                {
+                                    <option value="@item.IndicationId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+
+                <!-- IRB -->
+                <div class="mb-0">
+                    @if (Irbs is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">IRB </span>
+                            <select class="form-select" value="@Study.EnrollingId" @onchange="IrbChanged">
+                                @foreach (var item in Irbs)
+                                {
+                                    <option value="@item.IrbId">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*     <div class="mb-0">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Study.Protocol)
+            </span>
+            <InputText class="form-control" placeholder="CRO..." @bind-Value="Study.Protocol" />
+        </div>
+        <ValidationMessage For="@(() => Study.Protocol)" />
+    </div>
+
+    <div class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Study.Active)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Study.Active" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div> *@
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-floppy-disk me-2"></i> Save
+        </button>
+        <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
+            <i class="fa fa-arrow-left"></i> Back
+        </button>
+    </div>
+</EditForm>

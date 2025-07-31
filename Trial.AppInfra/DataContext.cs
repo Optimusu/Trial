@@ -4,6 +4,7 @@ using System.Reflection;
 using Trial.Domain.EntitesSoftSec;
 using Trial.Domain.Entities;
 using Trial.Domain.EntitiesGen;
+using Trial.Domain.EntitiesStudy;
 
 namespace Trial.AppInfra;
 
@@ -40,6 +41,10 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Enrolling> Enrollings => Set<Enrolling>();
     public DbSet<Irb> Irbs => Set<Irb>();
     public DbSet<Cro> Cros => Set<Cro>();
+
+    //EntitiesGen
+
+    public DbSet<Study> Studies => Set<Study>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

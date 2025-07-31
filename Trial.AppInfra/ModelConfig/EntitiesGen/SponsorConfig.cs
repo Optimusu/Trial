@@ -9,7 +9,7 @@ public class SponsorConfig : IEntityTypeConfiguration<Sponsor>
     public void Configure(EntityTypeBuilder<Sponsor> builder)
     {
         builder.HasKey(e => e.SponsorId);
-        builder.HasIndex(e => new { e.Name, e.CorporationId }).IsUnique();
+        builder.HasIndex(e => new { e.Name }).IsUnique();
         builder.Property(e => e.Name).UseCollation("Latin1_General_CI_AS"); //Para poderlo volver Collation CI
     }
 }

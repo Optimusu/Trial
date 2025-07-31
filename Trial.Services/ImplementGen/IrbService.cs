@@ -36,7 +36,7 @@ public class IrbService : IIrbService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Irb>>> ComboAsync(string Email)
+    public async Task<ActionResponse<IEnumerable<Irb>>> ComboAsync()
     {
         try
         {
@@ -62,21 +62,11 @@ public class IrbService : IIrbService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Irb>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Irb>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Irb>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            var queryable = _context.Irbs.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.Irbs.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -167,19 +157,8 @@ public class IrbService : IIrbService
         }
     }
 
-    public async Task<ActionResponse<Irb>> AddAsync(Irb modelo, string Email)
+    public async Task<ActionResponse<Irb>> AddAsync(Irb modelo)
     {
-        User user = await _userHelper.GetUserAsync(Email);
-        if (user == null)
-        {
-            return new ActionResponse<Irb>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_AuthIdFail"]
-            };
-        }
-        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<Irb>

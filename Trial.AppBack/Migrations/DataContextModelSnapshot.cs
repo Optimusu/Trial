@@ -655,20 +655,15 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("CroId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Name", "CorporationId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Cros");
@@ -685,9 +680,6 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DocumentName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -696,9 +688,7 @@ namespace Trial.AppBack.Migrations
 
                     b.HasKey("DocumentTypeId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("DocumentName", "CorporationId")
+                    b.HasIndex("DocumentName")
                         .IsUnique();
 
                     b.ToTable("DocumentTypes");
@@ -715,20 +705,15 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("EnrollingId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Name", "CorporationId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Enrollings");
@@ -745,24 +730,19 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("IndicationId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Name", "CorporationId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Indications");
@@ -779,20 +759,15 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("IrbId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Name", "CorporationId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Irbs");
@@ -809,24 +784,19 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("SponsorId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Name", "CorporationId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Sponsors");
@@ -843,27 +813,114 @@ namespace Trial.AppBack.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Latin1_General_CI_AS");
 
                     b.HasKey("TherapeuticAreaId");
 
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Name", "CorporationId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("TherapeuticAreas");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesStudy.Study", b =>
+                {
+                    b.Property<Guid>("StudyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ClinicalDescription")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("CompleteProtocol")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CroId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EnrollingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EnrollmentGoal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IndicationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IrbId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Protocol")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
+
+                    b.Property<string>("SiteNumber")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("SponsorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudyNumber")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("TherapeuticAreaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TrialPhase")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudyId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("CroId");
+
+                    b.HasIndex("EnrollingId");
+
+                    b.HasIndex("IndicationId");
+
+                    b.HasIndex("IrbId");
+
+                    b.HasIndex("SponsorId");
+
+                    b.HasIndex("StudyId");
+
+                    b.HasIndex("TherapeuticAreaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("StudyNumber", "CorporationId")
+                        .IsUnique();
+
+                    b.ToTable("Studies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1018,7 +1075,7 @@ namespace Trial.AppBack.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.Cro", b =>
+            modelBuilder.Entity("Trial.Domain.EntitiesStudy.Study", b =>
                 {
                     b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
                         .WithMany()
@@ -1026,77 +1083,69 @@ namespace Trial.AppBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Corporation");
-                });
+                    b.HasOne("Trial.Domain.EntitiesGen.Cro", "Cro")
+                        .WithMany("Studies")
+                        .HasForeignKey("CroId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.DocumentType", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("Trial.Domain.EntitiesGen.Enrolling", "Enrolling")
+                        .WithMany("Studies")
+                        .HasForeignKey("EnrollingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Trial.Domain.EntitiesGen.Indication", "Indication")
+                        .WithMany("Studies")
+                        .HasForeignKey("IndicationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Trial.Domain.EntitiesGen.Irb", "Irb")
+                        .WithMany("Studies")
+                        .HasForeignKey("IrbId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Trial.Domain.EntitiesGen.Sponsor", "Sponsor")
+                        .WithMany("Studies")
+                        .HasForeignKey("SponsorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Trial.Domain.EntitiesGen.TherapeuticArea", "TherapeuticArea")
+                        .WithMany("Studies")
+                        .HasForeignKey("TherapeuticAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Trial.Domain.EntitesSoftSec.Usuario", "Usuario")
+                        .WithMany("Studies")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Corporation");
-                });
 
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.Enrolling", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Cro");
 
-                    b.Navigation("Corporation");
-                });
+                    b.Navigation("Enrolling");
 
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.Indication", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Indication");
 
-                    b.Navigation("Corporation");
-                });
+                    b.Navigation("Irb");
 
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.Irb", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Sponsor");
 
-                    b.Navigation("Corporation");
-                });
+                    b.Navigation("TherapeuticArea");
 
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.Sponsor", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Corporation");
-                });
-
-            modelBuilder.Entity("Trial.Domain.EntitiesGen.TherapeuticArea", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Corporation");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Trial.Domain.EntitesSoftSec.Usuario", b =>
                 {
+                    b.Navigation("Studies");
+
                     b.Navigation("UsuarioRoles");
                 });
 
@@ -1129,6 +1178,36 @@ namespace Trial.AppBack.Migrations
             modelBuilder.Entity("Trial.Domain.Entities.User", b =>
                 {
                     b.Navigation("UserRoleDetails");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Cro", b =>
+                {
+                    b.Navigation("Studies");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Enrolling", b =>
+                {
+                    b.Navigation("Studies");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Indication", b =>
+                {
+                    b.Navigation("Studies");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Irb", b =>
+                {
+                    b.Navigation("Studies");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.Sponsor", b =>
+                {
+                    b.Navigation("Studies");
+                });
+
+            modelBuilder.Entity("Trial.Domain.EntitiesGen.TherapeuticArea", b =>
+                {
+                    b.Navigation("Studies");
                 });
 #pragma warning restore 612, 618
         }

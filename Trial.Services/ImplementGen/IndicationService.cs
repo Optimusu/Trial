@@ -36,21 +36,11 @@ public class IndicationService : IIndicationService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Indication>>> ComboAsync(string Email)
+    public async Task<ActionResponse<IEnumerable<Indication>>> ComboAsync()
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Indication>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            List<Indication> ListModel = await _context.Indications.Where(x => x.Active && x.CorporationId == user.CorporationId).ToListAsync();
+            List<Indication> ListModel = await _context.Indications.Where(x => x.Active).ToListAsync();
             // Insertar el elemento neutro al inicio
             var defaultItem = new Indication
             {
@@ -72,21 +62,11 @@ public class IndicationService : IIndicationService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Indication>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Indication>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            var queryable = _context.Indications.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.Indications.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -177,19 +157,8 @@ public class IndicationService : IIndicationService
         }
     }
 
-    public async Task<ActionResponse<Indication>> AddAsync(Indication modelo, string Email)
+    public async Task<ActionResponse<Indication>> AddAsync(Indication modelo)
     {
-        User user = await _userHelper.GetUserAsync(Email);
-        if (user == null)
-        {
-            return new ActionResponse<Indication>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_AuthIdFail"]
-            };
-        }
-        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<Indication>

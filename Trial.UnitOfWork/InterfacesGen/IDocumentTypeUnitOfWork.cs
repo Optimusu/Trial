@@ -6,15 +6,15 @@ namespace Trial.UnitOfWork.InterfacesGen;
 
 public interface IDocumentTypeUnitOfWork
 {
-    Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync(string Email);
+    Task<ActionResponse<IEnumerable<DocumentType>>> ComboAsync();
 
-    Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination, string Email);
+    Task<ActionResponse<IEnumerable<DocumentType>>> GetAsync(PaginationDTO pagination);
 
     Task<ActionResponse<DocumentType>> GetAsync(int id);
 
     Task<ActionResponse<DocumentType>> UpdateAsync(DocumentType modelo);
 
-    Task<ActionResponse<DocumentType>> AddAsync(DocumentType modelo, string Email);
+    Task<ActionResponse<DocumentType>> AddAsync(DocumentType modelo);
 
     Task<ActionResponse<bool>> DeleteAsync(int id);
 }

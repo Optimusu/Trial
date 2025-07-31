@@ -36,7 +36,7 @@ public class CroService : ICroService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Cro>>> ComboAsync(string Email)
+    public async Task<ActionResponse<IEnumerable<Cro>>> ComboAsync()
     {
         try
         {
@@ -62,21 +62,11 @@ public class CroService : ICroService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Cro>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Cro>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
-            {
-                return new ActionResponse<IEnumerable<Cro>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
-
-            var queryable = _context.Cros.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.Cros.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -167,19 +157,8 @@ public class CroService : ICroService
         }
     }
 
-    public async Task<ActionResponse<Cro>> AddAsync(Cro modelo, string Email)
+    public async Task<ActionResponse<Cro>> AddAsync(Cro modelo)
     {
-        User user = await _userHelper.GetUserAsync(Email);
-        if (user == null)
-        {
-            return new ActionResponse<Cro>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_AuthIdFail"]
-            };
-        }
-        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
             return new ActionResponse<Cro>
