@@ -37,6 +37,7 @@ public partial class FormStudy
     private List<Irb>? Irbs;
     private List<Cro>? Cros;
     private List<EnumItemModel>? ListPhase;
+    private List<EnumItemModel>? Investigator;
     private int SelectPhase;
     private string BaseView = "/studies";
     private string BaseComboTherapeutic = "/api/v1/therapeutics/loadCombo";
@@ -55,6 +56,23 @@ public partial class FormStudy
         await LoadIrb();
         await LoadCro();
         await LoadPhase();
+        await LoadInvestigator();
+    }
+
+    private async Task LoadInvestigator()
+    {
+        var responseHTTP = await _repository.GetAsync<List<EnumItemModel>>($"api/v1/usuarios/loadCombo");
+        bool errorHandled = await _responseHandler.HandleErrorAsync(responseHTTP);
+        if (errorHandled) return;
+        Investigator = responseHTTP.Response;
+    }
+
+    private void InvestigatorChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e?.Value?.ToString(), out int selectedId))
+        {
+            Study.UsuarioId = selectedId;
+        }
     }
 
     private async Task LoadPhase()

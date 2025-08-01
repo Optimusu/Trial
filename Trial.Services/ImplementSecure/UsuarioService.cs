@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Trial.AppInfra;
@@ -13,6 +12,7 @@ using Trial.AppInfra.Transactions;
 using Trial.AppInfra.UserHelper;
 using Trial.Domain.EntitesSoftSec;
 using Trial.Domain.Entities;
+using Trial.Domain.Enum;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.ResponsesSec;
 using Trial.DomainLogic.TrialResponse;
@@ -45,6 +45,51 @@ public class UsuarioService : IUsuarioService
         _emailHelper = emailHelper;
         _imgOption = ImgOption.Value;
         _localizer = localizer;
+    }
+
+    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync(string email)
+    {
+        try
+        {
+            User user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<EnumItemModel>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            var ListModel = await _context.Usuarios
+                .Where(u => u.Active && u.CorporationId == user.CorporationId &&
+                            u.UsuarioRoles != null &&
+                            u.UsuarioRoles.Any(ur => ur.UserType == UserType.Investigator))
+                .Select(u => new EnumItemModel
+                {
+                    Value = u.UsuarioId,
+                    Name = u.FullName
+                })
+                .ToListAsync();
+
+            // Insertar el elemento neutro al inicio
+            var defaultItem = new EnumItemModel
+            {
+                Value = 0,
+                Name = "[Select Investigator]"
+            };
+            ListModel.Insert(0, defaultItem);
+
+            return new ActionResponse<IEnumerable<EnumItemModel>>
+            {
+                WasSuccess = true,
+                Result = ListModel
+            };
+        }
+        catch (Exception ex)
+        {
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<EnumItemModel>>(ex); // ✅ Manejo de errores automático
+        }
     }
 
     public async Task<ActionResponse<IEnumerable<Usuario>>> GetAsync(PaginationDTO pagination, string Email)

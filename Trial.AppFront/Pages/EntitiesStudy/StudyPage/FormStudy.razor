@@ -95,6 +95,18 @@
                         </div>
                     }
                 </div>
+
+                <!-- Nombre -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Study.Protocol)
+                        </span>
+                        <InputText class="form-control" placeholder="Protocol..." @bind-Value="Study.Protocol" />
+                    </div>
+                    <ValidationMessage For="@(() => Study.Protocol)" />
+                </div>
+
             </div>
 
 
@@ -170,7 +182,57 @@
                         </div>
                     }
                 </div>
+
+                <!-- Investigator -->
+                <div class="mb-0">
+                    @if (Investigator is null)
+                    {
+                        <Loading />
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 150px">Investigator </span>
+                            <select class="form-select" value="@Study.UsuarioId" @onchange="InvestigatorChanged">
+                                @foreach (var item in Investigator)
+                                {
+                                    <option value="@item.Value">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+                <!-- Nombre -->
+                <div class="mb-0">
+                    <div class="input-group">
+                        <span class="input-group-text" style="width: 150px">
+                            @GetDisplayName(() => Study.EnrollmentGoal)
+                        </span>
+                        <InputNumber class="form-control" placeholder="EnrollmentGoal..." @bind-Value="Study.EnrollmentGoal" />
+                    </div>
+                    <ValidationMessage For="@(() => Study.EnrollmentGoal)" />
+                </div>
             </div>
+        </div>
+        <!-- Nombre -->
+        <div class="mb-0">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Study.CompleteProtocol)
+                </span>
+                <InputTextArea class="form-control" placeholder="Complete Protocol Title..." @bind-Value="Study.CompleteProtocol" />
+            </div>
+            <ValidationMessage For="@(() => Study.CompleteProtocol)" />
+        </div>
+        <!-- Nombre -->
+        <div class="mb-0">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Study.ClinicalDescription)
+                </span>
+                <InputText class="form-control" placeholder="Clinical Description..." @bind-Value="Study.ClinicalDescription" />
+            </div>
+            <ValidationMessage For="@(() => Study.ClinicalDescription)" />
         </div>
     </div>
 

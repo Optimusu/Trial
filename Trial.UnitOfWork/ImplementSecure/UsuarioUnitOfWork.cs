@@ -1,4 +1,5 @@
 ﻿using Trial.Domain.EntitesSoftSec;
+using Trial.Domain.Enum;
 using Trial.DomainLogic.Pagination;
 using Trial.DomainLogic.TrialResponse;
 using Trial.Services.InterfacesSecure;
@@ -14,6 +15,8 @@ public class UsuarioUnitOfWork : IUsuarioUnitOfWork
     {
         _usuarioService = usuarioService;
     }
+
+    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync(string email) => await _usuarioService.ComboAsync(email);
 
     public async Task<ActionResponse<IEnumerable<Usuario>>> GetAsync(PaginationDTO pagination, string Email) => await _usuarioService.GetAsync(pagination, Email);
 

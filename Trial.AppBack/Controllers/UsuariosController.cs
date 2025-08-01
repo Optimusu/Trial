@@ -30,6 +30,25 @@ namespace Trial.AppBack.Controllers
             _localizer = localizer;
         }
 
+        [HttpGet("loadCombo")] //Usuario con Roles de Investigator
+        public async Task<IActionResult> GetComboAsync()
+        {
+            try
+            {
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.ComboAsync(userClaimsInfo.Email);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
         {
