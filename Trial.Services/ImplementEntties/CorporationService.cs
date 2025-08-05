@@ -151,7 +151,8 @@ public class CorporationService : ICorporationService
                     guid = modelo.Imagen;
                 }
                 var imageId = Convert.FromBase64String(modelo.ImgBase64);
-                modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgCorporation!, guid);
+                //modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgCorporation!, guid);
+                modelo.Imagen = await _fileStorage.SaveFileAsync(imageId, guid, _imgOption.ImgCorporation);
             }
 
             _context.Corporations.Update(modelo);
@@ -190,7 +191,8 @@ public class CorporationService : ICorporationService
             {
                 string guid = Guid.NewGuid().ToString() + ".jpg";
                 var imageId = Convert.FromBase64String(modelo.ImgBase64);
-                modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgCorporation!, guid);
+                //modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgCorporation!, guid);
+                modelo.Imagen = await _fileStorage.SaveFileAsync(imageId, guid, _imgOption.ImgCorporation);
             }
 
             _context.Corporations.Add(modelo);

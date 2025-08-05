@@ -86,7 +86,7 @@
                     {
                         <div class="input-group">
                             <span class="input-group-text" style="width: 150px">Phase </span>
-                            <select class="form-select" value="@SelectPhase" @onchange="PhaseChanged">
+                            <select class="form-select" value="@((int)Study.TrialPhase)" @onchange="PhaseChanged">
                                 @foreach (var item in ListPhase)
                                 {
                                     <option value="@item.Value">@item.Name</option>
@@ -173,7 +173,7 @@
                     {
                         <div class="input-group">
                             <span class="input-group-text" style="width: 150px">IRB </span>
-                            <select class="form-select" value="@Study.EnrollingId" @onchange="IrbChanged">
+                            <select class="form-select" value="@Study.IrbId" @onchange="IrbChanged">
                                 @foreach (var item in Irbs)
                                 {
                                     <option value="@item.IrbId">@item.Name</option>
@@ -235,27 +235,6 @@
             <ValidationMessage For="@(() => Study.ClinicalDescription)" />
         </div>
     </div>
-
-    @*     <div class="mb-0">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Study.Protocol)
-            </span>
-            <InputText class="form-control" placeholder="CRO..." @bind-Value="Study.Protocol" />
-        </div>
-        <ValidationMessage For="@(() => Study.Protocol)" />
-    </div>
-
-    <div class="mb-3">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Study.Active)
-            </span>
-            <div class="d-flex align-items-center ps-3">
-                <InputCheckbox @bind-Value="Study.Active" class="form-check-input me-2" />
-            </div>
-        </div>
-    </div> *@
 
     <!-- Botones -->
     <div class="d-flex justify-content-center gap-3 mt-5">

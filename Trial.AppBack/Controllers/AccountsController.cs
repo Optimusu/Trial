@@ -60,13 +60,6 @@ namespace Trial.AppBack.Controllers
             {
                 return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
             }
-
-            //var response = await _accountUnitOfWork.RecoverPasswordAsync(modelo, _configuration["UrlFrontend"]!);
-            //if (!response.WasSuccess)
-            //{
-            //    return BadRequest(response.Message);
-            //}
-            //return Ok(response.Result);
         }
 
         [HttpPost("ResetPassword")]
@@ -85,12 +78,6 @@ namespace Trial.AppBack.Controllers
             {
                 return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
             }
-            //var response = await _accountUnitOfWork.ResetPasswordAsync(modelo);
-            //if (!response.WasSuccess)
-            //{
-            //    return BadRequest(response.Message);
-            //}
-            //return Ok(response.Result);
         }
 
         [HttpPost("changePassword")]
@@ -120,23 +107,6 @@ namespace Trial.AppBack.Controllers
             {
                 return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
             }
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(_localizer["Generic_InvalidModel"]);
-            //}
-            //if (string.IsNullOrWhiteSpace(User.Identity!.Name!))
-            //{
-            //    return Unauthorized(_localizer["Generic_AuthRequired"]);
-            //}
-            //string UserName = User.Identity!.Name!;
-
-            //var response = await _unitOfWork.ChangePasswordAsync(modelo, UserName);
-            //if (!response.WasSuccess)
-            //{
-            //    return BadRequest(response.Message);
-            //}
-            //return Ok(response.Result);
         }
 
         [HttpGet("ConfirmEmail")]
@@ -156,14 +126,6 @@ namespace Trial.AppBack.Controllers
             {
                 return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
             }
-
-            //token = token.Replace(" ", "+");
-            //var response = await _unitOfWork.ConfirmEmailAsync(userId, token);
-            //if (!response.WasSuccess)
-            //{
-            //    return BadRequest(response.Message);
-            //}
-            //return Ok(response.Result);
         }
     }
 }

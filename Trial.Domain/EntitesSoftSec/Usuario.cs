@@ -70,11 +70,8 @@ public class Usuario
     //TODO: Pending to put the correct paths
     [Display(Name = nameof(Resource.Photo), ResourceType = typeof(Resource))]
     public string ImageFullPath => Photo == string.Empty || Photo == null
-    ? $"https://localhost:7229/Images/NoImage.png"
-    : $"https://localhost:7229/Images/ImgUsuarios/{Photo}";
-
-    //? $"https://spi.nexxtplanet.net/Images/NoImage.png"
-    //: $"https://spi.nexxtplanet.net/Images/ImgUsuarios/{Photo}";
+        ? $"https://optimusimage.blob.core.windows.net/imgnoimagen/NoImage.png"
+        : $"https://optimusimage.blob.core.windows.net/imgusuarios/{Photo}";
 
     [NotMapped]
     public string? ImgBase64 { get; set; }

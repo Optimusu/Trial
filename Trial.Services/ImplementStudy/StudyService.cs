@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using Trial.AppInfra;
 using Trial.AppInfra.ErrorHandling;
 using Trial.AppInfra.Extensions;
+using Trial.AppInfra.Mappings;
 using Trial.AppInfra.Transactions;
 using Trial.AppInfra.UserHelper;
 using Trial.AppInfra.Validations;
@@ -24,10 +25,11 @@ public class StudyService : IStudyService
     private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
     private readonly IUserHelper _userHelper;
+    private readonly IMapperService _mapperService;
 
     public StudyService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
-        IStringLocalizer localizer, IUserHelper userHelper)
+        IStringLocalizer localizer, IUserHelper userHelper, IMapperService mapperService)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
@@ -35,6 +37,7 @@ public class StudyService : IStudyService
         _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
         _userHelper = userHelper;
+        _mapperService = mapperService;
     }
 
     public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync()
@@ -151,7 +154,8 @@ public class StudyService : IStudyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Studies.Update(modelo);
+            Study NuevoModelo = _mapperService.Map<Study, Study>(modelo);
+            _context.Studies.Update(NuevoModelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
@@ -195,7 +199,8 @@ public class StudyService : IStudyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Studies.Add(modelo);
+            Study NuevoModelo = _mapperService.Map<Study, Study>(modelo);
+            _context.Studies.Add(NuevoModelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 

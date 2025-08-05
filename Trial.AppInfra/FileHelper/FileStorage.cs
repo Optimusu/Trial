@@ -1,46 +1,49 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Trial.DomainLogic.ResponsesSec;
 
 namespace Trial.AppInfra.FileHelper;
 
 public class FileStorage : IFileStorage
 {
-    private readonly string connectionString;
+    private readonly AzureSetting _azureOption;
 
-    public FileStorage(IConfiguration configuration)
+    public FileStorage(IOptions<AzureSetting> azureOption)
     {
-        connectionString = configuration.GetConnectionString("AzureStorage")!;
+        _azureOption = azureOption.Value;
     }
 
     //Para Manejo de Imagenes en AZURE Containers
 
     public async Task RemoveFileAsync(string path, string containerName)
     {
-        var client = new BlobContainerClient(connectionString, containerName);
+        var client = new BlobContainerClient(_azureOption.AzureStorage, containerName);
         await client.CreateIfNotExistsAsync();
         var fileName = Path.GetFileName(path);
         var blob = client.GetBlobClient(fileName);
         await blob.DeleteIfExistsAsync();
     }
 
-    public async Task<string> SaveFileAsync(byte[] content, string extention, string containerName)
+    public async Task<string> SaveFileAsync(byte[] content, string fileName, string containerName)
     {
-        var client = new BlobContainerClient(connectionString, containerName);
+        var client = new BlobContainerClient(_azureOption.AzureStorage, containerName);
         await client.CreateIfNotExistsAsync();
         client.SetAccessPolicy(PublicAccessType.Blob);
-        var fileName = $"{Guid.NewGuid()}{extention}";
+
         var blob = client.GetBlobClient(fileName);
 
         using (var ms = new MemoryStream(content))
         {
-            await blob.UploadAsync(ms);
+            await blob.UploadAsync(ms, overwrite: true);
         }
         //Es para obtener la url completa junto con el archivo
         //return blob.Uri.ToString();
         return fileName;
     }
+
+    //Para Guardado de Imagenes en Disco
 
     public async Task<string> UploadImage(IFormFile imageFile, string ruta, string guid)
     {

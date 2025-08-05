@@ -173,7 +173,8 @@ public class UsuarioService : IUsuarioService
                     guid = modelo.Photo;
                 }
                 var imageId = Convert.FromBase64String(modelo.ImgBase64);
-                modelo.Photo = await _fileStorage.UploadImage(imageId, _imgOption.ImgUsuario, guid);
+                //modelo.Photo = await _fileStorage.UploadImage(imageId, _imgOption.ImgUsuario, guid);
+                modelo.Photo = await _fileStorage.SaveFileAsync(imageId, guid, _imgOption.ImgUsuario);
             }
             _context.Usuarios.Update(modelo);
             await _transactionManager.SaveChangesAsync();
@@ -254,7 +255,8 @@ public class UsuarioService : IUsuarioService
             {
                 string guid = Guid.NewGuid().ToString() + ".jpg";
                 var imageId = Convert.FromBase64String(modelo.ImgBase64);
-                modelo.Photo = await _fileStorage.UploadImage(imageId, _imgOption.ImgUsuario, guid);
+                //modelo.Photo = await _fileStorage.UploadImage(imageId, _imgOption.ImgUsuario, guid);
+                modelo.Photo = await _fileStorage.SaveFileAsync(imageId, guid, _imgOption.ImgUsuario);
             }
             _context.Usuarios.Add(modelo);
             await _transactionManager.SaveChangesAsync();

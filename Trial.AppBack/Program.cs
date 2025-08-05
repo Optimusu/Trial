@@ -154,6 +154,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // 🔐 Configuración AppSettings
 builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGrid"));
 builder.Services.Configure<ImgSetting>(builder.Configuration.GetSection("ImgSoftware"));
+builder.Services.Configure<AzureSetting>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<JwtKeySetting>(options =>
 {
     options.jwtKey = builder.Configuration.GetValue<string>("jwtKey");

@@ -110,7 +110,7 @@ public partial class FormStudy
     {
         if (int.TryParse(e?.Value?.ToString(), out int selectedId))
         {
-            Study.IrbId = selectedId;
+            Study.CroId = selectedId;
         }
     }
 

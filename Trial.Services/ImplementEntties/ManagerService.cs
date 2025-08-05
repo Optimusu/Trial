@@ -154,7 +154,8 @@ public class ManagerService : IManagerService
                     guid = modelo.Imagen;
                 }
                 var imageId = Convert.FromBase64String(modelo.ImgBase64);
-                NewModelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgManager!, guid);
+                //NewModelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgManager!, guid);
+                NewModelo.Imagen = await _fileStorage.SaveFileAsync(imageId, guid, _imgOption.ImgManager);
             }
             _context.Managers.Update(NewModelo);
             await _transactionManager.SaveChangesAsync();
@@ -246,7 +247,8 @@ public class ManagerService : IManagerService
             {
                 string guid = Guid.NewGuid().ToString() + ".jpg";
                 var imageId = Convert.FromBase64String(modelo.ImgBase64);
-                modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgManager!, guid);
+                //modelo.Imagen = await _fileStorage.UploadImage(imageId, _imgOption.ImgManager!, guid);
+                modelo.Imagen = await _fileStorage.SaveFileAsync(imageId, guid, _imgOption.ImgManager);
             }
 
             _context.Managers.Add(modelo);

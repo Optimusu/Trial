@@ -91,15 +91,15 @@ public class AccountService : IAccountService
                 switch (user.UserFrom)
                 {
                     case "Monitor":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/ImgMonitor/{user.PhotoUser}" : ImagenDefault;
+                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/imgmonitors/{user.PhotoUser}" : ImagenDefault;
                         break;
 
                     case "Manager":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/ImgManager/{user.PhotoUser}" : ImagenDefault;
+                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/imgmanager/{user.PhotoUser}" : ImagenDefault;
                         break;
 
                     case "UsuarioSoftware":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/ImgUsuarios/{user.PhotoUser}" : ImagenDefault;
+                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/imgusuarios/{user.PhotoUser}" : ImagenDefault;
                         break;
                 }
             }
