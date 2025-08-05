@@ -39,8 +39,11 @@ public partial class InputImage
         StateHasChanged();
     }
 
-    private string GetImageSource() =>
-    !string.IsNullOrWhiteSpace(ImageBase64)
-        ? $"data:image/jpeg;base64,{ImageBase64}"
-        : ImageUrl!;
+    private string GetImageSource()
+    {
+        if (!string.IsNullOrWhiteSpace(ImageBase64))
+            return $"data:image/jpeg;base64,{ImageBase64}";
+
+        return ImageUrl ?? string.Empty; // ya viene como data URI, listo para mostrar
+    }
 }

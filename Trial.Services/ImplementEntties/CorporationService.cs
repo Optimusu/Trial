@@ -79,6 +79,20 @@ public class CorporationService : ICorporationService
             }
             var result = await queryable.ApplyFullPaginationAsync(_httpContextAccessor.HttpContext!, pagination);
 
+            await Task.WhenAll(result.Select(async corp =>
+            {
+                if (string.IsNullOrWhiteSpace(corp.Imagen))
+                {
+                    corp.ImageFullPath = _imgOption.ImgNoImage; // imagen pública libre
+                }
+                else
+                {
+                    corp.ImageFullPath = await _fileStorage.GetImageBase64Async(
+                        corp.Imagen,
+                        _imgOption.ImgCorporation);
+                }
+            }));
+
             return new ActionResponse<IEnumerable<Corporation>>
             {
                 WasSuccess = true,
@@ -113,6 +127,16 @@ public class CorporationService : ICorporationService
                     WasSuccess = false,
                     Message = _localizer["Generic_IdNotFound"]
                 };
+            }
+            if (string.IsNullOrWhiteSpace(modelo.Imagen))
+            {
+                modelo.ImageFullPath = _imgOption.ImgNoImage; // imagen pública libre
+            }
+            else
+            {
+                modelo.ImageFullPath = await _fileStorage.GetImageBase64Async(
+                    modelo.Imagen,
+                    _imgOption.ImgCorporation);
             }
             return new ActionResponse<Corporation>
             {

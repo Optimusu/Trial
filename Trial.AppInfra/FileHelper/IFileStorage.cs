@@ -26,4 +26,5 @@ public interface IFileStorage
     Task<string> UploadImage(byte[] imageFile, string ruta, string guid);
 
     bool DeleteImage(string ruta, string guid);
+    Task<string?> GetImageBase64Async(string? fileName, string containerName);
 }

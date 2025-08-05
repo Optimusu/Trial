@@ -30,7 +30,8 @@ public class FileStorage : IFileStorage
     {
         var client = new BlobContainerClient(_azureOption.AzureStorage, containerName);
         await client.CreateIfNotExistsAsync();
-        client.SetAccessPolicy(PublicAccessType.Blob);
+        //client.SetAccessPolicy(PublicAccessType.Blob);
+        await client.SetAccessPolicyAsync(PublicAccessType.None);
 
         var blob = client.GetBlobClient(fileName);
 
@@ -43,8 +44,65 @@ public class FileStorage : IFileStorage
         return fileName;
     }
 
-    //Para Guardado de Imagenes en Disco
+    public async Task<string> SaveWordFileAsync(byte[] content, string fileName, string containerName)
+    {
+        // Validación por extensión
+        var ext = Path.GetExtension(fileName).ToLowerInvariant();
+        var validExts = new[] { ".doc", ".docx" };
 
+        if (!validExts.Contains(ext))
+            throw new InvalidOperationException("Solo se permiten archivos Word (.doc, .docx)");
+
+        var client = new BlobContainerClient(_azureOption.AzureStorage, containerName);
+        await client.CreateIfNotExistsAsync();
+        await client.SetAccessPolicyAsync(PublicAccessType.None); //Privado
+
+        var blob = client.GetBlobClient(fileName);
+
+        using (var ms = new MemoryStream(content))
+        {
+            await blob.UploadAsync(ms, overwrite: true);
+        }
+
+        return fileName;
+    }
+
+    //Para poder leer el Blobs que esta en Privado
+    public async Task<string?> GetImageBase64Async(string? fileName, string containerName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+            return null;
+
+        var client = new BlobContainerClient(_azureOption.AzureStorage, containerName);
+        var blob = client.GetBlobClient(fileName);
+
+        if (!await blob.ExistsAsync())
+            return null;
+
+        var download = await blob.DownloadContentAsync();
+        var bytes = download.Value.Content.ToArray();
+        var mime = GetMimeType(fileName);
+
+        return $"data:{mime};base64,{Convert.ToBase64String(bytes)}";
+    }
+
+    private static string GetMimeType(string fileName)
+    {
+        var ext = Path.GetExtension(fileName).ToLowerInvariant();
+        return ext switch
+        {
+            ".png" => "image/png",
+            ".jpg" or ".jpeg" => "image/jpeg",
+            ".gif" => "image/gif",
+            _ => "application/octet-stream"
+        };
+    }
+
+
+
+
+    //Para Guardado de Imagenes en Disco
+    //Solo pra alamcenamiento local o uso de IFormFile
     public async Task<string> UploadImage(IFormFile imageFile, string ruta, string guid)
     {
         var file = guid;

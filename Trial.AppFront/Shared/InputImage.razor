@@ -15,7 +15,7 @@
     </div>
 </div>
 
-@if (!string.IsNullOrWhiteSpace(ImageBase64) || (!string.IsNullOrWhiteSpace(ImageUrl) && ImageUrl.StartsWith("http")))
+@if (!string.IsNullOrWhiteSpace(GetImageSource()))
 {
     <div class="mt-2">
         <img src="@GetImageSource()"
