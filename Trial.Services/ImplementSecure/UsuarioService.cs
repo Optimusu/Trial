@@ -60,15 +60,15 @@ public class UsuarioService : IUsuarioService
                     Message = "Problemas para Conseguir el Usuario"
                 };
             }
-
             var ListModel = await _context.Usuarios
-                .Where(u => u.Active && u.CorporationId == user.CorporationId &&
-                            u.UsuarioRoles != null &&
-                            u.UsuarioRoles.Any(ur => ur.UserType == UserType.Investigator))
+                .Include(u => u.UsuarioRoles)
+                .Where(u => u.Active &&
+                            u.CorporationId == user.CorporationId &&
+                            u.UsuarioRoles!.Any(ur => ur.UserType.ToString() == "Investigator"))
                 .Select(u => new EnumItemModel
                 {
                     Value = u.UsuarioId,
-                    Name = u.FullName
+                    Name = u.FullName ?? $"{u.FirstName} {u.LastName}"
                 })
                 .ToListAsync();
 

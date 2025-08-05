@@ -34,12 +34,14 @@ public partial class CreateUsuarioRole
 
         await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
         _modalService.Close();
+        _navigationManager.NavigateTo("/");
         _navigationManager.NavigateTo($"{BaseView}/{Id}");
     }
 
     private void Return()
     {
         _modalService.Close();
+        _navigationManager.NavigateTo("/");
         _navigationManager.NavigateTo($"{BaseView}/{Id}");
     }
 }

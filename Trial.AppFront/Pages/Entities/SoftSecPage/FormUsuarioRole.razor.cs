@@ -41,8 +41,9 @@ public partial class FormUsuarioRole
         {
             if (modelo == 2) { UsuarioRole.UserType = UserType.Administrator; }
             if (modelo == 3) { UsuarioRole.UserType = UserType.Coordinator; }
-            if (modelo == 4) { UsuarioRole.UserType = UserType.Researcher; }
-            if (modelo == 5) { UsuarioRole.UserType = UserType.Monitor; }
+            if (modelo == 4) { UsuarioRole.UserType = UserType.Investigator; }
+            if (modelo == 5) { UsuarioRole.UserType = UserType.Researcher; }
+            if (modelo == 6) { UsuarioRole.UserType = UserType.Monitor; }
         }
     }
 }
