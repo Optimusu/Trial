@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using Trial.AppInfra;
 using Trial.AppInfra.EmailHelper;
+using Trial.AppInfra.FileHelper;
 using Trial.AppInfra.UserHelper;
 using Trial.Domain.Entities;
 using Trial.Domain.Enum;
@@ -22,25 +23,27 @@ public class AccountService : IAccountService
     private readonly IUserHelper _userHelper;
     private readonly IEmailHelper _emailHelper;
     private readonly IStringLocalizer _localizer;
+    private readonly IFileStorage _fileStorage;
     private readonly JwtKeySetting _jwtOption;
     private readonly ImgSetting _imgOption;
 
     public AccountService(DataContext context, IUserHelper userHelper,
         IEmailHelper emailHelper, IOptions<ImgSetting> ImgOption,
-        IOptions<JwtKeySetting> jwtOption, IStringLocalizer localizer)
+        IOptions<JwtKeySetting> jwtOption, IStringLocalizer localizer, IFileStorage fileStorage)
     {
         _context = context;
         _userHelper = userHelper;
         _emailHelper = emailHelper;
         _localizer = localizer;
+        _fileStorage = fileStorage;
         _jwtOption = jwtOption.Value;
         _imgOption = ImgOption.Value;
     }
 
     public async Task<ActionResponse<TokenDTO>> LoginAsync(LoginDTO modelo)
     {
-        string imgUsuario = string.Empty;
-        string ImagenDefault = _imgOption.ImgNoImage;
+        string? imgUsuario = string.Empty;
+        string? ImagenDefault = _imgOption.ImgNoImage;
         string BaseUrl = _imgOption.ImgBaseUrl;
 
         var result = await _userHelper.LoginAsync(modelo);
@@ -90,23 +93,23 @@ public class AccountService : IAccountService
 
                 switch (user.UserFrom)
                 {
-                    case "Monitor":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/imgmonitors/{user.PhotoUser}" : ImagenDefault;
-                        break;
-
                     case "Manager":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/imgmanager/{user.PhotoUser}" : ImagenDefault;
+                        imgUsuario = !string.IsNullOrWhiteSpace(user.PhotoUser)
+                            ? await _fileStorage.GetImageBase64Async(user.PhotoUser, _imgOption.ImgManager)
+                            : ImagenDefault;
                         break;
 
                     case "UsuarioSoftware":
-                        imgUsuario = user.PhotoUser != null ? $"{BaseUrl}/imgusuarios/{user.PhotoUser}" : ImagenDefault;
+                        imgUsuario = !string.IsNullOrWhiteSpace(user.PhotoUser)
+                            ? await _fileStorage.GetImageBase64Async(user.PhotoUser, _imgOption.ImgUsuario)
+                            : ImagenDefault;
                         break;
                 }
             }
             return new ActionResponse<TokenDTO>
             {
                 WasSuccess = true,
-                Result = BuildToken(user, imgUsuario)
+                Result = await BuildToken(user, imgUsuario!)
             };
         }
 
@@ -272,10 +275,10 @@ public class AccountService : IAccountService
         return response;
     }
 
-    private TokenDTO BuildToken(User user, string imgUsuario)
+    private async Task<TokenDTO> BuildToken(User user, string imgUsuario)
     {
         string NomCompa;
-        string LogoCompa;
+        string? LogoCompa;
         var RolesUsuario = _context.UserRoleDetails.Where(c => c.UserId == user.Id).ToList();
         var RolUsuario = RolesUsuario.Where(c => c.UserType == UserType.Admin).FirstOrDefault();
         if (RolUsuario != null)
@@ -289,7 +292,9 @@ public class AccountService : IAccountService
         {
             var compname = _context.Corporations.FirstOrDefault(x => x.CorporationId == user.CorporationId);
             NomCompa = compname!.Name!;
-            LogoCompa = compname!.ImageFullPath;
+            LogoCompa = !string.IsNullOrWhiteSpace(compname.ImageFullPath)
+                            ? await _fileStorage.GetImageBase64Async(compname.ImageFullPath, _imgOption.ImgCorporation)
+                            : _imgOption.LogoSoftware;
         }
         var claims = new List<Claim>
             {
@@ -299,7 +304,7 @@ public class AccountService : IAccountService
                 new Claim("LastName", user.LastName),
                 new Claim("Photo", imgUsuario),
                 new Claim("CorpName", NomCompa),
-                new Claim("LogoCorp", LogoCompa),
+                new Claim("LogoCorp", LogoCompa!),
             };
         // Solo agregar el CorporateId si el usuario NO es Admin
         if (RolUsuario == null && user.CorporationId.HasValue)

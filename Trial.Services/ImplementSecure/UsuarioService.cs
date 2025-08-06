@@ -115,6 +115,20 @@ public class UsuarioService : IUsuarioService
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
             var modelo = await queryable.OrderBy(x => x.FullName).Paginate(pagination).ToListAsync();
 
+            await Task.WhenAll(modelo.Select(async option =>
+            {
+                if (string.IsNullOrWhiteSpace(option.Photo))
+                {
+                    option.ImageFullPath = _imgOption.ImgNoImage; // imagen pública libre
+                }
+                else
+                {
+                    option.ImageFullPath = await _fileStorage.GetImageBase64Async(
+                        option.Photo,
+                        _imgOption.ImgUsuario);
+                }
+            }));
+
             return new ActionResponse<IEnumerable<Usuario>>
             {
                 WasSuccess = true,
@@ -139,6 +153,17 @@ public class UsuarioService : IUsuarioService
                     WasSuccess = false,
                     Message = _localizer["Generic_IdNotFound"]
                 };
+            }
+
+            if (string.IsNullOrWhiteSpace(modelo.Photo))
+            {
+                modelo.ImageFullPath = _imgOption.ImgNoImage; // imagen pública libre
+            }
+            else
+            {
+                modelo.ImageFullPath = await _fileStorage.GetImageBase64Async(
+                    modelo.Photo,
+                    _imgOption.ImgUsuario);
             }
 
             return new ActionResponse<Usuario>

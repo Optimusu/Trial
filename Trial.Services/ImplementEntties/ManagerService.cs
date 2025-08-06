@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -66,6 +67,20 @@ public class ManagerService : IManagerService
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
             var modelo = await queryable.OrderBy(x => x.FullName).Paginate(pagination).ToListAsync();
 
+            await Task.WhenAll(modelo.Select(async option =>
+            {
+                if (string.IsNullOrWhiteSpace(option.Imagen))
+                {
+                    option.ImageFullPath = _imgOption.ImgNoImage; // imagen pública libre
+                }
+                else
+                {
+                    option.ImageFullPath = await _fileStorage.GetImageBase64Async(
+                        option.Imagen,
+                        _imgOption.ImgManager);
+                }
+            }));
+
             return new ActionResponse<IEnumerable<Manager>>
             {
                 WasSuccess = true,
@@ -100,6 +115,17 @@ public class ManagerService : IManagerService
                     WasSuccess = false,
                     Message = _localizer["Generic_IdNotFound"]
                 };
+            }
+            //Manejo de las imagenes desde Azure Private
+            if (string.IsNullOrWhiteSpace(modelo.Imagen))
+            {
+                modelo.ImageFullPath = _imgOption.ImgNoImage; // imagen pública libre
+            }
+            else
+            {
+                modelo.ImageFullPath = await _fileStorage.GetImageBase64Async(
+                    modelo.Imagen,
+                    _imgOption.ImgManager);
             }
 
             return new ActionResponse<Manager>

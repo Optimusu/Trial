@@ -71,9 +71,8 @@ public class Manager
     public bool Active { get; set; }
 
     //TODO: Cambio de ruta para Imagenes
-    public string ImageFullPath => Imagen == string.Empty || Imagen == null
-        ? $"https://optimusimage.blob.core.windows.net/imgnoimagen/NoImage.png"
-        : $"https://optimusimage.blob.core.windows.net/imgmanager/{Imagen}";
+    [NotMapped]
+    public string? ImageFullPath { get; set; }
 
     [NotMapped]
     public string? ImgBase64 { get; set; }

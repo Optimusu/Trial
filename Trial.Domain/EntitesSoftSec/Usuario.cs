@@ -67,11 +67,8 @@ public class Usuario
     public int TotalRoles => UsuarioRoles == null ? 0 : UsuarioRoles.Count();
 
     //Propiedades Virtuales
-    //TODO: Pending to put the correct paths
-    [Display(Name = nameof(Resource.Photo), ResourceType = typeof(Resource))]
-    public string ImageFullPath => Photo == string.Empty || Photo == null
-        ? $"https://optimusimage.blob.core.windows.net/imgnoimagen/NoImage.png"
-        : $"https://optimusimage.blob.core.windows.net/imgusuarios/{Photo}";
+    [NotMapped]
+    public string? ImageFullPath { get; set; }
 
     [NotMapped]
     public string? ImgBase64 { get; set; }
