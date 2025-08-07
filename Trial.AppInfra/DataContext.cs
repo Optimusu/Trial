@@ -42,9 +42,10 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Irb> Irbs => Set<Irb>();
     public DbSet<Cro> Cros => Set<Cro>();
 
-    //EntitiesGen
+    //EntitiesStudy
 
     public DbSet<Study> Studies => Set<Study>();
+    public DbSet<EdocCategory> EdocCategories => Set<EdocCategory>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -22,6 +22,10 @@ public class Study
     [Display(Name = nameof(Resource.StudyNumber), ResourceType = typeof(Resource))]
     public string? StudyNumber { get; set; }
 
+    [MaxLength(155, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
+    [Display(Name = nameof(Resource.Study), ResourceType = typeof(Resource))]
+    public string? FullStudy { get; set; }
+
     [Required]
     [Display(Name = nameof(Resource.TherapeuticArea), ResourceType = typeof(Resource))]
     public int TherapeuticAreaId { get; set; }
@@ -39,6 +43,7 @@ public class Study
     public TrialPhase TrialPhase { get; set; }
 
     [Required]
+    [Range(1, int.MaxValue, ErrorMessageResourceName = "Validation_Range", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = nameof(Resource.Sponsor), ResourceType = typeof(Resource))]
     public int SponsorId { get; set; }
 
@@ -89,4 +94,5 @@ public class Study
     public Usuario? Usuario { get; set; }
     public Irb? Irb { get; set; }
     public Cro? Cro { get; set; }
+    public ICollection<EdocCategory>? EdocCategories { get; set; }
 }

@@ -24,7 +24,7 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-dark">
                             <tr>
-                                <th>Name</th>
+                                <th>Study</th>
                                 <th>Active</th>
                                 <th></th>
                                 <th></th>
@@ -34,7 +34,7 @@
                             @foreach (var item in Studies!)
                             {
                                 <tr>
-                                    <td>@item.Protocol</td>
+                                    <td>@item.FullStudy</td>
                                     <td>
                                         <input type="checkbox" class="form-check-input" checked="@item.Active" disabled />
                                     </td>

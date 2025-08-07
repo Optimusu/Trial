@@ -142,6 +142,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Container.
+        /// </summary>
+        public static string Container {
+            get {
+                return ResourceManager.GetString("Container", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Corporation.
         /// </summary>
         public static string Corporation {
@@ -1006,6 +1015,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Study.
+        /// </summary>
+        public static string Study {
+            get {
+                return ResourceManager.GetString("Study", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Study Number.
         /// </summary>
         public static string StudyNumber {
@@ -1110,6 +1128,15 @@ namespace Trial.Domain.Resources {
         public static string Validation_PasswordMismatch {
             get {
                 return ResourceManager.GetString("Validation_PasswordMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select a valid {0}.
+        /// </summary>
+        public static string Validation_Range {
+            get {
+                return ResourceManager.GetString("Validation_Range", resourceCulture);
             }
         }
         

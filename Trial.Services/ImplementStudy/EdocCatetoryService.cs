@@ -17,7 +17,7 @@ using Trial.Services.InterfacesStudy;
 
 namespace Trial.Services.ImplementStudy;
 
-public class StudyService : IStudyService
+public class EdocCatetoryService : IEdocCatetoryService
 {
     private readonly DataContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,7 +27,7 @@ public class StudyService : IStudyService
     private readonly IUserHelper _userHelper;
     private readonly IMapperService _mapperService;
 
-    public StudyService(DataContext context, IHttpContextAccessor httpContextAccessor,
+    public EdocCatetoryService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
         IStringLocalizer localizer, IUserHelper userHelper, IMapperService mapperService)
     {
@@ -40,59 +40,73 @@ public class StudyService : IStudyService
         _mapperService = mapperService;
     }
 
-    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<GuidItemModel>>> ComboAsync(string email)
     {
         try
         {
-            List<EnumItemModel> list = Enum.GetValues(typeof(TrialPhase)).Cast<TrialPhase>().Select(c => new EnumItemModel()
-            {
-                Name = c.ToString(),
-                Value = (int)c
-            }).ToList();
-
-            list.Insert(0, new EnumItemModel
-            {
-                Name = _localizer["[Select Phase]"],
-                Value = 0
-            });
-
-            return new ActionResponse<IEnumerable<EnumItemModel>>
-            {
-                WasSuccess = true,
-                Result = list
-            };
-        }
-        catch (Exception ex)
-        {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<EnumItemModel>>(ex); //Manejo de errores automático
-        }
-    }
-
-    public async Task<ActionResponse<IEnumerable<Study>>> GetAsync(PaginationDTO pagination, string Email)
-    {
-        try
-        {
-            User user = await _userHelper.GetUserAsync(Email);
+            User user = await _userHelper.GetUserAsync(email);
             if (user == null)
             {
-                return new ActionResponse<IEnumerable<Study>>
+                return new ActionResponse<IEnumerable<GuidItemModel>>
                 {
                     WasSuccess = false,
                     Message = "Problemas para Conseguir el Usuario"
                 };
             }
 
-            var queryable = _context.Studies.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            // Supongamos que tienes acceso a un DbContext o servicio que devuelve las categorías
+            var categories = await _context.EdocCategories.Where(x => x.Active && x.CorporationId == user.CorporationId)
+                .Select(c => new GuidItemModel
+                {
+                    Name = c.Name, // o el campo que represente el nombre visible
+                    Value = c.EdocCategoryId
+                })
+                .ToListAsync();
+
+            // Insertar opción por defecto al inicio
+            categories.Insert(0, new GuidItemModel
+            {
+                Name = _localizer["[Select Category]"],
+                Value = Guid.Empty
+            });
+
+            return new ActionResponse<IEnumerable<GuidItemModel>>
+            {
+                WasSuccess = true,
+                Result = categories
+            };
+        }
+        catch (Exception ex)
+        {
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<GuidItemModel>>(ex);
+        }
+    }
+
+    public async Task<ActionResponse<IEnumerable<EdocCategory>>> GetAsync(PaginationDTO pagination, string Email)
+    {
+        try
+        {
+            User user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                return new ActionResponse<IEnumerable<EdocCategory>>
+                {
+                    WasSuccess = false,
+                    Message = "Problemas para Conseguir el Usuario"
+                };
+            }
+
+            var queryable = _context.EdocCategories.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 //Busqueda grandes mateniendo los indices de los campos, campo Esta Collation CI para Case Insensitive
-                queryable = queryable.Where(u => EF.Functions.Like(u.Protocol, $"%{pagination.Filter}%"));
+                queryable = queryable.Where(u => EF.Functions.Like(u.Name, $"%{pagination.Filter}%"));
             }
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
-            var modelo = await queryable.OrderBy(x => x.Protocol).Paginate(pagination).ToListAsync();
+            var modelo = await queryable.OrderBy(x => x.Name).Paginate(pagination).ToListAsync();
 
-            return new ActionResponse<IEnumerable<Study>>
+            return new ActionResponse<IEnumerable<EdocCategory>>
             {
                 WasSuccess = true,
                 Result = queryable
@@ -100,35 +114,35 @@ public class StudyService : IStudyService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Study>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<EdocCategory>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Study>> GetAsync(Guid id)
+    public async Task<ActionResponse<EdocCategory>> GetAsync(Guid id)
     {
         try
         {
             if (id == Guid.Empty)
             {
-                return new ActionResponse<Study>
+                return new ActionResponse<EdocCategory>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.Studies
+            var modelo = await _context.EdocCategories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.StudyId == id);
             if (modelo == null)
             {
-                return new ActionResponse<Study>
+                return new ActionResponse<EdocCategory>
                 {
                     WasSuccess = false,
                     Message = "Problemas para Enconstrar el Registro Indicado"
                 };
             }
 
-            return new ActionResponse<Study>
+            return new ActionResponse<EdocCategory>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -136,15 +150,15 @@ public class StudyService : IStudyService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<Study>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<EdocCategory>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Study>> UpdateAsync(Study modelo)
+    public async Task<ActionResponse<EdocCategory>> UpdateAsync(EdocCategory modelo)
     {
-        if (modelo == null || modelo.StudyId == Guid.Empty)
+        if (modelo == null || modelo.EdocCategoryId == Guid.Empty)
         {
-            return new ActionResponse<Study>
+            return new ActionResponse<EdocCategory>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
@@ -154,17 +168,12 @@ public class StudyService : IStudyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            //Para guardar el dato del sponsor
-            var DatoSponsor = await _context.Sponsors.AsNoTracking().FirstOrDefaultAsync(x => x.SponsorId == modelo.SponsorId);
-            modelo.FullStudy = $"{modelo.Protocol} - {DatoSponsor!.Name}";
-
-            Study NuevoModelo = _mapperService.Map<Study, Study>(modelo);
-            _context.Studies.Update(NuevoModelo);
+            _context.EdocCategories.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Study>
+            return new ActionResponse<EdocCategory>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -174,30 +183,27 @@ public class StudyService : IStudyService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Study>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<EdocCategory>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Study>> AddAsync(Study modelo, string Email)
+    public async Task<ActionResponse<EdocCategory>> AddAsync(EdocCategory modelo, string Email)
     {
         User user = await _userHelper.GetUserAsync(Email);
         if (user == null)
         {
-            return new ActionResponse<Study>
+            return new ActionResponse<EdocCategory>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_AuthIdFail"]
             };
         }
-        //Para guardar el dato del sponsor
-        var DatoSponsor = await _context.Sponsors.AsNoTracking().FirstOrDefaultAsync(x => x.SponsorId == modelo.SponsorId);
-        modelo.FullStudy = $"{modelo.Protocol} - {DatoSponsor!.Name}";
 
         modelo.CorporationId = Convert.ToInt32(user.CorporationId);
 
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<Study>
+            return new ActionResponse<EdocCategory>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidModel"] // 🧠 Clave multilenguaje para modelo nulo
@@ -207,12 +213,11 @@ public class StudyService : IStudyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            Study NuevoModelo = _mapperService.Map<Study, Study>(modelo);
-            _context.Studies.Add(NuevoModelo);
+            _context.EdocCategories.Add(modelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Study>
+            return new ActionResponse<EdocCategory>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -222,7 +227,7 @@ public class StudyService : IStudyService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Study>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<EdocCategory>(ex); // ✅ Manejo de errores automático
         }
     }
 
@@ -231,7 +236,7 @@ public class StudyService : IStudyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.Studies.FindAsync(id);
+            var DataRemove = await _context.EdocCategories.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
@@ -241,7 +246,7 @@ public class StudyService : IStudyService
                 };
             }
 
-            _context.Studies.Remove(DataRemove);
+            _context.EdocCategories.Remove(DataRemove);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();

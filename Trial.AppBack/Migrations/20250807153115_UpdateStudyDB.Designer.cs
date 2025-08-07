@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trial.AppInfra;
 
@@ -11,9 +12,11 @@ using Trial.AppInfra;
 namespace Trial.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250807153115_UpdateStudyDB")]
+    partial class UpdateStudyDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -831,49 +834,6 @@ namespace Trial.AppBack.Migrations
                     b.ToTable("TherapeuticAreas");
                 });
 
-            modelBuilder.Entity("Trial.Domain.EntitiesStudy.EdocCategory", b =>
-                {
-                    b.Property<Guid>("EdocCategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("NameContainer")
-                        .IsRequired()
-                        .HasMaxLength(63)
-                        .HasColumnType("nvarchar(63)");
-
-                    b.Property<Guid>("StudyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EdocCategoryId");
-
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("EdocCategoryId");
-
-                    b.HasIndex("NameContainer")
-                        .IsUnique();
-
-                    b.HasIndex("StudyId");
-
-                    b.HasIndex("Name", "CorporationId")
-                        .IsUnique();
-
-                    b.ToTable("EdocCategories");
-                });
-
             modelBuilder.Entity("Trial.Domain.EntitiesStudy.Study", b =>
                 {
                     b.Property<Guid>("StudyId")
@@ -963,9 +923,6 @@ namespace Trial.AppBack.Migrations
                     b.HasIndex("TherapeuticAreaId");
 
                     b.HasIndex("UsuarioId");
-
-                    b.HasIndex("Protocol", "CorporationId")
-                        .IsUnique();
 
                     b.HasIndex("StudyNumber", "CorporationId")
                         .IsUnique();
@@ -1125,25 +1082,6 @@ namespace Trial.AppBack.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Trial.Domain.EntitiesStudy.EdocCategory", b =>
-                {
-                    b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Trial.Domain.EntitiesStudy.Study", "Study")
-                        .WithMany("EdocCategories")
-                        .HasForeignKey("StudyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Corporation");
-
-                    b.Navigation("Study");
-                });
-
             modelBuilder.Entity("Trial.Domain.EntitiesStudy.Study", b =>
                 {
                     b.HasOne("Trial.Domain.Entities.Corporation", "Corporation")
@@ -1277,11 +1215,6 @@ namespace Trial.AppBack.Migrations
             modelBuilder.Entity("Trial.Domain.EntitiesGen.TherapeuticArea", b =>
                 {
                     b.Navigation("Studies");
-                });
-
-            modelBuilder.Entity("Trial.Domain.EntitiesStudy.Study", b =>
-                {
-                    b.Navigation("EdocCategories");
                 });
 #pragma warning restore 612, 618
         }

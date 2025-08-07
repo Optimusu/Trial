@@ -11,6 +11,7 @@ public class StudyConfig : IEntityTypeConfiguration<Study>
         builder.HasIndex(e => e.StudyId);
         builder.Property(x => x.StudyId).HasDefaultValueSql("NEWSEQUENTIALID()");
         builder.HasIndex(e => new { e.StudyNumber, e.CorporationId }).IsUnique();
+        builder.HasIndex(e => new { e.Protocol, e.CorporationId }).IsUnique();
         builder.Property(e => e.Protocol).UseCollation("Latin1_General_CI_AS"); //Para poderlo volver Collation CI
         //Proteccion de Borrado en Cascada
         builder.HasOne(e => e.TherapeuticArea).WithMany(e => e.Studies).OnDelete(DeleteBehavior.Restrict);
