@@ -64,6 +64,8 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IStudyService, StudyService>();
             services.AddScoped<IEdocCatetoryUnitOfWork, EdocCatetoryUnitOfWork>();
             services.AddScoped<IEdocCatetoryService, EdocCatetoryService>();
+            services.AddScoped<IEdocStudyUnitOfWork, EdocStudyUnitOfWork>();
+            services.AddScoped<IEdocStudyService, EdocStudyService>();
         }
     }
 }

@@ -82,7 +82,7 @@ public class Study
 
     //propiedades virtuales
     [Display(Name = nameof(Resource.EdocCategory), ResourceType = typeof(Resource))]
-    public int TotalEdocCategories => EdocCategories == null ? 0 : EdocCategories.Count(); 
+    public int TotalEdocCategories => EdocCategories == null ? 0 : EdocCategories.Count();
 
     //Relaciones
     public int CorporationId { get; set; }
@@ -99,4 +99,6 @@ public class Study
     public Irb? Irb { get; set; }
     public Cro? Cro { get; set; }
     public ICollection<EdocCategory>? EdocCategories { get; set; }
+
+    public ICollection<EdocStudy>? EdocStudies { get; set; }
 }

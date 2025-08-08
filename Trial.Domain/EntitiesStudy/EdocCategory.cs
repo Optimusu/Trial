@@ -24,10 +24,15 @@ public class EdocCategory
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
 
+    //Virtuales
+    public int TotalEdocStudy => EdocStudies == null ? 0 : EdocStudies.Count();
+
     //Relaciones
     public int CorporationId { get; set; }
 
     public Corporation? Corporation { get; set; }
 
     public Study? Study { get; set; }
+
+    public ICollection<EdocStudy>? EdocStudies { get; set; }
 }

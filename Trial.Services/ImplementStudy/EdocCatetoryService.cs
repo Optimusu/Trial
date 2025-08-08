@@ -97,6 +97,7 @@ public class EdocCatetoryService : IEdocCatetoryService
             }
 
             var queryable = _context.EdocCategories
+                .Include(x=> x.EdocStudies)
                 .Where(x => x.CorporationId == user.CorporationId && x.StudyId == pagination.GuidId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))

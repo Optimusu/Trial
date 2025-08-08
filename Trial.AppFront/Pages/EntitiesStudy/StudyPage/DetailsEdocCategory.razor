@@ -38,6 +38,8 @@
                                 <tr>
                                     <th>Category</th>
                                     <th>Active</th>
+                                    <th>Files</th>
+                                    <th>Document</th>
                                     <th></th>
                                     <th colspan="2">Category</th>
                                 </tr>
@@ -51,6 +53,14 @@
                                         </td>
                                         <td>
                                             <input type="checkbox" class="form-check-input" checked="@item.Active" disabled />
+                                        </td>
+                                        <td>
+                                            @item.TotalEdocStudy
+                                        </td>
+                                        <td style="width:1px;">
+                                            <button title="New Document" class="btn-shadow-black" @onclick="() => ShowModalEdocAsync(item.EdocCategoryId)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
                                         </td>
                                         <td style="width:1px;">
                                             <span class="mx-1">|</span>

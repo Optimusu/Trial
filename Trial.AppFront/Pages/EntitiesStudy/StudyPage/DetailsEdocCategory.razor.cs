@@ -2,6 +2,7 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Trial.AppFront.GenericoModal;
 using Trial.AppFront.Helpers;
+using Trial.AppFront.Pages.EntitiesStudy.EdocStudyPage;
 using Trial.Domain.EntitiesStudy;
 using Trial.HttpServices;
 
@@ -71,6 +72,17 @@ public partial class DetailsEdocCategory
             return;
         }
         Study = responseHTTP.Response;
+    }
+
+    private async Task ShowModalEdocAsync(Guid? id = null)
+    {
+        var parameters = new Dictionary<string, object>
+            {
+                { "Id", id! },
+                { "Idstudy", Id! },
+                { "Title", "Create Document"  }
+            };
+        await _modalService.ShowAsync<CreateEdocStudy>(parameters);
     }
 
     private async Task ShowModalAsync(Guid? id = null, bool isEdit = false)

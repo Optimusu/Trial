@@ -46,6 +46,7 @@ public class DataContext : IdentityDbContext<User>
 
     public DbSet<Study> Studies => Set<Study>();
     public DbSet<EdocCategory> EdocCategories => Set<EdocCategory>();
+    public DbSet<EdocStudy> EdocStudies => Set<EdocStudy>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

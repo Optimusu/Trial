@@ -178,6 +178,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Created.
+        /// </summary>
+        public static string Date_Created {
+            get {
+                return ResourceManager.GetString("Date_Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date End.
         /// </summary>
         public static string DateEnd {
@@ -372,6 +381,15 @@ namespace Trial.Domain.Resources {
         public static string Error_Unauthorized {
             get {
                 return ResourceManager.GetString("Error.Unauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
             }
         }
         
@@ -1047,6 +1065,15 @@ namespace Trial.Domain.Resources {
         public static string TherapeuticArea {
             get {
                 return ResourceManager.GetString("TherapeuticArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
         
