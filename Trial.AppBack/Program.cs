@@ -188,11 +188,11 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 🌍 Middleware para aplicar localización por idioma
+//Middleware para aplicar localización por idioma
 var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 app.UseRequestLocalization(localizationOptions);
 
-// 🌱 Ejecutar seeding de la base de datos al arrancar
+//Ejecutar seeding de la base de datos al arrancar
 SeedData(app);
 
 void SeedData(WebApplication app)
@@ -203,7 +203,7 @@ void SeedData(WebApplication app)
     seeder?.SeedAsync().Wait();
 }
 
-// 🚀 Entorno de desarrollo
+// Entorno de desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

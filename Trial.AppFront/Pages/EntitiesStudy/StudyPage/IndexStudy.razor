@@ -25,9 +25,11 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Study</th>
+                                <th>Edoc Cat</th>
                                 <th>Active</th>
                                 <th></th>
                                 <th></th>
+                                <th colspan="2">Study</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,16 +37,26 @@
                             {
                                 <tr>
                                     <td>@item.FullStudy</td>
+                                    <td>@item.TotalEdocCategories</td>
                                     <td>
                                         <input type="checkbox" class="form-check-input" checked="@item.Active" disabled />
                                     </td>
                                     <td style="width:1px;">
-                                        <button class="btn-shadow-black" @onclick="() => ShowModalAsync(item.StudyId, true)">
+                                        <button title="Edoc Category" class="btn-shadow-black" @onclick="() => ShowModalEdocAsync(item.StudyId)">
+                                            <i class="fa fa-file-text"></i>
+                                        </button>
+                                    </td>                              
+                                    <td style="width:1px;">
+                                        <span class="mx-1">|</span>
+                                    </td>
+
+                                    <td style="width:1px;">
+                                        <button title="Edit Study" class="btn-shadow-black" @onclick="() => ShowModalAsync(item.StudyId, true)">
                                             <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
                                     <td style="width:1px;">
-                                        <button class="btn-shadow-danger" @onclick="() => DeleteAsync(item.StudyId)">
+                                        <button title="Delete Study" class="btn-shadow-danger" @onclick="() => DeleteAsync(item.StudyId)">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>

@@ -7,7 +7,7 @@ using Trial.HttpServices;
 
 namespace Trial.AppFront.Pages.EntitiesStudy.StudyPage;
 
-public partial class IndexStudy
+public partial class DetailsEdocCategory
 {
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
@@ -15,14 +15,17 @@ public partial class IndexStudy
     [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
     [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
 
+    [Parameter] public Guid Id { get; set; } //StudyId:Guid
+
     private string Filter { get; set; } = string.Empty;
 
     private int CurrentPage = 1;  //Pagina seleccionada
     private int TotalPages;      //Cantidad total de paginas
-    private int PageSize = 2;  //Cantidad de registros por pagina
+    private int PageSize = 15;  //Cantidad de registros por pagina
 
-    private const string baseUrl = "api/v1/studies";
-    public List<Study>? Studies { get; set; }
+    private const string baseUrl = "api/v1/edoccategories";
+    public Study? Study { get; set; }
+    public List<EdocCategory>? EdocCategories { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,36 +38,39 @@ public partial class IndexStudy
         await Cargar(page);
     }
 
-    private async Task SetFilterValue(string value)
-    {
-        Filter = value;
-        await Cargar();
-    }
-
     private async Task Cargar(int page = 1)
     {
-        var url = $"{baseUrl}?page={page}&recordsnumber={PageSize}";
+        var url = $"{baseUrl}?guidid={Id}&page={page}&recordsnumber={PageSize}";
         if (!string.IsNullOrWhiteSpace(Filter))
         {
             url += $"&filter={Filter}";
         }
-        var responseHttp = await _repository.GetAsync<List<Study>>(url);
+        var responseHttp = await _repository.GetAsync<List<EdocCategory>>(url);
         // Centralizamos el manejo de errores
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled)
         {
-            _navigationManager.NavigateTo("/");
+            _navigationManager.NavigateTo("/studies");
             return;
         }
 
-        Studies = responseHttp.Response;
+        EdocCategories = responseHttp.Response;
         TotalPages = int.Parse(responseHttp.HttpResponseMessage.Headers.GetValues("Totalpages").FirstOrDefault()!);
+
+        await LoadStudy();
     }
 
-    //Para IndexEdocCategory
-    private void ShowModalEdocAsync(Guid? id = null)
+    private async Task LoadStudy()
     {
-        _navigationManager.NavigateTo($"/studies/edoccategory/{id}");
+        var responseHTTP = await _repository.GetAsync<Study>($"/api/v1/studies/{Id}");
+        bool errorHandler = await _responseHandler.HandleErrorAsync(responseHTTP);
+        if (errorHandler)
+        {
+            _navigationManager.NavigateTo("/");
+            _navigationManager.NavigateTo($"/studies");
+            return;
+        }
+        Study = responseHTTP.Response;
     }
 
     private async Task ShowModalAsync(Guid? id = null, bool isEdit = false)
@@ -74,17 +80,18 @@ public partial class IndexStudy
             var parameters = new Dictionary<string, object>
             {
                 { "Id", id! },
-                { "Title", "Edit Study"  }
+                { "Title", "Edit Edoc Category"  }
             };
-            await _modalService.ShowAsync<EditStudy>(parameters);
+            await _modalService.ShowAsync<EditEdocCatetory>(parameters);
         }
         else
         {
             var parameters = new Dictionary<string, object>
             {
-                { "Title", "Create Study"  }
+                { "Id", Id! },
+                { "Title", "Create Edoc Category"  }
             };
-            await _modalService.ShowAsync<CreateStudy>(parameters);
+            await _modalService.ShowAsync<CreateEdocCategory>(parameters);
         }
     }
 

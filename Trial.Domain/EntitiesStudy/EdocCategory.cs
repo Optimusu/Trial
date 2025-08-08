@@ -11,13 +11,14 @@ public class EdocCategory
 
     [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
-    [Display(Name = nameof(Resource.IRB), ResourceType = typeof(Resource))]
+    [Display(Name = nameof(Resource.EdocCategory), ResourceType = typeof(Resource))]
     public string Name { get; set; } = null!;
 
     [MaxLength(63, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = nameof(Resource.Container), ResourceType = typeof(Resource))]
-    public string NameContainer { get; set; } = null!;
+    public string? NameContainer { get; set; }
 
+    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     public Guid StudyId { get; set; }
 
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]

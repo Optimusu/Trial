@@ -96,7 +96,8 @@ public class EdocCatetoryService : IEdocCatetoryService
                 };
             }
 
-            var queryable = _context.EdocCategories.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.EdocCategories
+                .Where(x => x.CorporationId == user.CorporationId && x.StudyId == pagination.GuidId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -132,7 +133,7 @@ public class EdocCatetoryService : IEdocCatetoryService
             }
             var modelo = await _context.EdocCategories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.StudyId == id);
+                .FirstOrDefaultAsync(x => x.EdocCategoryId == id);
             if (modelo == null)
             {
                 return new ActionResponse<EdocCategory>
@@ -214,6 +215,17 @@ public class EdocCatetoryService : IEdocCatetoryService
         try
         {
             _context.EdocCategories.Add(modelo);
+            await _transactionManager.SaveChangesAsync();
+
+            // Capturar el Guid generado
+            Guid idGenerado = modelo.EdocCategoryId;
+            string idFormateado = idGenerado.ToString()
+                                            .Replace("-", "")
+                                            .Replace(" ", "")
+                                            .ToLowerInvariant();
+            modelo.NameContainer = $"edocs{idFormateado}";
+            _context.EdocCategories.Update(modelo);
+
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 

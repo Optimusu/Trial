@@ -480,4 +480,7 @@
   <data name="Container" xml:space="preserve">
     <value>Container</value>
   </data>
+  <data name="EdocCategory" xml:space="preserve">
+    <value>Edoc Category</value>
+  </data>
 </root>

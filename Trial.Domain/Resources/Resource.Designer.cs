@@ -259,6 +259,15 @@ namespace Trial.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edoc Category.
+        /// </summary>
+        public static string EdocCategory {
+            get {
+                return ResourceManager.GetString("EdocCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {

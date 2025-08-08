@@ -82,7 +82,9 @@ public class StudyService : IStudyService
                 };
             }
 
-            var queryable = _context.Studies.Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            var queryable = _context.Studies
+                .Include(x => x.EdocCategories)
+                .Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

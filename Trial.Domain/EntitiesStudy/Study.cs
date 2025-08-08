@@ -80,6 +80,10 @@ public class Study
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
 
+    //propiedades virtuales
+    [Display(Name = nameof(Resource.EdocCategory), ResourceType = typeof(Resource))]
+    public int TotalEdocCategories => EdocCategories == null ? 0 : EdocCategories.Count(); 
+
     //Relaciones
     public int CorporationId { get; set; }
 

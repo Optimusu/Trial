@@ -14,6 +14,7 @@ public static class MapsterConfig
              .Ignore(dest => dest.Corporation!);
 
         config.NewConfig<Study, Study>()
+            .Ignore(dest => dest.EdocCategories!)
             .Ignore(dest => dest.Corporation!)
             .Ignore(dest => dest.TherapeuticArea!)
             .Ignore(dest => dest.Enrolling!)
