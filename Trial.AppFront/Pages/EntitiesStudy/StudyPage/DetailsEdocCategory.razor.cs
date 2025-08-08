@@ -18,6 +18,9 @@ public partial class DetailsEdocCategory
 
     [Parameter] public Guid Id { get; set; } //StudyId:Guid
 
+    private Dictionary<Guid, bool> ExpandedCategories = new();
+    private Dictionary<Guid, List<EdocStudy>> EdocStudiesByCategory = new();
+
     private string Filter { get; set; } = string.Empty;
 
     private int CurrentPage = 1;  //Pagina seleccionada
@@ -31,6 +34,25 @@ public partial class DetailsEdocCategory
     protected override async Task OnInitializedAsync()
     {
         await Cargar();
+    }
+
+    private async Task ToggleEdocStudiesAsync(Guid categoryId)
+    {
+        if (ExpandedCategories.ContainsKey(categoryId))
+            ExpandedCategories[categoryId] = !ExpandedCategories[categoryId];
+        else
+            ExpandedCategories[categoryId] = true;
+
+        if (ExpandedCategories[categoryId] && !EdocStudiesByCategory.ContainsKey(categoryId))
+        {
+            var url = $"api/v1/edocstudies?guidid={categoryId}";
+            var response = await _repository.GetAsync<List<EdocStudy>>(url);
+            bool errorHandled = await _responseHandler.HandleErrorAsync(response);
+            if (!errorHandled)
+            {
+                EdocStudiesByCategory[categoryId] = response.Response ?? new();
+            }
+        }
     }
 
     private async Task SelectedPage(int page)

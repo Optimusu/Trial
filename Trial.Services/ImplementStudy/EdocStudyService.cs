@@ -56,7 +56,7 @@ public class EdocStudyService : IEdocStudyService
                     Message = _localizer["Generic_AuthIdFail"]
                 };
             }
-            var DocCategory = await _context.EdocCategories.FirstOrDefaultAsync(x => x.EdocCategoryId == pagination.GuidId);
+            var DocCategory = await _context.EdocStudies.FirstOrDefaultAsync(x => x.EdocCategoryId == pagination.GuidId);
             if (DocCategory == null)
             {
                 return new ActionResponse<IEnumerable<EdocStudy>>
@@ -65,29 +65,8 @@ public class EdocStudyService : IEdocStudyService
                     Message = _localizer["Generic_AuthIdFail"]
                 };
             }
-            var queryable = _context.EdocStudies
+            var modelo = _context.EdocStudies
                 .Where(x => x.CorporationId == user.CorporationId && x.EdocCategoryId == DocCategory!.EdocCategoryId).AsQueryable();
-
-            //if (!string.IsNullOrWhiteSpace(pagination.Filter))
-            //{
-            //    queryable = queryable.Where(u => EF.Functions.Like(u.FullName, $"%{pagination.Filter}%"));
-            //}
-            await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
-            var modelo = await queryable.OrderBy(x => x.DateCreated).Paginate(pagination).ToListAsync();
-
-            await Task.WhenAll(modelo.Select(async option =>
-            {
-                if (string.IsNullOrWhiteSpace(option.File))
-                {
-                    option.FileFullPath = _imgOption.ImgNoImage; // imagen pública libre
-                }
-                else
-                {
-                    option.FileFullPath = await _fileStorage.GetImageBase64Async(
-                        option.File,
-                        DocCategory.NameContainer!);
-                }
-            }));
 
             return new ActionResponse<IEnumerable<EdocStudy>>
             {

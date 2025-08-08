@@ -37,7 +37,6 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>Category</th>
-                                    <th>Active</th>
                                     <th>Files</th>
                                     <th>Document</th>
                                     <th></th>
@@ -48,11 +47,12 @@
                                 @foreach (var item in EdocCategories!)
                                 {
                                     <tr>
+
                                         <td>
+                                            <button title="New Document" class="btn btn-outline-dark btn-sm" @onclick="() => ToggleEdocStudiesAsync(item.EdocCategoryId)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
                                             @item.Name
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" checked="@item.Active" disabled />
                                         </td>
                                         <td>
                                             @item.TotalEdocStudy
@@ -76,6 +76,25 @@
                                             </button>
                                         </td>
                                     </tr>
+                                    @if (ExpandedCategories.ContainsKey(item.EdocCategoryId)
+                                                                && ExpandedCategories[item.EdocCategoryId]
+                                                                && EdocStudiesByCategory.TryGetValue(item.EdocCategoryId, out var studies)
+                                                                && studies.Any())
+                                    {
+                                        <tr>
+                                            <td colspan="4" style="background-color: lightgray;" class="border p-3">
+                                                <ul class="list-group list-group-flush ms-4">
+                                                    @foreach (var study in studies)
+                                                    {
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <span><i class="fa fa-file-alt me-2 text-primary"></i>@study.FileNameOriginal</span>
+                                                            <span class="badge bg-secondary">@study.DateCreated?.ToShortDateString()</span>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             </tbody>
                         </table>
